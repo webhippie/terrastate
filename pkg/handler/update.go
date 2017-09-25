@@ -66,7 +66,7 @@ func Update(logger log.Logger) http.HandlerFunc {
 			}
 
 			level.Info(logger).Log(
-				"msg", "sucessfully updated state file",
+				"msg", "successfully updated state file",
 				"file", full,
 			)
 		} else {
@@ -88,7 +88,7 @@ func Update(logger log.Logger) http.HandlerFunc {
 			}
 
 			level.Info(logger).Log(
-				"msg", "sucessfully created state file",
+				"msg", "successfully created state file",
 				"file", full,
 			)
 		}
