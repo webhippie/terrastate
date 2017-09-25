@@ -1,0 +1,41 @@
+{
+  "Tools": [
+    {
+      "Repository": "github.com/golang/dep/cmd/dep",
+      "Commit": "d62440d3040cb44591e5bcbc08ddf722d042570a"
+    },
+    {
+      "Repository": "github.com/kisielk/errcheck",
+      "Commit": "23699b7e2cbfdb89481023524954ba2aeff6be90"
+    },
+    {
+      "Repository": "github.com/opennota/check/cmd/varcheck",
+      "Commit": "11e2eec79ec4f789607e3efbf405cdca2504d4cb"
+    },
+    {
+      "Repository": "github.com/opennota/check/cmd/structcheck",
+      "Commit": "11e2eec79ec4f789607e3efbf405cdca2504d4cb"
+    },
+    {
+      "Repository": "github.com/mdempsky/unconvert",
+      "Commit": "beb68d938016d2dec1d1b078054f4d3db25f97be"
+    },
+    {
+      "Repository": "github.com/client9/misspell/cmd/misspell",
+      "Commit": "e1f24e3e0b6b2c8bc98584370d382ae095b13c94"
+    },
+    {
+      "Repository": "github.com/gordonklaus/ineffassign",
+      "Commit": "da3d65debb9bff70fcfb6f277a8db31e8200de20"
+    },
+    {
+      "Repository": "github.com/mibk/dupl",
+      "Commit": "3447d9b0cb5a3e7dccb1a9f1c975f35683f304e6"
+    },
+    {
+      "Repository": "github.com/golang/lint/golint",
+      "Commit": "c5fb716d6688a859aae56d26d3e6070808df29f7"
+    }
+  ],
+  "RetoolVersion": "1.3.5"
+}

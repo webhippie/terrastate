@@ -1,0 +1,160 @@
+workspace:
+  base: /srv/app
+  path: src/github.com/webhippie/terrastate
+
+pipeline:
+  restore:
+    image: plugins/s3-cache:1
+    pull: true
+    secrets: [ cache_s3_endpoint, cache_s3_access_key, cache_s3_secret_key ]
+    pull: true
+    restore: true
+    when:
+      local: false
+
+  testing:
+    image: webhippie/golang:edge
+    pull: true
+    environment:
+      - CGO_ENABLED=1
+      - TAGS=
+      - GOPATH=/srv/app
+    commands:
+      - make clean
+      - make retool
+      - make vet
+      - make varcheck
+      - make structcheck
+      - make unconvert
+      - make ineffassign
+      - make lint
+      - make test
+      - make build
+
+  release:
+    image: karalabe/xgo-latest:latest
+    pull: true
+    environment:
+      - CGO_ENABLED=1
+      - TAGS=
+      - GOPATH=/srv/app
+    commands:
+      - make release
+    when:
+      event: [ push, tag ]
+      branch: [ master, release/* ]
+
+  docker:
+    image: plugins/docker:17.05
+    pull: true
+    secrets: [ docker_username, docker_password ]
+    repo: tboerger/terrastate
+    tags: [ '${DRONE_TAG##v}' ]
+    when:
+      event: [ tag ]
+
+  docker:
+    image: plugins/docker:17.05
+    pull: true
+    secrets: [ docker_username, docker_password ]
+    repo: tboerger/terrastate
+    tags: [ '${DRONE_BRANCH##release/v}' ]
+    when:
+      event: [ push ]
+      branch: [ release/* ]
+
+  docker:
+    image: plugins/docker:17.05
+    pull: true
+    secrets: [ docker_username, docker_password ]
+    repo: tboerger/terrastate
+    tags: [ 'latest' ]
+    when:
+      event: [ push ]
+      branch: [ master ]
+
+  microbadger:
+    image: plugins/webhook:1
+    pull: true
+    secrets:
+      - source: microbadger_token
+        target: plugin_urls
+    when:
+      event: [ push, tag ]
+      branch: [ master, release/* ]
+
+  rebuild:
+    image: plugins/s3-cache:1
+    pull: true
+    secrets: [ cache_s3_endpoint, cache_s3_access_key, cache_s3_secret_key ]
+    rebuild: true
+    mount:
+      - _tools/bin
+      - _tools/pkg
+    when:
+      local: false
+      event: [ push ]
+      branch: [ master, release/* ]
+
+  flush:
+    image: plugins/s3-cache:1
+    pull: true
+    secrets: [ cache_s3_endpoint, cache_s3_access_key, cache_s3_secret_key ]
+    flush: true
+    flush_age: 14
+    when:
+      local: false
+      event: [ push ]
+      branch: [ master, release/* ]
+
+  archive:
+    image: plugins/s3:1
+    pull: true
+    secrets: [ s3_endpoint, aws_access_key_id, aws_secret_access_key, s3_bucket ]
+    source: dist/release/*
+    target: /misc/terrastate/${DRONE_TAG##v}
+    strip_prefix: dist/release/
+    path_style: true
+    when:
+      event: [ tag ]
+
+  archive:
+    image: plugins/s3:1
+    pull: true
+    secrets: [ s3_endpoint, aws_access_key_id, aws_secret_access_key, s3_bucket ]
+    source: dist/release/*
+    target: /misc/terrastate/${DRONE_TAG##release/v}
+    strip_prefix: dist/release/
+    path_style: true
+    when:
+      event: [ push ]
+      branch: [ release/* ]
+
+  archive:
+    image: plugins/s3:1
+    pull: true
+    secrets: [ s3_endpoint, aws_access_key_id, aws_secret_access_key, s3_bucket ]
+    source: dist/release/*
+    target: /misc/terrastate/master
+    strip_prefix: dist/release/
+    path_style: true
+    when:
+      event: [ push ]
+      branch: [ master ]
+
+  github:
+    image: plugins/github-release:1
+    pull: true
+    secrets: [ github_token ]
+    files:
+      - dist/release/*
+    when:
+      event: [ tag ]
+
+  gitter:
+    image: plugins/gitter:1
+    pull: true
+    secrets: [ gitter_webhook ]
+    when:
+      local: false
+      status: [ success, failure ]
