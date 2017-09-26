@@ -21,7 +21,7 @@ import (
 func Server() *cli.Command {
 	return &cli.Command{
 		Name:  "server",
-		Usage: "Start the integrated server",
+		Usage: "start integrated server",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:        "host",

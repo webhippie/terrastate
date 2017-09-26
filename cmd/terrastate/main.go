@@ -21,7 +21,7 @@ func main() {
 	app := &cli.App{
 		Name:     "terrastate",
 		Version:  version.Version.String(),
-		Usage:    "Terraform HTTP remote state storage",
+		Usage:    "terraform http remote state storage",
 		Compiled: time.Now(),
 
 		Authors: []*cli.Author{
