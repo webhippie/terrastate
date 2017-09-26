@@ -8,8 +8,6 @@
 [![Join the chat at https://gitter.im/webhippie/general](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/webhippie/general)
 [![Stories in Ready](https://badge.waffle.io/webhippie/terrastate.svg?label=ready&title=Ready)](http://waffle.io/webhippie/terrastate)
 
-**This project is under heavy development, it's not in a working state yet!**
-
 Terrastate acts as an HTTP backend for Terraform which can store the state
 content remotely for you to keep it outside of the repositories containing your
 `.tf` files. This is a great alternative if you are not hosting your stuff on
