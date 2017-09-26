@@ -137,7 +137,11 @@ func Server() *cli.Command {
 						"addr", config.Server.Addr,
 					)
 
-					return startServer(server)
+					if server.TLSConfig != nil {
+						return server.ListenAndServeTLS("", "")
+					}
+
+					return server.ListenAndServe()
 				}, func(err error) {
 					if err != nil {
 						level.Error(logger).Log(
