@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"path"
@@ -31,6 +32,8 @@ func Unlock(logger log.Logger) http.HandlerFunc {
 		)
 
 		w.Header().Set("Content-Type", "application/json")
-		w.Write([]byte{})
+		w.WriteHeader(http.StatusOK)
+
+		fmt.Fprintln(w, "")
 	}
 }

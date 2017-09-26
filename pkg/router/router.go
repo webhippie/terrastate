@@ -2,13 +2,11 @@ package router
 
 import (
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-kit/kit/log"
-	"github.com/unrolled/render"
 	"github.com/webhippie/terrastate/pkg/config"
 	"github.com/webhippie/terrastate/pkg/handler"
 	"github.com/webhippie/terrastate/pkg/router/middleware/basicauth"
@@ -19,10 +17,6 @@ import (
 
 // Load initializes the routing of the application.
 func Load(logger log.Logger) http.Handler {
-	r := render.New(render.Options{
-		IsDevelopment: strings.ToLower(config.LogLevel) == "debug",
-	})
-
 	mux := chi.NewRouter()
 
 	mux.Use(requests.Requests(logger))
@@ -35,7 +29,7 @@ func Load(logger log.Logger) http.Handler {
 	mux.Use(header.Secure)
 	mux.Use(header.Options)
 
-	mux.NotFound(handler.Redirect(logger, r))
+	mux.NotFound(handler.Redirect(logger))
 
 	mux.Route("/", func(root chi.Router) {
 		if config.Server.Prometheus {
@@ -46,9 +40,9 @@ func Load(logger log.Logger) http.Handler {
 			root.Mount("/debug", middleware.Profiler())
 		}
 
-		root.Get("/", handler.Root(logger, r))
-		root.Get("/healthz", handler.Healthz(logger, r))
-		root.Get("/readyz", handler.Readyz(logger, r))
+		root.Get("/", handler.Root(logger))
+		root.Get("/healthz", handler.Healthz(logger))
+		root.Get("/readyz", handler.Readyz(logger))
 
 		root.Route("/remote", func(state chi.Router) {
 			state.Use(basicauth.Basicauth)
