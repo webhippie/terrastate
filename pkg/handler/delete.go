@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"strings"
 
 	"github.com/go-chi/chi"
 	"github.com/go-kit/kit/log"
@@ -16,9 +17,16 @@ func Delete(logger log.Logger) http.HandlerFunc {
 	logger = log.WithPrefix(logger, "handler", "delete")
 
 	return func(w http.ResponseWriter, req *http.Request) {
+		dir := strings.Replace(
+			path.Join(
+				config.Server.Storage,
+				chi.URLParam(req, "*"),
+			),
+			"../", "", -1,
+		)
+
 		full := path.Join(
-			config.Server.Storage,
-			chi.URLParam(req, "*"),
+			dir,
 			"terraform.tfstate",
 		)
 
@@ -37,9 +45,7 @@ func Delete(logger log.Logger) http.HandlerFunc {
 			return
 		}
 
-		err := os.Remove(full)
-
-		if err != nil {
+		if err := os.Remove(full); err != nil {
 			level.Info(logger).Log(
 				"msg", "failed to delete state file",
 				"err", err,

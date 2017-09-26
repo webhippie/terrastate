@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"strings"
 
 	"github.com/go-chi/chi"
 	"github.com/go-kit/kit/log"
@@ -18,9 +19,16 @@ func Fetch(logger log.Logger) http.HandlerFunc {
 	logger = log.WithPrefix(logger, "handler", "fetch")
 
 	return func(w http.ResponseWriter, req *http.Request) {
+		dir := strings.Replace(
+			path.Join(
+				config.Server.Storage,
+				chi.URLParam(req, "*"),
+			),
+			"../", "", -1,
+		)
+
 		full := path.Join(
-			config.Server.Storage,
-			chi.URLParam(req, "*"),
+			dir,
 			"terraform.tfstate",
 		)
 
@@ -51,8 +59,8 @@ func Fetch(logger log.Logger) http.HandlerFunc {
 
 			http.Error(
 				w,
-				http.StatusText(http.StatusNoContent),
-				http.StatusNoContent,
+				http.StatusText(http.StatusInternalServerError),
+				http.StatusInternalServerError,
 			)
 
 			return

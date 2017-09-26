@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"strings"
 
 	"github.com/dchest/safefile"
 	"github.com/go-chi/chi"
@@ -18,9 +19,16 @@ func Update(logger log.Logger) http.HandlerFunc {
 	logger = log.WithPrefix(logger, "handler", "update")
 
 	return func(w http.ResponseWriter, req *http.Request) {
+		dir := strings.Replace(
+			path.Join(
+				config.Server.Storage,
+				chi.URLParam(req, "*"),
+			),
+			"../", "", -1,
+		)
+
 		full := path.Join(
-			config.Server.Storage,
-			chi.URLParam(req, "*"),
+			dir,
 			"terraform.tfstate",
 		)
 
@@ -47,10 +55,24 @@ func Update(logger log.Logger) http.HandlerFunc {
 			return
 		}
 
-		if _, err := os.Stat(full); os.IsNotExist(err) {
-			err := safefile.WriteFile(full, content, 0644)
+		if err := os.MkdirAll(dir, 0755); err != nil {
+			level.Info(logger).Log(
+				"msg", "failed to create state dir",
+				"dir", dir,
+				"err", err,
+			)
 
-			if err != nil {
+			http.Error(
+				w,
+				http.StatusText(http.StatusInternalServerError),
+				http.StatusInternalServerError,
+			)
+
+			return
+		}
+
+		if _, err := os.Stat(full); os.IsNotExist(err) {
+			if err := safefile.WriteFile(full, content, 0644); err != nil {
 				level.Info(logger).Log(
 					"msg", "failed to create state file",
 					"err", err,
@@ -70,9 +92,7 @@ func Update(logger log.Logger) http.HandlerFunc {
 				"file", full,
 			)
 		} else {
-			err := safefile.WriteFile(full, content, 0644)
-
-			if err != nil {
+			if err := safefile.WriteFile(full, content, 0644); err != nil {
 				level.Info(logger).Log(
 					"msg", "failed to update state file",
 					"err", err,
