@@ -32,12 +32,6 @@ func Update(logger log.Logger) http.HandlerFunc {
 			"terraform.tfstate",
 		)
 
-		// TODO: ID param can be a lock id
-		level.Info(logger).Log(
-			"msg", "debugging",
-			"id", req.URL.Query().Get("ID"),
-		)
-
 		content, err := ioutil.ReadAll(req.Body)
 
 		if err != nil {
