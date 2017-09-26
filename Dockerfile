@@ -1,7 +1,12 @@
 FROM alpine:edge
 MAINTAINER Thomas Boerger <thomas@webhippie.de>
 
-EXPOSE 8080 80 443
+LABEL org.label-schema.vcs-url="https://github.com/webhippie/terrastate.git"
+LABEL org.label-schema.name="Terrastate"
+LABEL org.label-schema.vendor="Thomas Boerger"
+LABEL org.label-schema.schema-version="1.0"
+
+EXPOSE 8080
 VOLUME ["/var/lib/terrastate"]
 
 RUN apk update && \
@@ -20,10 +25,10 @@ RUN apk update && \
     -u 1000 \
     terrastate
 
-COPY terrastate /usr/bin/
-
 ENV TERRASTATE_SERVER_STORAGE /var/lib/terrastate
 
 USER terrastate
 ENTRYPOINT ["/usr/bin/terrastate"]
 CMD ["server"]
+
+COPY terrastate /usr/bin/
