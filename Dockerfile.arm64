@@ -1,0 +1,22 @@
+FROM alpine:edge as alpine
+RUN apk add -U --no-cache ca-certificates
+
+FROM scratch
+MAINTAINER Thomas Boerger <thomas@webhippie.de>
+
+EXPOSE 8080
+VOLUME ["/var/lib/terrastate"]
+
+COPY --from=alpine /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+
+LABEL org.label-schema.vcs-url="https://github.com/webhippie/terrastate.git"
+LABEL org.label-schema.name="Terrastate"
+LABEL org.label-schema.vendor="Thomas Boerger"
+LABEL org.label-schema.schema-version="1.0"
+
+ENV TERRASTATE_SERVER_STORAGE /var/lib/terrastate
+
+ENTRYPOINT ["/usr/bin/terrastate"]
+CMD ["server"]
+
+COPY dist/binary/terrastate-master-linux-arm64 /usr/bin/

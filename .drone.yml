@@ -12,7 +12,7 @@ pipeline:
     when:
       local: false
 
-  testing:
+  prepare:
     image: webhippie/golang:edge
     pull: true
     environment:
@@ -22,53 +22,197 @@ pipeline:
     commands:
       - make clean
       - make retool
+
+  vet:
+    image: webhippie/golang:edge
+    pull: true
+    group: test
+    environment:
+      - CGO_ENABLED=1
+      - TAGS=
+      - GOPATH=/srv/app
+    commands:
       - make vet
+
+  varcheck:
+    image: webhippie/golang:edge
+    pull: true
+    group: test
+    environment:
+      - CGO_ENABLED=1
+      - TAGS=
+      - GOPATH=/srv/app
+    commands:
       - make varcheck
+
+  structcheck:
+    image: webhippie/golang:edge
+    pull: true
+    group: test
+    environment:
+      - CGO_ENABLED=1
+      - TAGS=
+      - GOPATH=/srv/app
+    commands:
       - make structcheck
+
+  unconvert:
+    image: webhippie/golang:edge
+    pull: true
+    group: test
+    environment:
+      - CGO_ENABLED=1
+      - TAGS=
+      - GOPATH=/srv/app
+    commands:
       - make unconvert
+
+  ineffassign:
+    image: webhippie/golang:edge
+    pull: true
+    group: test
+    environment:
+      - CGO_ENABLED=1
+      - TAGS=
+      - GOPATH=/srv/app
+    commands:
       - make ineffassign
+
+  lint:
+    image: webhippie/golang:edge
+    pull: true
+    group: test
+    environment:
+      - CGO_ENABLED=1
+      - TAGS=
+      - GOPATH=/srv/app
+    commands:
       - make lint
+
+  test:
+    image: webhippie/golang:edge
+    pull: true
+    group: test
+    environment:
+      - CGO_ENABLED=1
+      - TAGS=
+      - GOPATH=/srv/app
+    commands:
       - make test
+
+  build:
+    image: webhippie/golang:edge
+    pull: true
+    group: test
+    environment:
+      - CGO_ENABLED=1
+      - TAGS=
+      - GOPATH=/srv/app
+    commands:
       - make build
 
-  release:
-    image: karalabe/xgo-latest:latest
+  release-prepare:
+    image: webhippie/golang:edge
     pull: true
     environment:
       - CGO_ENABLED=1
       - TAGS=
       - GOPATH=/srv/app
     commands:
-      - make release
+      - make release-dirs
     when:
       event: [ push, tag ]
-      branch: [ master, release/* ]
+      branch: [ master ]
 
-  docker:
+  release-linux:
+    image: karalabe/xgo-latest:latest
+    pull: true
+    group: release
+    environment:
+      - CGO_ENABLED=1
+      - TAGS=
+      - GOPATH=/srv/app
+    commands:
+      - make release-linux
+    when:
+      event: [ push, tag ]
+      branch: [ master ]
+
+  release-windows:
+    image: karalabe/xgo-latest:latest
+    pull: true
+    group: release
+    environment:
+      - CGO_ENABLED=1
+      - TAGS=
+      - GOPATH=/srv/app
+    commands:
+      - make release-windows
+    when:
+      event: [ push, tag ]
+      branch: [ master ]
+
+  release-darwin:
+    image: karalabe/xgo-latest:latest
+    pull: true
+    group: release
+    environment:
+      - CGO_ENABLED=1
+      - TAGS=
+      - GOPATH=/srv/app
+    commands:
+      - make release-darwin
+    when:
+      event: [ push, tag ]
+      branch: [ master ]
+
+  docker-amd64:
     image: plugins/docker:17.05
     pull: true
     secrets: [ docker_username, docker_password ]
+    group: docker
     repo: tboerger/terrastate
     tags: [ '${DRONE_TAG##v}' ]
+    label_schema:
+      - version=${DRONE_TAG##v}
     when:
       event: [ tag ]
 
-  docker:
+  docker-amd64:
     image: plugins/docker:17.05
     pull: true
     secrets: [ docker_username, docker_password ]
+    group: docker
     repo: tboerger/terrastate
-    tags: [ '${DRONE_BRANCH##release/v}' ]
+    tags: [ latest ]
+    label_schema:
+      - version=latest
     when:
       event: [ push ]
-      branch: [ release/* ]
+      branch: [ master ]
 
-  docker:
+  docker-arm:
     image: plugins/docker:17.05
     pull: true
     secrets: [ docker_username, docker_password ]
+    group: docker
     repo: tboerger/terrastate
-    tags: [ 'latest' ]
+    tags: [ arm ]
+    label_schema:
+      - version=arm
+    when:
+      event: [ push ]
+      branch: [ master ]
+
+  docker-arm64:
+    image: plugins/docker:17.05
+    pull: true
+    secrets: [ docker_username, docker_password ]
+    group: docker
+    repo: tboerger/terrastate
+    tags: [ arm64 ]
+    label_schema:
+      - version=arm64
     when:
       event: [ push ]
       branch: [ master ]
@@ -81,7 +225,7 @@ pipeline:
         target: plugin_urls
     when:
       event: [ push, tag ]
-      branch: [ master, release/* ]
+      branch: [ master ]
 
   rebuild:
     image: plugins/s3-cache:1
@@ -94,7 +238,7 @@ pipeline:
     when:
       local: false
       event: [ push ]
-      branch: [ master, release/* ]
+      branch: [ master ]
 
   flush:
     image: plugins/s3-cache:1
@@ -105,7 +249,7 @@ pipeline:
     when:
       local: false
       event: [ push ]
-      branch: [ master, release/* ]
+      branch: [ master ]
 
   archive:
     image: plugins/s3:1
@@ -117,18 +261,6 @@ pipeline:
     path_style: true
     when:
       event: [ tag ]
-
-  archive:
-    image: plugins/s3:1
-    pull: true
-    secrets: [ s3_endpoint, aws_access_key_id, aws_secret_access_key, s3_bucket ]
-    source: dist/release/*
-    target: /misc/terrastate/${DRONE_TAG##release/v}
-    strip_prefix: dist/release/
-    path_style: true
-    when:
-      event: [ push ]
-      branch: [ release/* ]
 
   archive:
     image: plugins/s3:1
