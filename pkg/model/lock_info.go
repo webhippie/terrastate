@@ -1,5 +1,6 @@
 package model
 
+// LockInfo gets sent by Terraform as locking payload.
 type LockInfo struct {
 	ID        string
 	Operation string
