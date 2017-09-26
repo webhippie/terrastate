@@ -3,9 +3,9 @@ package handler
 import (
 	"io/ioutil"
 	"net/http"
+	"os"
 	"path"
 
-	"github.com/Unknwon/com"
 	"github.com/go-chi/chi"
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
@@ -23,7 +23,7 @@ func Fetch(logger log.Logger) http.HandlerFunc {
 			"terraform.tfstate",
 		)
 
-		if !com.IsFile(full) {
+		if _, err := os.Stat(full); os.IsNotExist(err) {
 			level.Info(logger).Log(
 				"msg", "state file does not exist",
 				"file", full,
