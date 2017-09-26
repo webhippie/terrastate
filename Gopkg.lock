@@ -123,12 +123,6 @@
   revision = "e645f4e5aaa8506fc71d6edbc5c4ff02c04c46f2"
 
 [[projects]]
-  branch = "master"
-  name = "github.com/unrolled/render"
-  packages = ["."]
-  revision = "a0ec58421ddf111bd7efd3b7087399ca7d5da2f1"
-
-[[projects]]
   branch = "v2"
   name = "gopkg.in/urfave/cli.v2"
   packages = ["."]
@@ -137,6 +131,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "eee142dc9115a14c49cae30f6ef8a2d614e55719dbd004ad0ae5033a5cb19412"
+  inputs-digest = "80ac07393b0d3a6424bafc66c76827e554b2b7f0c06ef3052fa6307923a54fc1"
   solver-name = "gps-cdcl"
   solver-version = 1

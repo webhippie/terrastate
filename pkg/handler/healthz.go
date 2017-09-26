@@ -1,15 +1,18 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/go-kit/kit/log"
-	"github.com/unrolled/render"
 )
 
 // Healthz is a simple health check used by Docker and Kubernetes.
-func Healthz(logger log.Logger, r *render.Render) http.HandlerFunc {
+func Healthz(logger log.Logger) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
-		r.Text(w, http.StatusOK, http.StatusText(http.StatusOK))
+		w.Header().Set("Content-Type", "text/plain")
+		w.WriteHeader(http.StatusOK)
+
+		fmt.Fprintln(w, http.StatusText(http.StatusOK))
 	}
 }

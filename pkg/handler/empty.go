@@ -1,15 +1,18 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/go-kit/kit/log"
-	"github.com/unrolled/render"
 )
 
 // Root just acts as response to the public root.
-func Root(logger log.Logger, r *render.Render) http.HandlerFunc {
+func Root(logger log.Logger) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
-		r.Text(w, http.StatusOK, "Terrastate")
+		w.Header().Set("Content-Type", "text/plain")
+		w.WriteHeader(http.StatusOK)
+
+		fmt.Fprintln(w, "Terrastate")
 	}
 }

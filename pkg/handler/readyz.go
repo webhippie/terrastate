@@ -1,15 +1,18 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/go-kit/kit/log"
-	"github.com/unrolled/render"
 )
 
 // Readyz is a simple ready check used by Docker and Kubernetes.
-func Readyz(logger log.Logger, r *render.Render) http.HandlerFunc {
+func Readyz(logger log.Logger) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
-		r.Text(w, http.StatusOK, http.StatusText(http.StatusOK))
+		w.Header().Set("Content-Type", "text/plain")
+		w.WriteHeader(http.StatusOK)
+
+		fmt.Fprintln(w, http.StatusText(http.StatusOK))
 	}
 }

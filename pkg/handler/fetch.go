@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -60,6 +61,6 @@ func Fetch(logger log.Logger) http.HandlerFunc {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 
-		w.Write(file)
+		fmt.Fprintln(w, string(file))
 	}
 }
