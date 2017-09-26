@@ -25,7 +25,7 @@ RUN apk update && \
     -u 1000 \
     terrastate
 
-ENV TERRASTATE_SERVER_STORAGE /var/lib/terrastate
+ENV TERRASTATE_STORAGE /var/lib/terrastate
 
 USER terrastate
 ENTRYPOINT ["/usr/bin/terrastate"]

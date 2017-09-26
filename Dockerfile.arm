@@ -14,7 +14,7 @@ LABEL org.label-schema.name="Terrastate"
 LABEL org.label-schema.vendor="Thomas Boerger"
 LABEL org.label-schema.schema-version="1.0"
 
-ENV TERRASTATE_SERVER_STORAGE /var/lib/terrastate
+ENV TERRASTATE_STORAGE /var/lib/terrastate
 
 ENTRYPOINT ["/usr/bin/terrastate"]
 CMD ["server"]
