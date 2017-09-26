@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"os/signal"
 	"strings"
 	"time"
 
@@ -167,6 +168,19 @@ func Server() *cli.Command {
 					level.Info(logger).Log(
 						"msg", "server shutdown gracefully",
 					)
+				})
+			}
+
+			{
+				gr.Add(func() error {
+					stop := make(chan os.Signal, 1)
+					signal.Notify(stop, os.Interrupt)
+
+					<-stop
+
+					return nil
+				}, func(err error) {
+
 				})
 			}
 
