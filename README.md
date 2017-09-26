@@ -4,7 +4,7 @@
 [![Go Doc](https://godoc.org/github.com/webhippie/terrastate?status.svg)](http://godoc.org/github.com/webhippie/terrastate)
 [![Go Report](https://goreportcard.com/badge/github.com/webhippie/terrastate)](https://goreportcard.com/report/github.com/webhippie/terrastate)
 [![Sourcegraph](https://sourcegraph.com/github.com/webhippie/terrastate/-/badge.svg)](https://sourcegraph.com/github.com/webhippie/terrastate?badge)
-[![](https://images.microbadger.com/badges/image/webhippie/terrastate.svg)](http://microbadger.com/images/webhippie/terrastate "Get your own image badge on microbadger.com")
+[![](https://images.microbadger.com/badges/image/tboerger/terrastate.svg)](http://microbadger.com/images/tboerger/terrastate "Get your own image badge on microbadger.com")
 [![Join the chat at https://gitter.im/webhippie/general](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/webhippie/general)
 [![Stories in Ready](https://badge.waffle.io/webhippie/terrastate.svg?label=ready&title=Ready)](http://waffle.io/webhippie/terrastate)
 
