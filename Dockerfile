@@ -1,7 +1,7 @@
 FROM alpine:edge
 MAINTAINER Thomas Boerger <thomas@webhippie.de>
 
-EXPOSE 8080 80 443
+EXPOSE 8080
 VOLUME ["/var/lib/terrastate"]
 
 RUN apk update && \
