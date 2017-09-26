@@ -2,12 +2,6 @@
 
 
 [[projects]]
-  name = "github.com/Unknwon/com"
-  packages = ["."]
-  revision = "28b053d5a2923b87ce8c5a08f3af779894a72758"
-  version = "v1"
-
-[[projects]]
   branch = "master"
   name = "github.com/beorn7/perks"
   packages = ["quantile"]
@@ -143,6 +137,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "7f7b6fa92705379a4d545f57e0f1c2c3954252ac4eb7b1e6b99c5c9d3c0632ed"
+  inputs-digest = "eee142dc9115a14c49cae30f6ef8a2d614e55719dbd004ad0ae5033a5cb19412"
   solver-name = "gps-cdcl"
   solver-version = 1

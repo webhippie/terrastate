@@ -3,9 +3,9 @@ package handler
 import (
 	"io/ioutil"
 	"net/http"
+	"os"
 	"path"
 
-	"github.com/Unknwon/com"
 	"github.com/dchest/safefile"
 	"github.com/go-chi/chi"
 	"github.com/go-kit/kit/log"
@@ -47,29 +47,7 @@ func Update(logger log.Logger) http.HandlerFunc {
 			return
 		}
 
-		if com.IsFile(full) {
-			err := safefile.WriteFile(full, content, 0644)
-
-			if err != nil {
-				level.Info(logger).Log(
-					"msg", "failed to update state file",
-					"err", err,
-				)
-
-				http.Error(
-					w,
-					http.StatusText(http.StatusInternalServerError),
-					http.StatusInternalServerError,
-				)
-
-				return
-			}
-
-			level.Info(logger).Log(
-				"msg", "successfully updated state file",
-				"file", full,
-			)
-		} else {
+		if _, err := os.Stat(full); os.IsNotExist(err) {
 			err := safefile.WriteFile(full, content, 0644)
 
 			if err != nil {
@@ -89,6 +67,28 @@ func Update(logger log.Logger) http.HandlerFunc {
 
 			level.Info(logger).Log(
 				"msg", "successfully created state file",
+				"file", full,
+			)
+		} else {
+			err := safefile.WriteFile(full, content, 0644)
+
+			if err != nil {
+				level.Info(logger).Log(
+					"msg", "failed to update state file",
+					"err", err,
+				)
+
+				http.Error(
+					w,
+					http.StatusText(http.StatusInternalServerError),
+					http.StatusInternalServerError,
+				)
+
+				return
+			}
+
+			level.Info(logger).Log(
+				"msg", "successfully updated state file",
 				"file", full,
 			)
 		}
