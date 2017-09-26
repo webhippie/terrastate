@@ -5,13 +5,14 @@ import (
 	"crypto/tls"
 	"fmt"
 	"net/http"
+	"os"
+	"strings"
 	"time"
 
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
 	"github.com/oklog/oklog/pkg/group"
 	"github.com/webhippie/terrastate/pkg/config"
-	"github.com/webhippie/terrastate/pkg/logz"
 	"github.com/webhippie/terrastate/pkg/router"
 	"gopkg.in/urfave/cli.v2"
 )
@@ -90,8 +91,23 @@ func Server() *cli.Command {
 			return nil
 		},
 		Action: func(c *cli.Context) error {
-			logger := logz.New(config.LogLevel)
-			logger = log.WithPrefix(logger, "app", c.App.Name)
+			logger := log.NewLogfmtLogger(log.NewSyncWriter(os.Stdout))
+
+			switch strings.ToLower(config.LogLevel) {
+			case "debug":
+				logger = level.NewFilter(logger, level.AllowDebug())
+			case "warn":
+				logger = level.NewFilter(logger, level.AllowWarn())
+			case "error":
+				logger = level.NewFilter(logger, level.AllowError())
+			default:
+				logger = level.NewFilter(logger, level.AllowInfo())
+			}
+
+			logger = log.WithPrefix(logger,
+				"app", c.App.Name,
+				"ts", log.DefaultTimestampUTC,
+			)
 
 			cfg, err := ssl()
 
