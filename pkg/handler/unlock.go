@@ -7,22 +7,22 @@ import (
 	"os"
 	"path"
 	"strings"
+	"time"
 
 	"github.com/go-chi/chi"
-	"github.com/go-kit/kit/log"
-	"github.com/go-kit/kit/log/level"
+	"github.com/rs/zerolog/log"
 	"github.com/webhippie/terrastate/pkg/config"
 	"github.com/webhippie/terrastate/pkg/model"
 )
 
 // Unlock is used to unlock a specific state.
-func Unlock(logger log.Logger) http.HandlerFunc {
-	logger = log.WithPrefix(logger, "handler", "unlock")
-
+func Unlock(cfg *config.Config) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
+		defer handleMetrics(time.Now(), "unlock", chi.URLParam(req, "*"))
+
 		dir := strings.Replace(
 			path.Join(
-				config.Server.Storage,
+				cfg.Server.Storage,
 				chi.URLParam(req, "*"),
 			),
 			"../", "", -1,
@@ -36,10 +36,9 @@ func Unlock(logger log.Logger) http.HandlerFunc {
 		requested := model.LockInfo{}
 
 		if err := json.NewDecoder(req.Body).Decode(&requested); err != nil {
-			level.Info(logger).Log(
-				"msg", "failed to parse body",
-				"err", err,
-			)
+			log.Info().
+				Err(err).
+				Msg("failed to parse body")
 
 			http.Error(
 				w,
@@ -57,11 +56,10 @@ func Unlock(logger log.Logger) http.HandlerFunc {
 		)
 
 		if err != nil {
-			level.Info(logger).Log(
-				"msg", "failed to read lock file",
-				"file", full,
-				"err", err,
-			)
+			log.Info().
+				Err(err).
+				Str("file", full).
+				Msg("failed to read lock file")
 
 			http.Error(
 				w,
@@ -73,11 +71,10 @@ func Unlock(logger log.Logger) http.HandlerFunc {
 		}
 
 		if err := json.Unmarshal(file, &existing); err != nil {
-			level.Info(logger).Log(
-				"msg", "failed to parse lock file",
-				"file", full,
-				"err", err,
-			)
+			log.Info().
+				Err(err).
+				Str("file", full).
+				Msg("failed to parse lock file")
 
 			http.Error(
 				w,
@@ -89,11 +86,10 @@ func Unlock(logger log.Logger) http.HandlerFunc {
 		}
 
 		if err := os.Remove(full); err != nil {
-			level.Info(logger).Log(
-				"msg", "failed to delete lock file",
-				"file", full,
-				"err", err,
-			)
+			log.Info().
+				Err(err).
+				Str("file", full).
+				Msg("failed to delete lock file")
 
 			http.Error(
 				w,
@@ -104,11 +100,10 @@ func Unlock(logger log.Logger) http.HandlerFunc {
 			return
 		}
 
-		level.Info(logger).Log(
-			"msg", "successfully unlocked state",
-			"existing", existing.ID,
-			"requested", requested.ID,
-		)
+		log.Info().
+			Str("existing", existing.ID).
+			Str("requested", requested.ID).
+			Msg("successfully unlocked state")
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)

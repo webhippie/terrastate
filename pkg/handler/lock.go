@@ -7,23 +7,23 @@ import (
 	"os"
 	"path"
 	"strings"
+	"time"
 
 	"github.com/dchest/safefile"
 	"github.com/go-chi/chi"
-	"github.com/go-kit/kit/log"
-	"github.com/go-kit/kit/log/level"
+	"github.com/rs/zerolog/log"
 	"github.com/webhippie/terrastate/pkg/config"
 	"github.com/webhippie/terrastate/pkg/model"
 )
 
 // Lock is used to lock a specific state.
-func Lock(logger log.Logger) http.HandlerFunc {
-	logger = log.WithPrefix(logger, "handler", "lock")
-
+func Lock(cfg *config.Config) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
+		defer handleMetrics(time.Now(), "lock", chi.URLParam(req, "*"))
+
 		dir := strings.Replace(
 			path.Join(
-				config.Server.Storage,
+				cfg.Server.Storage,
 				chi.URLParam(req, "*"),
 			),
 			"../", "", -1,
@@ -37,10 +37,9 @@ func Lock(logger log.Logger) http.HandlerFunc {
 		requested := model.LockInfo{}
 
 		if err := json.NewDecoder(req.Body).Decode(&requested); err != nil {
-			level.Info(logger).Log(
-				"msg", "failed to parse body",
-				"err", err,
-			)
+			log.Info().
+				Err(err).
+				Msg("failed to parse body")
 
 			http.Error(
 				w,
@@ -59,11 +58,10 @@ func Lock(logger log.Logger) http.HandlerFunc {
 			)
 
 			if err != nil {
-				level.Info(logger).Log(
-					"msg", "failed to read lock file",
-					"file", full,
-					"err", err,
-				)
+				log.Info().
+					Err(err).
+					Str("file", full).
+					Msg("failed to read lock file")
 
 				http.Error(
 					w,
@@ -75,11 +73,10 @@ func Lock(logger log.Logger) http.HandlerFunc {
 			}
 
 			if err := json.Unmarshal(file, &existing); err != nil {
-				level.Info(logger).Log(
-					"msg", "failed to parse lock file",
-					"file", full,
-					"err", err,
-				)
+				log.Info().
+					Err(err).
+					Str("file", full).
+					Msg("failed to parse lock file")
 
 				http.Error(
 					w,
@@ -90,11 +87,10 @@ func Lock(logger log.Logger) http.HandlerFunc {
 				return
 			}
 
-			level.Info(logger).Log(
-				"msg", "lock file already exists",
-				"existing", existing.ID,
-				"requested", requested.ID,
-			)
+			log.Info().
+				Str("existing", existing.ID).
+				Str("requested", requested.ID).
+				Msg("lock file already exists")
 
 			w.Header().Set("Content-Type", "application/json")
 			w.WriteHeader(http.StatusLocked)
@@ -104,11 +100,10 @@ func Lock(logger log.Logger) http.HandlerFunc {
 		}
 
 		if err := os.MkdirAll(dir, 0755); err != nil {
-			level.Info(logger).Log(
-				"msg", "failed to create lock dir",
-				"dir", dir,
-				"err", err,
-			)
+			log.Info().
+				Err(err).
+				Str("dir", dir).
+				Msg("failed to create lock dir")
 
 			http.Error(
 				w,
@@ -122,11 +117,10 @@ func Lock(logger log.Logger) http.HandlerFunc {
 		marshaled, _ := json.Marshal(requested)
 
 		if err := safefile.WriteFile(full, marshaled, 0644); err != nil {
-			level.Info(logger).Log(
-				"msg", "failed to write lock file",
-				"file", full,
-				"err", err,
-			)
+			log.Info().
+				Err(err).
+				Str("file", full).
+				Msg("failed to write lock file")
 
 			http.Error(
 				w,

@@ -24,8 +24,10 @@ _testmain.go
 *.prof
 
 coverage.out
-
 .env
-/terrastate
+
+/_tools
+/vendor
 /dist
+/bin
 /storage

@@ -2,8 +2,11 @@ workspace:
   base: /srv/app
   path: src/github.com/webhippie/terrastate
 
+branches:
+  - master
+
 pipeline:
-  restore:
+  cache-restore:
     image: plugins/s3-cache:1
     pull: true
     secrets: [ cache_s3_endpoint, cache_s3_access_key, cache_s3_secret_key ]
@@ -11,235 +14,204 @@ pipeline:
     when:
       local: false
 
-  prepare:
+  backend-prepare:
     image: webhippie/golang:edge
     pull: true
     environment:
-      - CGO_ENABLED=1
-      - TAGS=
+      - CGO_ENABLED=0
       - GOPATH=/srv/app
+      - TAGS=
     commands:
       - make clean
       - make retool
+      - make sync
+      - make generate
 
-  vet:
+  backend-vet:
     image: webhippie/golang:edge
     pull: true
-    group: test
+    group: backend
     environment:
-      - CGO_ENABLED=1
-      - TAGS=
+      - CGO_ENABLED=0
       - GOPATH=/srv/app
+      - TAGS=
     commands:
       - make vet
 
-  varcheck:
+  backend-check:
     image: webhippie/golang:edge
     pull: true
-    group: test
+    group: backend
     environment:
-      - CGO_ENABLED=1
-      - TAGS=
+      - CGO_ENABLED=0
       - GOPATH=/srv/app
+      - TAGS=
     commands:
-      - make varcheck
+      - make megacheck
 
-  structcheck:
+  backend-lint:
     image: webhippie/golang:edge
     pull: true
-    group: test
+    group: backend
     environment:
-      - CGO_ENABLED=1
-      - TAGS=
+      - CGO_ENABLED=0
       - GOPATH=/srv/app
-    commands:
-      - make structcheck
-
-  unconvert:
-    image: webhippie/golang:edge
-    pull: true
-    group: test
-    environment:
-      - CGO_ENABLED=1
       - TAGS=
-      - GOPATH=/srv/app
-    commands:
-      - make unconvert
-
-  ineffassign:
-    image: webhippie/golang:edge
-    pull: true
-    group: test
-    environment:
-      - CGO_ENABLED=1
-      - TAGS=
-      - GOPATH=/srv/app
-    commands:
-      - make ineffassign
-
-  lint:
-    image: webhippie/golang:edge
-    pull: true
-    group: test
-    environment:
-      - CGO_ENABLED=1
-      - TAGS=
-      - GOPATH=/srv/app
     commands:
       - make lint
 
-  test:
+  backend-test:
     image: webhippie/golang:edge
     pull: true
-    group: test
+    group: backend
     environment:
-      - CGO_ENABLED=1
-      - TAGS=
+      - CGO_ENABLED=0
       - GOPATH=/srv/app
+      - TAGS=
     commands:
       - make test
 
-  build:
+  backend-build:
     image: webhippie/golang:edge
     pull: true
-    group: test
+    group: backend
     environment:
-      - CGO_ENABLED=1
-      - TAGS=
+      - CGO_ENABLED=0
       - GOPATH=/srv/app
+      - TAGS=
     commands:
       - make build
 
-  release-prepare:
+  backend-windows:
+    image: karalabe/xgo-latest:latest
+    pull: true
+    group: release
+    environment:
+      - CGO_ENABLED=0
+      - GOPATH=/srv/app
+      - TAGS=
+    commands:
+      - make release-dirs release-windows
+    when:
+      event: [ push, tag ]
+
+  backend-linux:
+    image: karalabe/xgo-latest:latest
+    pull: true
+    group: release
+    environment:
+      - CGO_ENABLED=0
+      - GOPATH=/srv/app
+      - TAGS=
+    commands:
+      - make release-dirs release-linux
+    when:
+      event: [ push, tag ]
+
+  backend-darwin:
+    image: karalabe/xgo-latest:latest
+    pull: true
+    group: release
+    environment:
+      - CGO_ENABLED=0
+      - GOPATH=/srv/app
+      - TAGS=
+    commands:
+      - make release-dirs release-darwin
+    when:
+      event: [ push, tag ]
+
+  backend-finish:
     image: webhippie/golang:edge
     pull: true
     environment:
-      - CGO_ENABLED=1
-      - TAGS=
+      - CGO_ENABLED=0
       - GOPATH=/srv/app
+      - TAGS=
     commands:
-      - make release-dirs
+      - make release-copy release-check
     when:
       event: [ push, tag ]
-      branch: [ master ]
-
-  release-linux:
-    image: karalabe/xgo-latest:latest
-    pull: true
-    group: release
-    environment:
-      - CGO_ENABLED=1
-      - TAGS=
-      - GOPATH=/srv/app
-    commands:
-      - make release-linux
-    when:
-      event: [ push, tag ]
-      branch: [ master ]
-
-  release-windows:
-    image: karalabe/xgo-latest:latest
-    pull: true
-    group: release
-    environment:
-      - CGO_ENABLED=1
-      - TAGS=
-      - GOPATH=/srv/app
-    commands:
-      - make release-windows
-    when:
-      event: [ push, tag ]
-      branch: [ master ]
-
-  release-darwin:
-    image: karalabe/xgo-latest:latest
-    pull: true
-    group: release
-    environment:
-      - CGO_ENABLED=1
-      - TAGS=
-      - GOPATH=/srv/app
-    commands:
-      - make release-darwin
-    when:
-      event: [ push, tag ]
-      branch: [ master ]
 
   docker-amd64:
     image: plugins/docker:17.05
     pull: true
-    secrets: [ docker_username, docker_password ]
     group: docker
+    secrets: [ docker_username, docker_password ]
     repo: tboerger/terrastate
-    tags: [ '${DRONE_TAG##v}' ]
-    label_schema:
-      - version=${DRONE_TAG##v}
+    auto_tag: true
+    auto_tag_suffix: amd64
     when:
-      event: [ tag ]
+      event: [push, tag]
 
-  docker-amd64:
+  docker-i386:
     image: plugins/docker:17.05
     pull: true
-    secrets: [ docker_username, docker_password ]
     group: docker
-    repo: tboerger/terrastate
-    tags: [ latest ]
-    label_schema:
-      - version=latest
-    when:
-      event: [ push ]
-      branch: [ master ]
-
-  docker-arm:
-    image: plugins/docker:17.05
-    pull: true
     secrets: [ docker_username, docker_password ]
-    group: docker
     repo: tboerger/terrastate
-    tags: [ arm ]
-    label_schema:
-      - version=arm
+    dockerfile: Dockerfile.i386
+    auto_tag: true
+    auto_tag_suffix: i386
     when:
-      event: [ push ]
-      branch: [ master ]
+      event: [push, tag]
 
   docker-arm64:
     image: plugins/docker:17.05
     pull: true
-    secrets: [ docker_username, docker_password ]
     group: docker
+    secrets: [ docker_username, docker_password ]
     repo: tboerger/terrastate
-    tags: [ arm64 ]
-    label_schema:
-      - version=arm64
+    dockerfile: Dockerfile.arm64
+    auto_tag: true
+    auto_tag_suffix: arm64
     when:
-      event: [ push ]
-      branch: [ master ]
+      event: [push, tag]
 
-  microbadger:
+  docker-arm:
+    image: plugins/docker:17.05
+    pull: true
+    group: docker
+    secrets: [ docker_username, docker_password ]
+    repo: tboerger/terrastate
+    dockerfile: Dockerfile.arm
+    auto_tag: true
+    auto_tag_suffix: arm
+    when:
+      event: [push, tag]
+
+  docker-manifests:
+    image: plugins/manifest:1
+    pull: true
+    secrets: [ docker_username, docker_password ]
+    spec: manifest.yml
+    auto_tag: true
+    ignore_missing: true
+    when:
+      event: [ push, tag ]
+
+  docker-microbadger:
     image: plugins/webhook:1
     pull: true
     secrets:
       - source: microbadger_token
-        target: plugin_urls
+        target: webhook_urls
     when:
       event: [ push, tag ]
-      branch: [ master ]
 
-  rebuild:
+  cache-rebuild:
     image: plugins/s3-cache:1
     pull: true
     secrets: [ cache_s3_endpoint, cache_s3_access_key, cache_s3_secret_key ]
     rebuild: true
     mount:
-      - _tools/bin
-      - _tools/pkg
+      - _tools
+      - vendor
     when:
       local: false
       event: [ push ]
-      branch: [ master ]
 
-  flush:
+  cache-flush:
     image: plugins/s3-cache:1
     pull: true
     secrets: [ cache_s3_endpoint, cache_s3_access_key, cache_s3_secret_key ]
@@ -248,9 +220,19 @@ pipeline:
     when:
       local: false
       event: [ push ]
-      branch: [ master ]
 
-  archive:
+  archive-release:
+    image: plugins/s3:1
+    pull: true
+    secrets: [ s3_endpoint, aws_access_key_id, aws_secret_access_key, s3_bucket ]
+    source: dist/release/*
+    target: /misc/terrastate/master
+    strip_prefix: dist/release/
+    path_style: true
+    when:
+      event: [ push ]
+
+  archive-release:
     image: plugins/s3:1
     pull: true
     secrets: [ s3_endpoint, aws_access_key_id, aws_secret_access_key, s3_bucket ]
@@ -261,19 +243,7 @@ pipeline:
     when:
       event: [ tag ]
 
-  archive:
-    image: plugins/s3:1
-    pull: true
-    secrets: [ s3_endpoint, aws_access_key_id, aws_secret_access_key, s3_bucket ]
-    source: dist/release/*
-    target: /misc/terrastate/master
-    strip_prefix: dist/release/
-    path_style: true
-    when:
-      event: [ push ]
-      branch: [ master ]
-
-  github:
+  github-release:
     image: plugins/github-release:1
     pull: true
     secrets: [ github_token ]
@@ -281,11 +251,13 @@ pipeline:
       - dist/release/*
     when:
       event: [ tag ]
+      branch: master
 
-  gitter:
-    image: plugins/gitter:1
+  notify-matrix:
+    image: plugins/matrix:1
     pull: true
-    secrets: [ gitter_webhook ]
+    secrets: [ matrix_roomid, matrix_username, matrix_password ]
     when:
       local: false
-      status: [ success, failure ]
+      events: [ push, tag ]
+      status: [ changed, failure ]

@@ -7,21 +7,22 @@ import (
 	"os"
 	"path"
 	"strings"
+	"time"
 
 	"github.com/go-chi/chi"
-	"github.com/go-kit/kit/log"
-	"github.com/go-kit/kit/log/level"
+	"github.com/rs/zerolog/log"
 	"github.com/webhippie/terrastate/pkg/config"
+	"github.com/webhippie/terrastate/pkg/helper"
 )
 
 // Fetch is used to fetch a specific state.
-func Fetch(logger log.Logger) http.HandlerFunc {
-	logger = log.WithPrefix(logger, "handler", "fetch")
-
+func Fetch(cfg *config.Config) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
+		defer handleMetrics(time.Now(), "fetch", chi.URLParam(req, "*"))
+
 		dir := strings.Replace(
 			path.Join(
-				config.Server.Storage,
+				cfg.Server.Storage,
 				chi.URLParam(req, "*"),
 			),
 			"../", "", -1,
@@ -33,10 +34,9 @@ func Fetch(logger log.Logger) http.HandlerFunc {
 		)
 
 		if _, err := os.Stat(full); os.IsNotExist(err) {
-			level.Info(logger).Log(
-				"msg", "state file does not exist",
-				"file", full,
-			)
+			log.Info().
+				Str("file", full).
+				Msg("state file does not exist")
 
 			http.Error(
 				w,
@@ -52,10 +52,10 @@ func Fetch(logger log.Logger) http.HandlerFunc {
 		)
 
 		if err != nil {
-			level.Info(logger).Log(
-				"msg", "failed to read state file",
-				"err", err,
-			)
+			log.Info().
+				Err(err).
+				Str("file", full).
+				Msg("failed to read state file")
 
 			http.Error(
 				w,
@@ -64,6 +64,27 @@ func Fetch(logger log.Logger) http.HandlerFunc {
 			)
 
 			return
+		}
+
+		if cfg.General.Secret != "" {
+			decrypted, err := helper.Decrypt(file, []byte(cfg.General.Secret))
+
+			if err != nil {
+				log.Info().
+					Err(err).
+					Str("file", full).
+					Msg("failed to decrypt the state")
+
+				http.Error(
+					w,
+					http.StatusText(http.StatusInternalServerError),
+					http.StatusInternalServerError,
+				)
+
+				return
+			}
+
+			file = decrypted
 		}
 
 		w.Header().Set("Content-Type", "application/json")
