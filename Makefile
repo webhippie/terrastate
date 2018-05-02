@@ -132,13 +132,9 @@ release-check:
 .PHONY: publish
 publish: release
 
-.PHONY: changelog
-changelog:
-ifndef TAG
-	github_changelog_generator --header-label '# Changelog'
-else
-	github_changelog_generator --header-label '# Changelog' --future-release '$(TAG)'
-endif
+.PHONY: docs
+docs:
+	hugo -s docs/
 
 .PHONY: retool
 retool:

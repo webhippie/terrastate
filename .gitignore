@@ -31,3 +31,5 @@ coverage.out
 /dist
 /bin
 /storage
+
+/docs/public
