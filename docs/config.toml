@@ -1,0 +1,15 @@
+baseURL = "/"
+languageCode = "en-us"
+title = "Terrastate"
+
+[blackfriday]
+  angledQuotes = true
+  fractions = false
+  plainIDAnchors = true
+  smartlists = true
+  extensions = ["hardLineBreak"]
+
+[params]
+  author = "Thomas Boerger"
+  description = "Terraform HTTP remote state storage"
+  keywords = "terraform, http, storage, terrastate"
