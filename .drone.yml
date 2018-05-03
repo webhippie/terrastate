@@ -277,5 +277,5 @@ pipeline:
     secrets: [ matrix_roomid, matrix_username, matrix_password ]
     when:
       local: false
-      events: [ push, tag ]
+      event: [ push, tag ]
       status: [ changed, failure ]
