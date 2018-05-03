@@ -19,4 +19,4 @@ CMD ["server"]
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=build /etc/mime.types /etc/
 
-COPY dist/binaries/terrastate-*-linux-arm64 /usr/bin/terrastate
+COPY dist/binaries/terrastate-*-linux-386 /usr/bin/terrastate

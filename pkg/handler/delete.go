@@ -5,21 +5,21 @@ import (
 	"os"
 	"path"
 	"strings"
+	"time"
 
 	"github.com/go-chi/chi"
-	"github.com/go-kit/kit/log"
-	"github.com/go-kit/kit/log/level"
+	"github.com/rs/zerolog/log"
 	"github.com/webhippie/terrastate/pkg/config"
 )
 
 // Delete is used to purge a specific state.
-func Delete(logger log.Logger) http.HandlerFunc {
-	logger = log.WithPrefix(logger, "handler", "delete")
-
+func Delete(cfg *config.Config) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
+		defer handleMetrics(time.Now(), "delete", chi.URLParam(req, "*"))
+
 		dir := strings.Replace(
 			path.Join(
-				config.Server.Storage,
+				cfg.Server.Storage,
 				chi.URLParam(req, "*"),
 			),
 			"../", "", -1,
@@ -31,10 +31,9 @@ func Delete(logger log.Logger) http.HandlerFunc {
 		)
 
 		if _, err := os.Stat(full); os.IsNotExist(err) {
-			level.Info(logger).Log(
-				"msg", "state file does not exist",
-				"file", full,
-			)
+			log.Info().
+				Str("file", full).
+				Msg("state file does not exist")
 
 			http.Error(
 				w,
@@ -46,10 +45,10 @@ func Delete(logger log.Logger) http.HandlerFunc {
 		}
 
 		if err := os.Remove(full); err != nil {
-			level.Info(logger).Log(
-				"msg", "failed to delete state file",
-				"err", err,
-			)
+			log.Info().
+				Err(err).
+				Str("file", full).
+				Msg("failed to delete state file")
 
 			http.Error(
 				w,
@@ -60,10 +59,9 @@ func Delete(logger log.Logger) http.HandlerFunc {
 			return
 		}
 
-		level.Info(logger).Log(
-			"msg", "successfully deleted state file",
-			"file", full,
-		)
+		log.Info().
+			Str("file", full).
+			Msg("successfully deleted state file")
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)

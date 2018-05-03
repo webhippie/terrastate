@@ -3,228 +3,306 @@ package main
 import (
 	"context"
 	"crypto/tls"
-	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
-	"strings"
 	"time"
 
-	"github.com/go-kit/kit/log"
-	"github.com/go-kit/kit/log/level"
-	"github.com/oklog/oklog/pkg/group"
+	"github.com/oklog/run"
+	"github.com/rs/zerolog/log"
 	"github.com/webhippie/terrastate/pkg/config"
 	"github.com/webhippie/terrastate/pkg/router"
 	"gopkg.in/urfave/cli.v2"
 )
 
+var (
+	defaultAddr = "0.0.0.0:8080"
+	privateAddr = "127.0.0.1:8081"
+)
+
 // Server provides the sub-command to start the server.
-func Server() *cli.Command {
+func Server(cfg *config.Config) *cli.Command {
 	return &cli.Command{
-		Name:  "server",
-		Usage: "start integrated server",
-		Flags: []cli.Flag{
-			&cli.StringFlag{
-				Name:        "host",
-				Value:       "http://localhost:8080",
-				Usage:       "external access to server",
-				EnvVars:     []string{"TERRASTATE_HOST"},
-				Destination: &config.Server.Host,
-			},
-			&cli.StringFlag{
-				Name:        "addr",
-				Value:       "0.0.0.0:8080",
-				Usage:       "address to bind the server",
-				EnvVars:     []string{"TERRASTATE_ADDR"},
-				Destination: &config.Server.Addr,
-			},
-			&cli.BoolFlag{
-				Name:        "pprof",
-				Value:       false,
-				Usage:       "enable pprof debugging server",
-				EnvVars:     []string{"TERRASTATE_PPROF"},
-				Destination: &config.Server.Pprof,
-			},
-			&cli.BoolFlag{
-				Name:        "prometheus",
-				Value:       false,
-				Usage:       "enable prometheus exporter",
-				EnvVars:     []string{"TERRASTATE_PROMETHEUS"},
-				Destination: &config.Server.Prometheus,
-			},
-			&cli.StringFlag{
-				Name:        "cert",
-				Value:       "",
-				Usage:       "path to ssl cert",
-				EnvVars:     []string{"TERRASTATE_CERT"},
-				Destination: &config.Server.Cert,
-			},
-			&cli.StringFlag{
-				Name:        "key",
-				Value:       "",
-				Usage:       "path to ssl key",
-				EnvVars:     []string{"TERRASTATE_KEY"},
-				Destination: &config.Server.Key,
-			},
-			&cli.StringFlag{
-				Name:        "storage",
-				Value:       "storage/",
-				Usage:       "folder for storing states",
-				EnvVars:     []string{"TERRASTATE_STORAGE"},
-				Destination: &config.Server.Storage,
-			},
-			&cli.StringFlag{
-				Name:        "username",
-				Value:       "",
-				Usage:       "username for basic auth",
-				EnvVars:     []string{"TERRASTATE_USERNAME"},
-				Destination: &config.General.Username,
-			},
-			&cli.StringFlag{
-				Name:        "password",
-				Value:       "",
-				Usage:       "password for basic auth",
-				EnvVars:     []string{"TERRASTATE_PASSWORD"},
-				Destination: &config.General.Password,
-			},
-		},
-		Before: func(c *cli.Context) error {
-			return nil
-		},
-		Action: func(c *cli.Context) error {
-			logger := log.NewLogfmtLogger(log.NewSyncWriter(os.Stdout))
+		Name:   "server",
+		Usage:  "start the integrated server",
+		Flags:  serverFlags(cfg),
+		Before: serverBefore(cfg),
+		Action: serverAction(cfg),
+	}
+}
 
-			switch strings.ToLower(config.LogLevel) {
-			case "debug":
-				logger = level.NewFilter(logger, level.AllowDebug())
-			case "warn":
-				logger = level.NewFilter(logger, level.AllowWarn())
-			case "error":
-				logger = level.NewFilter(logger, level.AllowError())
-			default:
-				logger = level.NewFilter(logger, level.AllowInfo())
-			}
+func serverFlags(cfg *config.Config) []cli.Flag {
+	return []cli.Flag{
+		&cli.StringFlag{
+			Name:        "private-addr",
+			Value:       privateAddr,
+			Usage:       "address for metrics and health",
+			EnvVars:     []string{"TERRASTATE_PRIVATE_ADDR"},
+			Destination: &cfg.Server.Private,
+		},
+		&cli.StringFlag{
+			Name:        "server-addr",
+			Value:       defaultAddr,
+			Usage:       "address to bind the server",
+			EnvVars:     []string{"TERRASTATE_SERVER_ADDR"},
+			Destination: &cfg.Server.Public,
+		},
+		&cli.StringFlag{
+			Name:        "server-root",
+			Value:       "/",
+			Usage:       "root path of the proxy",
+			EnvVars:     []string{"TERRASTATE_SERVER_ROOT"},
+			Destination: &cfg.Server.Root,
+		},
+		&cli.StringFlag{
+			Name:        "server-host",
+			Value:       "http://localhost:8080",
+			Usage:       "external access to server",
+			EnvVars:     []string{"TERRASTATE_SERVER_HOST"},
+			Destination: &cfg.Server.Host,
+		},
+		&cli.StringFlag{
+			Name:        "server-cert",
+			Value:       "",
+			Usage:       "path to ssl cert",
+			EnvVars:     []string{"TERRASTATE_SERVER_CERT"},
+			Destination: &cfg.Server.Cert,
+		},
+		&cli.StringFlag{
+			Name:        "server-key",
+			Value:       "",
+			Usage:       "path to ssl key",
+			EnvVars:     []string{"TERRASTATE_SERVER_KEY"},
+			Destination: &cfg.Server.Key,
+		},
+		&cli.BoolFlag{
+			Name:        "strict-curves",
+			Value:       false,
+			Usage:       "use strict ssl curves",
+			EnvVars:     []string{"TERRASTATE_STRICT_CURVES"},
+			Destination: &cfg.Server.StrictCurves,
+		},
+		&cli.BoolFlag{
+			Name:        "strict-ciphers",
+			Value:       false,
+			Usage:       "use strict ssl ciphers",
+			EnvVars:     []string{"TERRASTATE_STRICT_CIPHERS"},
+			Destination: &cfg.Server.StrictCiphers,
+		},
+		&cli.StringFlag{
+			Name:        "templates-path",
+			Value:       "",
+			Usage:       "path to custom templates",
+			EnvVars:     []string{"TERRASTATE_SERVER_TEMPLATES"},
+			Destination: &cfg.Server.Templates,
+		},
+		&cli.StringFlag{
+			Name:        "assets-path",
+			Value:       "",
+			Usage:       "path to custom assets",
+			EnvVars:     []string{"TERRASTATE_SERVER_ASSETS"},
+			Destination: &cfg.Server.Assets,
+		},
+		&cli.StringFlag{
+			Name:        "storage-path",
+			Value:       "storage/",
+			Usage:       "folder for storing certs and misc files",
+			EnvVars:     []string{"TERRASTATE_SERVER_STORAGE"},
+			Destination: &cfg.Server.Storage,
+		},
+		&cli.StringFlag{
+			Name:        "general-username",
+			Value:       "",
+			Usage:       "username for basic auth",
+			EnvVars:     []string{"TERRASTATE_GENERAL_USERNAME"},
+			Destination: &cfg.General.Username,
+		},
+		&cli.StringFlag{
+			Name:        "general-password",
+			Value:       "",
+			Usage:       "password for basic auth",
+			EnvVars:     []string{"TERRASTATE_GENERAL_PASSWORD"},
+			Destination: &cfg.General.Password,
+		},
+		&cli.StringFlag{
+			Name:        "encryption-secret",
+			Value:       "",
+			Usage:       "secret for file encryption",
+			EnvVars:     []string{"TERRASTATE_ENCRYPTION_SECRET"},
+			Destination: &cfg.General.Secret,
+		},
+	}
+}
 
-			logger = log.WithPrefix(logger,
-				"app", c.App.Name,
-				"ts", log.DefaultTimestampUTC,
+func serverBefore(cfg *config.Config) cli.BeforeFunc {
+	return func(c *cli.Context) error {
+		return nil
+	}
+}
+
+func serverAction(cfg *config.Config) cli.ActionFunc {
+	return func(c *cli.Context) error {
+		var gr run.Group
+
+		{
+			stop := make(chan os.Signal, 1)
+
+			gr.Add(func() error {
+				signal.Notify(stop, os.Interrupt)
+
+				<-stop
+
+				return nil
+			}, func(err error) {
+				close(stop)
+			})
+		}
+
+		if cfg.Server.Cert != "" && cfg.Server.Key != "" {
+			cert, err := tls.LoadX509KeyPair(
+				cfg.Server.Cert,
+				cfg.Server.Key,
 			)
 
-			cfg, err := ssl()
-
 			if err != nil {
-				level.Error(logger).Log(
-					"msg", "failed to load certificates",
-					"err", err,
-				)
+				log.Info().
+					Err(err).
+					Msg("failed to load certificates")
 
 				return err
 			}
 
-			server := &http.Server{
-				Addr:         config.Server.Addr,
-				Handler:      router.Load(logger),
-				ReadTimeout:  5 * time.Second,
-				WriteTimeout: 10 * time.Second,
-				TLSConfig:    cfg,
-			}
-
-			var gr group.Group
-
 			{
+				server := &http.Server{
+					Addr:         cfg.Server.Public,
+					Handler:      router.Load(cfg),
+					ReadTimeout:  5 * time.Second,
+					WriteTimeout: 10 * time.Second,
+					TLSConfig: &tls.Config{
+						PreferServerCipherSuites: true,
+						MinVersion:               tls.VersionTLS12,
+						CurvePreferences:         curves(cfg),
+						CipherSuites:             ciphers(cfg),
+						Certificates:             []tls.Certificate{cert},
+					},
+				}
+
 				gr.Add(func() error {
-					level.Info(logger).Log(
-						"msg", "starting server",
-						"addr", config.Server.Addr,
-					)
+					log.Info().
+						Str("addr", cfg.Server.Public).
+						Msg("starting https server")
 
-					if server.TLSConfig != nil {
-						return server.ListenAndServeTLS("", "")
-					}
-
-					return server.ListenAndServe()
-				}, func(err error) {
-					if err != nil {
-						level.Error(logger).Log(
-							"msg", "failed to start server",
-							"err", err,
-						)
-
-						return
-					}
-
+					return server.ListenAndServeTLS("", "")
+				}, func(reason error) {
 					ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 					defer cancel()
 
 					if err := server.Shutdown(ctx); err != nil {
-						level.Error(logger).Log(
-							"msg", "failed to shutdown server gracefully",
-							"err", err,
-						)
+						log.Info().
+							Err(err).
+							Msg("failed to stop https server gracefully")
 
 						return
 					}
 
-					level.Info(logger).Log(
-						"msg", "server shutdown gracefully",
-					)
-				})
-			}
-
-			{
-				gr.Add(func() error {
-					stop := make(chan os.Signal, 1)
-					signal.Notify(stop, os.Interrupt)
-
-					<-stop
-
-					return nil
-				}, func(err error) {
-
+					log.Info().
+						Err(reason).
+						Msg("https server stopped gracefully")
 				})
 			}
 
 			return gr.Run()
-		},
-	}
-}
-
-func curves() []tls.CurveID {
-	return []tls.CurveID{
-		tls.CurveP521,
-		tls.CurveP384,
-		tls.CurveP256,
-	}
-}
-
-func ciphers() []uint16 {
-	return []uint16{
-		tls.TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
-		tls.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
-		tls.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
-		tls.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
-	}
-}
-
-func ssl() (*tls.Config, error) {
-	if config.Server.Cert != "" && config.Server.Key != "" {
-		cert, err := tls.LoadX509KeyPair(
-			config.Server.Cert,
-			config.Server.Key,
-		)
-
-		if err != nil {
-			return nil, fmt.Errorf("failed to load certificates. %s", err)
 		}
 
-		return &tls.Config{
-			PreferServerCipherSuites: true,
-			MinVersion:               tls.VersionTLS12,
-			CurvePreferences:         curves(),
-			CipherSuites:             ciphers(),
-			Certificates:             []tls.Certificate{cert},
-		}, nil
+		{
+			server := &http.Server{
+				Addr:         cfg.Server.Public,
+				Handler:      router.Load(cfg),
+				ReadTimeout:  5 * time.Second,
+				WriteTimeout: 10 * time.Second,
+			}
+
+			gr.Add(func() error {
+				log.Info().
+					Str("addr", cfg.Server.Public).
+					Msg("starting http server")
+
+				return server.ListenAndServe()
+			}, func(reason error) {
+				ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+				defer cancel()
+
+				if err := server.Shutdown(ctx); err != nil {
+					log.Info().
+						Err(err).
+						Msg("failed to stop http server gracefully")
+
+					return
+				}
+
+				log.Info().
+					Err(reason).
+					Msg("http server stopped gracefully")
+			})
+		}
+
+		{
+			server := &http.Server{
+				Addr:         cfg.Server.Private,
+				Handler:      router.Status(cfg),
+				ReadTimeout:  5 * time.Second,
+				WriteTimeout: 10 * time.Second,
+			}
+
+			gr.Add(func() error {
+				log.Info().
+					Str("addr", cfg.Server.Private).
+					Msg("starting status server")
+
+				return server.ListenAndServe()
+			}, func(reason error) {
+				ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+				defer cancel()
+
+				if err := server.Shutdown(ctx); err != nil {
+					log.Info().
+						Err(err).
+						Msg("failed to stop status server gracefully")
+
+					return
+				}
+
+				log.Info().
+					Err(reason).
+					Msg("status server stopped gracefully")
+			})
+		}
+
+		return gr.Run()
+	}
+}
+
+func curves(cfg *config.Config) []tls.CurveID {
+	if cfg.Server.StrictCurves {
+		return []tls.CurveID{
+			tls.CurveP521,
+			tls.CurveP384,
+			tls.CurveP256,
+		}
 	}
 
-	return nil, nil
+	return nil
+}
+
+func ciphers(cfg *config.Config) []uint16 {
+	if cfg.Server.StrictCiphers {
+		return []uint16{
+			tls.TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
+			tls.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+			tls.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+			tls.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+		}
+	}
+
+	return nil
 }

@@ -11,13 +11,13 @@ graceful_kill = false
 init_cmds = [
   ["make", "build"],
   [
-    "./terrastate",
+    "./bin/terrastate",
     "--log-level",
     "debug",
     "server",
-    "--username",
+    "--general-username",
     "terrastate",
-    "--password",
+    "--general-password",
     "terrastate"
   ]
 ]
@@ -25,13 +25,13 @@ init_cmds = [
 cmds = [
   ["make", "build"],
   [
-    "./terrastate",
+    "./bin/terrastate",
     "--log-level",
     "debug",
     "server",
-    "--username",
+    "--general-username",
     "terrastate",
-    "--password",
+    "--general-password",
     "terrastate"
   ]
 ]
