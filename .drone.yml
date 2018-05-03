@@ -82,19 +82,6 @@ pipeline:
     commands:
       - make build
 
-  backend-windows:
-    image: karalabe/xgo-latest:latest
-    pull: true
-    group: release
-    environment:
-      - CGO_ENABLED=0
-      - GOPATH=/srv/app
-      - TAGS=
-    commands:
-      - make release-dirs release-windows
-    when:
-      event: [ push, tag ]
-
   backend-linux:
     image: karalabe/xgo-latest:latest
     pull: true
@@ -106,7 +93,7 @@ pipeline:
     commands:
       - make release-dirs release-linux
     when:
-      event: [ push, tag ]
+      event: [ push, tag, pull_request ]
 
   backend-darwin:
     image: karalabe/xgo-latest:latest
@@ -118,6 +105,19 @@ pipeline:
       - TAGS=
     commands:
       - make release-dirs release-darwin
+    when:
+      event: [ push, tag ]
+
+  backend-windows:
+    image: karalabe/xgo-latest:latest
+    pull: true
+    group: release
+    environment:
+      - CGO_ENABLED=0
+      - GOPATH=/srv/app
+      - TAGS=
+    commands:
+      - make release-dirs release-windows
     when:
       event: [ push, tag ]
 
@@ -141,8 +141,20 @@ pipeline:
     repo: tboerger/terrastate
     auto_tag: true
     auto_tag_suffix: amd64
+    dry_run: true
     when:
-      event: [push, tag]
+      event: [ pull_request ]
+
+  docker-amd64:
+    image: plugins/docker:17.05
+    pull: true
+    group: docker
+    secrets: [ docker_username, docker_password ]
+    repo: tboerger/terrastate
+    auto_tag: true
+    auto_tag_suffix: amd64
+    when:
+      event: [ push, tag ]
 
   docker-i386:
     image: plugins/docker:17.05
@@ -154,7 +166,7 @@ pipeline:
     auto_tag: true
     auto_tag_suffix: i386
     when:
-      event: [push, tag]
+      event: [ push, tag ]
 
   docker-arm64:
     image: plugins/docker:17.05
@@ -166,7 +178,7 @@ pipeline:
     auto_tag: true
     auto_tag_suffix: arm64
     when:
-      event: [push, tag]
+      event: [ push, tag ]
 
   docker-arm:
     image: plugins/docker:17.05
@@ -178,7 +190,7 @@ pipeline:
     auto_tag: true
     auto_tag_suffix: arm
     when:
-      event: [push, tag]
+      event: [ push, tag ]
 
   docker-manifests:
     image: plugins/manifest:1
