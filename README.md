@@ -11,6 +11,11 @@
 Terrastate acts as an HTTP backend for Terraform which can store the state content remotely for you to keep it outside of the repositories containing your `.tf` files. This is a great alternative if you are not hosting your stuff on AWS.
 
 
+## Docs
+
+Our documentation gets generated directly out of the [docs/](docs/) folder, it get's built via Drone and published to GitHub pages. You can find the documentation at [https://webhippie.github.io/terrastate/](https://webhippie.github.io/terrastate/).
+
+
 ## Install
 
 You can download prebuilt binaries from the GitHub releases or from our [download site](http://dl.webhippie.de/misc/terrastate). You are a Mac user? Just take a look at our [homebrew formula](https://github.com/webhippie/homebrew-webhippie).
