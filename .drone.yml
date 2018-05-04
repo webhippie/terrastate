@@ -247,7 +247,7 @@ pipeline:
     pull: true
     secrets: [ ssh_key ]
     pages_directory: docs/public/
-    temporary_base: docs/tmp/
+    temporary_base: tmp/
     when:
       local: false
       event: [ push ]
