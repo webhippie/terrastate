@@ -245,7 +245,7 @@ pipeline:
   docs-publish:
     image: plugins/gh-pages:1
     pull: true
-    secrets: [ ssh_key ]
+    secrets: [ github_username, github_password ]
     pages_directory: docs/public/
     temporary_base: tmp/
     when:
