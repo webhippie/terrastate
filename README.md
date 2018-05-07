@@ -7,6 +7,7 @@
 [![Go Doc](https://godoc.org/github.com/webhippie/terrastate?status.svg)](http://godoc.org/github.com/webhippie/terrastate)
 [![Go Report](https://goreportcard.com/badge/github.com/webhippie/terrastate)](https://goreportcard.com/report/github.com/webhippie/terrastate)
 [![](https://images.microbadger.com/badges/image/tboerger/terrastate.svg)](http://microbadger.com/images/tboerger/terrastate "Get your own image badge on microbadger.com")
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1828/badge)](https://bestpractices.coreinfrastructure.org/projects/1828)
 
 Terrastate acts as an HTTP backend for Terraform which can store the state content remotely for you to keep it outside of the repositories containing your `.tf` files. This is a great alternative if you are not hosting your stuff on AWS.
 
