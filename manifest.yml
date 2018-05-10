@@ -26,8 +26,3 @@ manifests:
     platform:
       architecture: arm
       os: linux
-  -
-    image: tboerger/terrastate:{{#if build.tag}}{{trimPrefix build.tag "v"}}-{{/if}}windows
-    platform:
-      architecture: amd64
-      os: windows
