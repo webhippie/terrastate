@@ -2,7 +2,7 @@
 
 [![Build Status](http://github.dronehippie.de/api/badges/webhippie/terrastate/status.svg)](http://github.dronehippie.de/webhippie/terrastate)
 [![Stories in Ready](https://badge.waffle.io/webhippie/terrastate.svg?label=ready&title=Ready)](http://waffle.io/webhippie/terrastate)
-[![Join the Matrix chat at https://matrix.to/#/#webhippie:matrix.org](https://img.shields.io/badge/matrix-%23gomematic%3Amatrix.org-7bc9a4.svg)](https://matrix.to/#/#webhippie:matrix.org)
+[![Join the Matrix chat at https://matrix.to/#/#webhippie:matrix.org](https://img.shields.io/badge/matrix-%23terrastate%3Amatrix.org-7bc9a4.svg)](https://matrix.to/#/#webhippie:matrix.org)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d2bc4877341f4c7fbf9b4fa62b8d0484)](https://www.codacy.com/app/webhippie/terrastate?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=webhippie/terrastate&amp;utm_campaign=Badge_Grade)
 [![Go Doc](https://godoc.org/github.com/webhippie/terrastate?status.svg)](http://godoc.org/github.com/webhippie/terrastate)
 [![Go Report](https://goreportcard.com/badge/github.com/webhippie/terrastate)](https://goreportcard.com/report/github.com/webhippie/terrastate)
