@@ -139,8 +139,7 @@ pipeline:
     group: docker
     secrets: [ docker_username, docker_password ]
     repo: tboerger/terrastate
-    auto_tag: true
-    auto_tag_suffix: amd64
+    tags: [ latest ]
     dry_run: true
     when:
       event: [ pull_request ]
