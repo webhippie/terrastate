@@ -19,7 +19,7 @@ Our documentation gets generated directly out of the [docs/](docs/) folder, it g
 
 ## Install
 
-You can download prebuilt binaries from the GitHub releases or from our [download site](http://dl.webhippie.de/misc/terrastate). You are a Mac user? Just take a look at our [homebrew formula](https://github.com/webhippie/homebrew-webhippie).
+You can download prebuilt binaries from the GitHub releases or from our [download site](https://dl.webhippie.de/terrastate/master/). You are a Mac user? Just take a look at our [homebrew formula](https://github.com/webhippie/homebrew-webhippie).
 
 
 ## Development
