@@ -1,4 +1,4 @@
-package main
+package command
 
 import (
 	"fmt"
@@ -9,88 +9,92 @@ import (
 	"strings"
 
 	"github.com/dchest/safefile"
+	"github.com/urfave/cli/v2"
 	"github.com/webhippie/terrastate/pkg/config"
 	"github.com/webhippie/terrastate/pkg/helper"
-	"gopkg.in/urfave/cli.v2"
 )
 
-// State provides the sub-command to access states.
-func State(cfg *config.Config) *cli.Command {
+// StateCmd provides the sub-command releated to state.
+func StateCmd(cfg *config.Config) *cli.Command {
 	return &cli.Command{
-		Name:        "state",
-		Usage:       "read and update state files",
-		Flags:       stateFlags(cfg),
-		Subcommands: stateCommands(cfg),
+		Name:        "server",
+		Usage:       "Read and update state files",
+		Flags:       StateFlags(cfg),
+		Subcommands: StateCmds(cfg),
 	}
 }
 
-func stateFlags(cfg *config.Config) []cli.Flag {
+// StateFlags provides the flags for the state command.
+func StateFlags(cfg *config.Config) []cli.Flag {
 	return []cli.Flag{
 		&cli.StringFlag{
 			Name:        "storage-path",
 			Value:       "storage/",
-			Usage:       "folder for storing certs and misc files",
+			Usage:       "Folder for storing certs and misc files",
 			EnvVars:     []string{"TERRASTATE_SERVER_STORAGE"},
 			Destination: &cfg.Server.Storage,
 		},
 		&cli.StringFlag{
 			Name:        "encryption-secret",
 			Value:       "",
-			Usage:       "secret for file encryption",
+			Usage:       "Secret for file encryption",
 			EnvVars:     []string{"TERRASTATE_ENCRYPTION_SECRET"},
 			Destination: &cfg.General.Secret,
 		},
 	}
 }
 
-func stateCommands(cfg *config.Config) []*cli.Command {
+// StateCmds provides the sub-commands for state.
+func StateCmds(cfg *config.Config) []*cli.Command {
 	return []*cli.Command{
 		{
 			Name:      "list",
 			Aliases:   []string{"ls"},
-			Usage:     "list all states",
+			Usage:     "List all states",
 			ArgsUsage: " ",
-			Flags:     stateListFlags(cfg),
-			Action:    stateListAction(cfg),
+			Flags:     StateListFlags(cfg),
+			Action:    StateListAction(cfg),
 		},
 		{
 			Name:      "show",
 			Aliases:   []string{"read"},
-			Usage:     "show a state",
+			Usage:     "Show a state",
 			ArgsUsage: "<state>",
-			Flags:     stateShowFlags(cfg),
-			Action:    stateShowAction(cfg),
+			Flags:     StateShowFlags(cfg),
+			Action:    StateShowAction(cfg),
 		},
 		{
 			Name:      "encrypt",
 			Aliases:   []string{},
-			Usage:     "encrypt a state",
+			Usage:     "Encrypt a state",
 			ArgsUsage: "<state>",
-			Flags:     stateEncryptFlags(cfg),
-			Action:    stateEncryptAction(cfg),
+			Flags:     StateEncryptFlags(cfg),
+			Action:    StateEncryptAction(cfg),
 		},
 		{
 			Name:      "decrypt",
 			Aliases:   []string{},
-			Usage:     "decrypt a state",
+			Usage:     "Decrypt a state",
 			ArgsUsage: "<state>",
-			Flags:     stateDecryptFlags(cfg),
-			Action:    stateDecryptAction(cfg),
+			Flags:     StateDecryptFlags(cfg),
+			Action:    StateDecryptAction(cfg),
 		},
 	}
 }
 
-func stateListFlags(cfg *config.Config) []cli.Flag {
+// StateListFlags provides the flags for the state list command.
+func StateListFlags(cfg *config.Config) []cli.Flag {
 	return []cli.Flag{}
 }
 
-func stateListAction(cfg *config.Config) cli.ActionFunc {
+// StateListAction provides the action that implements the state list command.
+func StateListAction(cfg *config.Config) cli.ActionFunc {
 	return func(c *cli.Context) error {
 		var states []string
 
 		err := filepath.Walk(cfg.Server.Storage, func(path string, info os.FileInfo, err error) error {
 			if err != nil {
-				fmt.Fprintf(os.Stderr, "failed to read %s: %q\n", path, err)
+				fmt.Fprintf(os.Stderr, "Failed to read %s: %q\n", path, err)
 				return err
 			}
 
@@ -114,7 +118,7 @@ func stateListAction(cfg *config.Config) cli.ActionFunc {
 		})
 
 		if err != nil {
-			return cli.Exit("failed to list", 2)
+			return cli.Exit("Failed to list", 2)
 		}
 
 		fmt.Fprintln(os.Stdout, strings.Join(states, "\n"))
@@ -122,16 +126,18 @@ func stateListAction(cfg *config.Config) cli.ActionFunc {
 	}
 }
 
-func stateShowFlags(cfg *config.Config) []cli.Flag {
+// StateShowFlags provides the flags for the state show command.
+func StateShowFlags(cfg *config.Config) []cli.Flag {
 	return []cli.Flag{}
 }
 
-func stateShowAction(cfg *config.Config) cli.ActionFunc {
+// StateShowAction provides the action that implements the state show command.
+func StateShowAction(cfg *config.Config) cli.ActionFunc {
 	return func(c *cli.Context) error {
 		state := c.Args().Get(0)
 
 		if state == "" {
-			return cli.Exit("missing state argument", 2)
+			return cli.Exit("Missing state argument", 2)
 		}
 
 		full := path.Join(
@@ -141,7 +147,7 @@ func stateShowAction(cfg *config.Config) cli.ActionFunc {
 		)
 
 		if _, err := os.Stat(full); os.IsNotExist(err) {
-			return cli.Exit("state does not exist", 3)
+			return cli.Exit("State does not exist", 3)
 		}
 
 		file, err := ioutil.ReadFile(
@@ -149,7 +155,7 @@ func stateShowAction(cfg *config.Config) cli.ActionFunc {
 		)
 
 		if err != nil {
-			return cli.Exit("failed to read state", 4)
+			return cli.Exit("Failed to read state", 4)
 		}
 
 		fmt.Fprintln(os.Stdout, string(file))
@@ -157,20 +163,22 @@ func stateShowAction(cfg *config.Config) cli.ActionFunc {
 	}
 }
 
-func stateEncryptFlags(cfg *config.Config) []cli.Flag {
+// StateEncryptFlags provides the flags for the state encrypt command.
+func StateEncryptFlags(cfg *config.Config) []cli.Flag {
 	return []cli.Flag{}
 }
 
-func stateEncryptAction(cfg *config.Config) cli.ActionFunc {
+// StateEncryptAction provides the action that implements the state encrypt command.
+func StateEncryptAction(cfg *config.Config) cli.ActionFunc {
 	return func(c *cli.Context) error {
 		if cfg.General.Secret == "" {
-			return cli.Exit("missing encryption secret", 2)
+			return cli.Exit("Missing encryption secret", 2)
 		}
 
 		state := c.Args().Get(0)
 
 		if state == "" {
-			return cli.Exit("missing state argument", 3)
+			return cli.Exit("Missing state argument", 3)
 		}
 
 		full := path.Join(
@@ -180,7 +188,7 @@ func stateEncryptAction(cfg *config.Config) cli.ActionFunc {
 		)
 
 		if _, err := os.Stat(full); os.IsNotExist(err) {
-			return cli.Exit("state does not exist", 4)
+			return cli.Exit("State does not exist", 4)
 		}
 
 		file, err := ioutil.ReadFile(
@@ -188,38 +196,40 @@ func stateEncryptAction(cfg *config.Config) cli.ActionFunc {
 		)
 
 		if err != nil {
-			return cli.Exit("failed to read state", 5)
+			return cli.Exit("Failed to read state", 5)
 		}
 
 		encrypted, err := helper.Encrypt(file, []byte(cfg.General.Secret))
 
 		if err != nil {
-			return cli.Exit("failed to encrypt state", 6)
+			return cli.Exit("Failed to encrypt state", 6)
 		}
 
 		if err := safefile.WriteFile(full, encrypted, 0644); err != nil {
-			return cli.Exit("failed to update file", 7)
+			return cli.Exit("Failed to update file", 7)
 		}
 
-		fmt.Fprintln(os.Stderr, "successfully encrypted state")
+		fmt.Fprintln(os.Stderr, "Successfully encrypted state")
 		return nil
 	}
 }
 
-func stateDecryptFlags(cfg *config.Config) []cli.Flag {
+// StateDecryptFlags provides the flags for the state decrypt command.
+func StateDecryptFlags(cfg *config.Config) []cli.Flag {
 	return []cli.Flag{}
 }
 
-func stateDecryptAction(cfg *config.Config) cli.ActionFunc {
+// StateDecryptAction provides the action that implements the state decrypt command.
+func StateDecryptAction(cfg *config.Config) cli.ActionFunc {
 	return func(c *cli.Context) error {
 		if cfg.General.Secret == "" {
-			return cli.Exit("missing encryption secret", 2)
+			return cli.Exit("Missing encryption secret", 2)
 		}
 
 		state := c.Args().Get(0)
 
 		if state == "" {
-			return cli.Exit("missing state argument", 3)
+			return cli.Exit("Missing state argument", 3)
 		}
 
 		full := path.Join(
@@ -229,7 +239,7 @@ func stateDecryptAction(cfg *config.Config) cli.ActionFunc {
 		)
 
 		if _, err := os.Stat(full); os.IsNotExist(err) {
-			return cli.Exit("state does not exist", 4)
+			return cli.Exit("State does not exist", 4)
 		}
 
 		file, err := ioutil.ReadFile(
@@ -237,20 +247,20 @@ func stateDecryptAction(cfg *config.Config) cli.ActionFunc {
 		)
 
 		if err != nil {
-			return cli.Exit("failed to read state", 5)
+			return cli.Exit("Failed to read state", 5)
 		}
 
 		decrypted, err := helper.Decrypt(file, []byte(cfg.General.Secret))
 
 		if err != nil {
-			return cli.Exit("failed to decrypt state", 6)
+			return cli.Exit("Failed to decrypt state", 6)
 		}
 
 		if err := safefile.WriteFile(full, decrypted, 0644); err != nil {
-			return cli.Exit("failed to update file", 7)
+			return cli.Exit("Failed to update file", 7)
 		}
 
-		fmt.Fprintln(os.Stderr, "successfully encrypted state")
+		fmt.Fprintln(os.Stderr, "Successfully encrypted state")
 		return nil
 	}
 }

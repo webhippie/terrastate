@@ -2,24 +2,28 @@ package config
 
 // Server defines the server configuration.
 type Server struct {
-	Private       string
-	Public        string
+	Addr          string
 	Host          string
+	Pprof         bool
 	Root          string
 	Cert          string
 	Key           string
 	StrictCurves  bool
 	StrictCiphers bool
-	Templates     string
-	Assets        string
 	Storage       string
 }
 
-// Logs defines the logging configuration.
+// Metrics defines the metrics server configuration.
+type Metrics struct {
+	Addr  string
+	Token string
+}
+
+// Logs defines the level and color for log configuration.
 type Logs struct {
-	Level   string
-	Colored bool
-	Pretty  bool
+	Level  string
+	Pretty bool
+	Color  bool
 }
 
 // General defines the general configuration.
@@ -32,11 +36,12 @@ type General struct {
 // Config defines the general configuration.
 type Config struct {
 	Server  Server
+	Metrics Metrics
 	Logs    Logs
 	General General
 }
 
-// New prepares a new default configuration.
-func New() *Config {
+// Load initializes a default configuration struct.
+func Load() *Config {
 	return &Config{}
 }

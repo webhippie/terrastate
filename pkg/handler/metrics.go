@@ -4,6 +4,8 @@ import (
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/collectors"
+	"github.com/webhippie/terrastate/pkg/version"
 )
 
 const (
@@ -34,6 +36,12 @@ var (
 )
 
 func init() {
+	prometheus.MustRegister(collectors.NewProcessCollector(collectors.ProcessCollectorOpts{
+		Namespace: namespace,
+	}))
+
+	prometheus.MustRegister(version.Collector(namespace))
+
 	prometheus.MustRegister(requestCounter)
 	prometheus.MustRegister(requestDuration)
 }

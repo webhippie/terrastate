@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v5"
 	"github.com/rs/zerolog/log"
 	"github.com/webhippie/terrastate/pkg/config"
 )
@@ -31,9 +31,9 @@ func Delete(cfg *config.Config) http.HandlerFunc {
 		)
 
 		if _, err := os.Stat(full); os.IsNotExist(err) {
-			log.Info().
+			log.Error().
 				Str("file", full).
-				Msg("state file does not exist")
+				Msg("State file does not exist")
 
 			http.Error(
 				w,
@@ -45,10 +45,10 @@ func Delete(cfg *config.Config) http.HandlerFunc {
 		}
 
 		if err := os.Remove(full); err != nil {
-			log.Info().
+			log.Error().
 				Err(err).
 				Str("file", full).
-				Msg("failed to delete state file")
+				Msg("Failed to delete state file")
 
 			http.Error(
 				w,
@@ -61,7 +61,7 @@ func Delete(cfg *config.Config) http.HandlerFunc {
 
 		log.Info().
 			Str("file", full).
-			Msg("successfully deleted state file")
+			Msg("Successfully deleted state file")
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)

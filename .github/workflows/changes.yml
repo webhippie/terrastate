@@ -1,0 +1,39 @@
+---
+name: changes
+
+"on":
+  push:
+    branches:
+      - master
+
+jobs:
+  changelog:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout source
+        id: source
+        uses: actions/checkout@v3
+
+      - name: Setup golang
+        id: golang
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.18.1
+
+      - name: Run changelog
+        id: changelog
+        run: make changelog
+
+      - name: Commit changes
+        id: commit
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: GitHub Actions
+          author_email: github@webhippie.de
+          add: CHANGELOG.md
+          message: Automated changelog update
+          push: true
+          commit: --signoff
+
+...

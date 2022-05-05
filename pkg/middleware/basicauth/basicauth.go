@@ -18,31 +18,31 @@ func Basicauth(cfg *config.Config) func(next http.Handler) http.Handler {
 				s := strings.SplitN(r.Header.Get("Authorization"), " ", 2)
 
 				if len(s) != 2 {
-					http.Error(w, http.StatusText(http.StatusUnauthorized), 401)
+					http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
 					return
 				}
 
 				b, err := base64.StdEncoding.DecodeString(s[1])
 
 				if err != nil {
-					http.Error(w, err.Error(), 401)
+					http.Error(w, err.Error(), http.StatusUnauthorized)
 					return
 				}
 
 				pair := strings.SplitN(string(b), ":", 2)
 
 				if len(pair) != 2 {
-					http.Error(w, http.StatusText(http.StatusUnauthorized), 401)
+					http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
 					return
 				}
 
 				if pair[0] != cfg.General.Username {
-					http.Error(w, http.StatusText(http.StatusUnauthorized), 401)
+					http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
 					return
 				}
 
 				if pair[1] != cfg.General.Password {
-					http.Error(w, http.StatusText(http.StatusUnauthorized), 401)
+					http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
 					return
 				}
 			}

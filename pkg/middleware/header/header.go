@@ -53,7 +53,7 @@ func Secure(next http.Handler) http.Handler {
 // Version writes the current API version to the headers.
 func Version(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("X-TERRASTATE-VERSION", version.Version.String())
+		w.Header().Set("X-TERRASTATE-VERSION", version.String)
 
 		next.ServeHTTP(w, r)
 	})

@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/dchest/safefile"
-	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v5"
 	"github.com/rs/zerolog/log"
 	"github.com/webhippie/terrastate/pkg/config"
 	"github.com/webhippie/terrastate/pkg/helper"
@@ -36,9 +36,9 @@ func Update(cfg *config.Config) http.HandlerFunc {
 		content, err := ioutil.ReadAll(req.Body)
 
 		if err != nil {
-			log.Info().
+			log.Error().
 				Err(err).
-				Msg("failed to load request body")
+				Msg("Failed to load request body")
 
 			http.Error(
 				w,
@@ -50,10 +50,10 @@ func Update(cfg *config.Config) http.HandlerFunc {
 		}
 
 		if err := os.MkdirAll(dir, 0755); err != nil {
-			log.Info().
+			log.Error().
 				Err(err).
 				Str("dir", dir).
-				Msg("failed to create state dir")
+				Msg("Failed to create state dir")
 
 			http.Error(
 				w,
@@ -68,10 +68,10 @@ func Update(cfg *config.Config) http.HandlerFunc {
 			encrypted, err := helper.Encrypt(content, []byte(cfg.General.Secret))
 
 			if err != nil {
-				log.Info().
+				log.Error().
 					Err(err).
 					Str("file", full).
-					Msg("failed to encrypt the state")
+					Msg("Failed to encrypt the state")
 
 				http.Error(
 					w,
@@ -87,10 +87,10 @@ func Update(cfg *config.Config) http.HandlerFunc {
 
 		if _, err := os.Stat(full); os.IsNotExist(err) {
 			if err := safefile.WriteFile(full, content, 0644); err != nil {
-				log.Info().
+				log.Error().
 					Err(err).
 					Str("file", full).
-					Msg("failed to create state file")
+					Msg("Failed to create state file")
 
 				http.Error(
 					w,
@@ -103,13 +103,13 @@ func Update(cfg *config.Config) http.HandlerFunc {
 
 			log.Info().
 				Str("file", full).
-				Msg("successfully created state file")
+				Msg("Successfully created state file")
 		} else {
 			if err := safefile.WriteFile(full, content, 0644); err != nil {
-				log.Info().
+				log.Error().
 					Err(err).
 					Str("file", full).
-					Msg("failed to update state file")
+					Msg("Failed to update state file")
 
 				http.Error(
 					w,
@@ -122,7 +122,7 @@ func Update(cfg *config.Config) http.HandlerFunc {
 
 			log.Info().
 				Str("file", full).
-				Msg("successfully updated state file")
+				Msg("Successfully updated state file")
 		}
 
 		w.Header().Set("Content-Type", "application/json")

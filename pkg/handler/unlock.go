@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v5"
 	"github.com/rs/zerolog/log"
 	"github.com/webhippie/terrastate/pkg/config"
 	"github.com/webhippie/terrastate/pkg/model"
@@ -36,9 +36,9 @@ func Unlock(cfg *config.Config) http.HandlerFunc {
 		requested := model.LockInfo{}
 
 		if err := json.NewDecoder(req.Body).Decode(&requested); err != nil {
-			log.Info().
+			log.Error().
 				Err(err).
-				Msg("failed to parse body")
+				Msg("Failed to parse body")
 
 			http.Error(
 				w,
@@ -56,10 +56,10 @@ func Unlock(cfg *config.Config) http.HandlerFunc {
 		)
 
 		if err != nil {
-			log.Info().
+			log.Error().
 				Err(err).
 				Str("file", full).
-				Msg("failed to read lock file")
+				Msg("Failed to read lock file")
 
 			http.Error(
 				w,
@@ -71,10 +71,10 @@ func Unlock(cfg *config.Config) http.HandlerFunc {
 		}
 
 		if err := json.Unmarshal(file, &existing); err != nil {
-			log.Info().
+			log.Error().
 				Err(err).
 				Str("file", full).
-				Msg("failed to parse lock file")
+				Msg("Failed to parse lock file")
 
 			http.Error(
 				w,
@@ -86,10 +86,10 @@ func Unlock(cfg *config.Config) http.HandlerFunc {
 		}
 
 		if err := os.Remove(full); err != nil {
-			log.Info().
+			log.Error().
 				Err(err).
 				Str("file", full).
-				Msg("failed to delete lock file")
+				Msg("Failed to delete lock file")
 
 			http.Error(
 				w,
@@ -103,7 +103,7 @@ func Unlock(cfg *config.Config) http.HandlerFunc {
 		log.Info().
 			Str("existing", existing.ID).
 			Str("requested", requested.ID).
-			Msg("successfully unlocked state")
+			Msg("Successfully unlocked state")
 
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)

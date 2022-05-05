@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/dchest/safefile"
-	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v5"
 	"github.com/rs/zerolog/log"
 	"github.com/webhippie/terrastate/pkg/config"
 	"github.com/webhippie/terrastate/pkg/model"
@@ -37,9 +37,9 @@ func Lock(cfg *config.Config) http.HandlerFunc {
 		requested := model.LockInfo{}
 
 		if err := json.NewDecoder(req.Body).Decode(&requested); err != nil {
-			log.Info().
+			log.Error().
 				Err(err).
-				Msg("failed to parse body")
+				Msg("Failed to parse body")
 
 			http.Error(
 				w,
@@ -58,10 +58,10 @@ func Lock(cfg *config.Config) http.HandlerFunc {
 			)
 
 			if err != nil {
-				log.Info().
+				log.Error().
 					Err(err).
 					Str("file", full).
-					Msg("failed to read lock file")
+					Msg("Failed to read lock file")
 
 				http.Error(
 					w,
@@ -73,10 +73,10 @@ func Lock(cfg *config.Config) http.HandlerFunc {
 			}
 
 			if err := json.Unmarshal(file, &existing); err != nil {
-				log.Info().
+				log.Error().
 					Err(err).
 					Str("file", full).
-					Msg("failed to parse lock file")
+					Msg("Failed to parse lock file")
 
 				http.Error(
 					w,
@@ -90,7 +90,7 @@ func Lock(cfg *config.Config) http.HandlerFunc {
 			log.Info().
 				Str("existing", existing.ID).
 				Str("requested", requested.ID).
-				Msg("lock file already exists")
+				Msg("Lock file already exists")
 
 			w.Header().Set("Content-Type", "application/json")
 			w.WriteHeader(http.StatusLocked)
@@ -100,10 +100,10 @@ func Lock(cfg *config.Config) http.HandlerFunc {
 		}
 
 		if err := os.MkdirAll(dir, 0755); err != nil {
-			log.Info().
+			log.Error().
 				Err(err).
 				Str("dir", dir).
-				Msg("failed to create lock dir")
+				Msg("Failed to create lock dir")
 
 			http.Error(
 				w,
@@ -117,10 +117,10 @@ func Lock(cfg *config.Config) http.HandlerFunc {
 		marshaled, _ := json.Marshal(requested)
 
 		if err := safefile.WriteFile(full, marshaled, 0644); err != nil {
-			log.Info().
+			log.Error().
 				Err(err).
 				Str("file", full).
-				Msg("failed to write lock file")
+				Msg("Failed to write lock file")
 
 			http.Error(
 				w,

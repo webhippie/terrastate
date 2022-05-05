@@ -1,6 +1,10 @@
 baseURL = "https://webhippie.github.io/terrastate/"
 languageCode = "en-us"
 title = "Terrastate"
+pygmentsUseClasses = true
+
+[markup.goldmark.renderer]
+  unsafe = true
 
 [blackfriday]
   angledQuotes = true
@@ -12,4 +16,4 @@ title = "Terrastate"
 [params]
   author = "Thomas Boerger"
   description = "Terraform HTTP remote state storage"
-  keywords = "terraform, http, storage, terrastate"
+  keywords = "terraform, remote, state, storage"

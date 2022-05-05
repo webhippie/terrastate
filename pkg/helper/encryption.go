@@ -5,9 +5,8 @@ import (
 	"crypto/cipher"
 	"crypto/rand"
 	"encoding/base64"
+	"fmt"
 	"io"
-
-	"github.com/pkg/errors"
 )
 
 // Encrypt encrypts a given payload by given key.
@@ -15,25 +14,25 @@ func Encrypt(plaintext []byte, key []byte) ([]byte, error) {
 	c, err := aes.NewCipher(key)
 
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to create cipher")
+		return nil, fmt.Errorf("failed to create cipher: %w", err)
 	}
 
 	gcm, err := cipher.NewGCM(c)
 
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to create gcm")
+		return nil, fmt.Errorf("failed to create gcm: %w", err)
 	}
 
 	nonce := make([]byte, gcm.NonceSize())
 
 	if _, err = io.ReadFull(rand.Reader, nonce); err != nil {
-		return nil, errors.Wrap(err, "failed to create nonce")
+		return nil, fmt.Errorf("failed to create nonce: %w", err)
 	}
 
 	ciphertext, err := gcm.Seal(nonce, nonce, plaintext, nil), nil
 
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to seal content")
+		return nil, fmt.Errorf("failed to seal content: %w", err)
 	}
 
 	return []byte(base64.StdEncoding.EncodeToString(ciphertext)), nil
@@ -50,19 +49,19 @@ func Decrypt(ciphertext []byte, key []byte) ([]byte, error) {
 	c, err := aes.NewCipher(key)
 
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to create cipher")
+		return nil, fmt.Errorf("failed to create cipher: %w", err)
 	}
 
 	gcm, err := cipher.NewGCM(c)
 
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to create gcm")
+		return nil, fmt.Errorf("failed to create gcm: %w", err)
 	}
 
 	nonceSize := gcm.NonceSize()
 
 	if len(decoded) < nonceSize {
-		return nil, errors.New("ciphertext too short")
+		return nil, fmt.Errorf("ciphertext too short")
 	}
 
 	nonce, ciphertext := decoded[:nonceSize], decoded[nonceSize:]

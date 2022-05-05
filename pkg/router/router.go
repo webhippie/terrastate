@@ -1,19 +1,20 @@
 package router
 
 import (
+	"crypto/tls"
 	"io"
 	"net/http"
 	"time"
 
-	"github.com/go-chi/chi"
-	"github.com/go-chi/chi/middleware"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"github.com/rs/zerolog/hlog"
 	"github.com/rs/zerolog/log"
 	"github.com/webhippie/terrastate/pkg/config"
 	"github.com/webhippie/terrastate/pkg/handler"
 	"github.com/webhippie/terrastate/pkg/middleware/basicauth"
 	"github.com/webhippie/terrastate/pkg/middleware/header"
+	"github.com/webhippie/terrastate/pkg/middleware/prometheus"
 )
 
 // Load initializes the routing of the application.
@@ -38,7 +39,6 @@ func Load(cfg *config.Config) http.Handler {
 
 	mux.Use(middleware.Timeout(60 * time.Second))
 	mux.Use(middleware.RealIP)
-
 	mux.Use(header.Version)
 	mux.Use(header.Cache)
 	mux.Use(header.Secure)
@@ -46,7 +46,11 @@ func Load(cfg *config.Config) http.Handler {
 
 	mux.NotFound(handler.Notfound(cfg))
 
-	mux.Route("/", func(root chi.Router) {
+	mux.Route(cfg.Server.Root, func(root chi.Router) {
+		if cfg.Server.Pprof {
+			root.Mount("/debug", middleware.Profiler())
+		}
+
 		root.Route("/remote", func(state chi.Router) {
 			state.Use(basicauth.Basicauth(cfg))
 
@@ -61,8 +65,8 @@ func Load(cfg *config.Config) http.Handler {
 	return mux
 }
 
-// Status initializes the routing of metrics and health.
-func Status(cfg *config.Config) http.Handler {
+// Metrics initializes the routing of metrics and health.
+func Metrics(cfg *config.Config) http.Handler {
 	mux := chi.NewRouter()
 
 	mux.Use(hlog.NewHandler(log.Logger))
@@ -73,14 +77,13 @@ func Status(cfg *config.Config) http.Handler {
 
 	mux.Use(middleware.Timeout(60 * time.Second))
 	mux.Use(middleware.RealIP)
-
 	mux.Use(header.Version)
 	mux.Use(header.Cache)
 	mux.Use(header.Secure)
 	mux.Use(header.Options)
 
 	mux.Route("/", func(root chi.Router) {
-		root.Mount("/metrics", promhttp.Handler())
+		root.Get("/metrics", prometheus.Handler(cfg.Metrics.Token))
 
 		root.Get("/healthz", func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Set("Content-Type", "text/plain")
@@ -98,6 +101,33 @@ func Status(cfg *config.Config) http.Handler {
 	})
 
 	return mux
+}
+
+// Curves provides optionally a list of secure curves.
+func Curves(cfg *config.Config) []tls.CurveID {
+	if cfg.Server.StrictCurves {
+		return []tls.CurveID{
+			tls.CurveP521,
+			tls.CurveP384,
+			tls.CurveP256,
+		}
+	}
+
+	return nil
+}
+
+// Ciphers provides optionally a list of secure ciphers.
+func Ciphers(cfg *config.Config) []uint16 {
+	if cfg.Server.StrictCiphers {
+		return []uint16{
+			tls.TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
+			tls.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+			tls.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+			tls.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+		}
+	}
+
+	return nil
 }
 
 func init() {

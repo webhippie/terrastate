@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v5"
 	"github.com/rs/zerolog/log"
 	"github.com/webhippie/terrastate/pkg/config"
 	"github.com/webhippie/terrastate/pkg/helper"
@@ -34,9 +34,9 @@ func Fetch(cfg *config.Config) http.HandlerFunc {
 		)
 
 		if _, err := os.Stat(full); os.IsNotExist(err) {
-			log.Info().
+			log.Error().
 				Str("file", full).
-				Msg("state file does not exist")
+				Msg("State file does not exist")
 
 			http.Error(
 				w,
@@ -52,10 +52,10 @@ func Fetch(cfg *config.Config) http.HandlerFunc {
 		)
 
 		if err != nil {
-			log.Info().
+			log.Error().
 				Err(err).
 				Str("file", full).
-				Msg("failed to read state file")
+				Msg("Failed to read state file")
 
 			http.Error(
 				w,
@@ -73,7 +73,7 @@ func Fetch(cfg *config.Config) http.HandlerFunc {
 				log.Info().
 					Err(err).
 					Str("file", full).
-					Msg("failed to decrypt the state")
+					Msg("Failed to decrypt the state")
 
 				http.Error(
 					w,
