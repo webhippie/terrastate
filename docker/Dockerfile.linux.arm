@@ -3,7 +3,7 @@ RUN apk add --no-cache ca-certificates mailcap
 
 FROM scratch
 
-EXPOSE 8080
+EXPOSE 8080 8081
 VOLUME ["/var/lib/terrastate"]
 ENTRYPOINT ["/usr/bin/terrastate"]
 CMD ["server"]

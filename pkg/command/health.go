@@ -3,63 +3,52 @@ package command
 import (
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/rs/zerolog/log"
-	"github.com/urfave/cli/v2"
-	"github.com/webhippie/terrastate/pkg/config"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
-// HealthCmd provides the sub-command releated to health.
-func HealthCmd(cfg *config.Config) *cli.Command {
-	return &cli.Command{
-		Name:   "health",
-		Usage:  "Perform health checks",
-		Flags:  HealthFlags(cfg),
-		Action: HealthAction(cfg),
+var (
+	healthCmd = &cobra.Command{
+		Use:   "health",
+		Short: "Perform health checks",
+		Run:   healthAction,
 	}
+)
+
+func init() {
+	rootCmd.AddCommand(healthCmd)
+
+	healthCmd.PersistentFlags().String("metrics-addr", defaultMetricsAddr, "Address to bind the metrics")
+	viper.SetDefault("metrics.addr", defaultMetricsAddr)
+	viper.BindPFlag("metrics.addr", rootCmd.PersistentFlags().Lookup("metrics-addr"))
 }
 
-// HealthFlags provides the flags for the health command.
-func HealthFlags(cfg *config.Config) []cli.Flag {
-	return []cli.Flag{
-		&cli.StringFlag{
-			Name:        "metrics-addr",
-			Value:       "0.0.0.0:8081",
-			Usage:       "Address to bind the metrics",
-			EnvVars:     []string{"TERRASTATE_METRICS_ADDR"},
-			Destination: &cfg.Metrics.Addr,
-		},
+func healthAction(ccmd *cobra.Command, args []string) {
+	resp, err := http.Get(
+		fmt.Sprintf(
+			"http://%s/healthz",
+			cfg.Metrics.Addr,
+		),
+	)
+
+	if err != nil {
+		log.Error().
+			Err(err).
+			Msg("failed to request health check")
+
+		os.Exit(1)
 	}
-}
 
-// HealthAction provides the action that implements the health command.
-func HealthAction(cfg *config.Config) cli.ActionFunc {
-	return func(c *cli.Context) error {
-		resp, err := http.Get(
-			fmt.Sprintf(
-				"http://%s/healthz",
-				cfg.Metrics.Addr,
-			),
-		)
+	defer resp.Body.Close()
 
-		if err != nil {
-			log.Error().
-				Err(err).
-				Msg("failed to request health check")
+	if resp.StatusCode != 200 {
+		log.Error().
+			Int("code", resp.StatusCode).
+			Msg("health seems to be in bad state")
 
-			return err
-		}
-
-		defer resp.Body.Close()
-
-		if resp.StatusCode != 200 {
-			log.Error().
-				Int("code", resp.StatusCode).
-				Msg("health seems to be in bad state")
-
-			return err
-		}
-
-		return nil
+		os.Exit(1)
 	}
 }
