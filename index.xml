@@ -1,47 +1,46 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Terrastate</title>
     <link>https://webhippie.github.io/terrastate/</link>
     <description>Recent content on Terrastate</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Wed, 02 May 2018 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://webhippie.github.io/terrastate/index.xml" rel="self" type="application/rss+xml" />
-    
+    <language>en-us</language><atom:link href="https://webhippie.github.io/terrastate/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About</title>
+      <link>https://webhippie.github.io/terrastate/about/</link>
+      <pubDate>Wed, 04 May 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://webhippie.github.io/terrastate/about/</guid>
+      <description>This service provides the Terraform Remote State API. You don&amp;rsquo;t need to store your Terraform state within S3 or some other service similar to that, you can just use this small service on your own infrastructure.</description>
+    </item>
     
     <item>
       <title>Getting Started</title>
       <link>https://webhippie.github.io/terrastate/getting-started/</link>
-      <pubDate>Wed, 02 May 2018 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 04 May 2022 00:00:00 +0000</pubDate>
       
       <guid>https://webhippie.github.io/terrastate/getting-started/</guid>
-      <description> Installation Configuration </description>
-    </item>
-    
-    <item>
-      <title>Usage</title>
-      <link>https://webhippie.github.io/terrastate/usage/</link>
-      <pubDate>Wed, 02 May 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://webhippie.github.io/terrastate/usage/</guid>
-      <description></description>
+      <description>Installation So far we are offering only a few different variants for the installation. You can choose between Docker or pre-built binaries which are stored on our download mirror and GitHub releases. Maybe we will also provide system packages for the major distributions later if we see the need for it.
+Docker TBD
+Binaries Simply download a binary matching your operating system and your architecture from our downloads or the GitHub releases and place it within your path like /usr/local/bin if you are using macOS or Linux.</description>
     </item>
     
     <item>
       <title>Building</title>
       <link>https://webhippie.github.io/terrastate/building/</link>
-      <pubDate>Wed, 02 May 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 03 May 2022 00:00:00 +0000</pubDate>
       
       <guid>https://webhippie.github.io/terrastate/building/</guid>
-      <description></description>
+      <description>As this project is built with Go you need to install Go first. The installation of Go is out of the scope of this document, please follow the official documentation. After the installation of Go you need to get the sources:
+git clone https://github.com/webhippie/terrastate.git cd terrastate/ All required tool besides Go itself are bundled by Go modules, all you need is part of the Makfile:
+make generate build Finally you should have the binary within the bin/ folder now, give it a try with .</description>
     </item>
     
     <item>
       <title>License</title>
       <link>https://webhippie.github.io/terrastate/license/</link>
-      <pubDate>Wed, 02 May 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 03 May 2022 00:00:00 +0000</pubDate>
       
       <guid>https://webhippie.github.io/terrastate/license/</guid>
       <description>This project is licensed under the Apache 2.0 license. For the license of the used libraries you have to check the respective sources.</description>

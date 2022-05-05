@@ -2,7 +2,7 @@
 
 <html id="html" lang="en-us">
 	<head>
-	<meta name="generator" content="Hugo 0.39" />
+	<meta name="generator" content="Hugo 0.98.0" />
 		<meta http-equiv="content-type" content="text/html;charset=utf-8">
 		<meta name="viewport" content="width=device-width"/>
 
@@ -13,7 +13,9 @@
 		<meta name="description" content="Terraform HTTP remote state storage">
 		<meta name="author" content="Thomas Boerger">
 
-		<style type="text/css">
+		<link rel="stylesheet" href="syntax.css" />
+
+<style type="text/css">
 	body,
 	div,
 	dl,
@@ -163,13 +165,12 @@
 		color: #d54e21;
 	}
 
-	code,
-	cite {
-		background-color: #F0F2F4;
-		border-radius: 3px;
-		color: #000;
-		font: monospace;
-		padding: 2px 7px;
+	.highlight pre {
+		padding: 10px;
+	}
+
+	.highlight {
+		margin-bottom: 4%;
 	}
 
 	a {
@@ -201,7 +202,7 @@
 	p,
 	ul,
 	ol,
-	blockquote  {
+	blockquote {
 		margin-bottom: 4%;
 	}
 
@@ -225,6 +226,14 @@
 		-webkit-column-gap: 20px;
 		-moz-column-gap: 20px;
 		column-gap: 20px;
+	}
+
+	dl dt {
+		font-weight: bold;
+	}
+
+	dl dd {
+		padding-left: 10px;
 	}
 
 	@media screen and (min-width: 500px) {
@@ -333,10 +342,11 @@
 	}
 
 	@media screen and (max-width: 514px) {
+
 		p,
 		ul,
 		ol,
-		blockquote  {
+		blockquote {
 			margin-bottom: 8%;
 		}
 	}
@@ -358,12 +368,12 @@
 
 			<nav>
 				
-					<a href="#getting-started">
-						Getting Started
+					<a href="#about">
+						About
 					</a>
 				
-					<a href="#usage">
-						Usage
+					<a href="#getting-started">
+						Getting Started
 					</a>
 				
 					<a href="#building">
@@ -377,6 +387,24 @@
 			</nav>
 		</section>
 
+		
+			<section id="about">
+				<h1>
+					<a href="#about">
+						About
+					</a>
+
+					<small>
+						<a href="#html">
+							Back to Top
+						</a>
+					</small>
+				</h1>
+
+				This service provides the Terraform Remote State API. You don&rsquo;t need to store
+your Terraform state within S3 or some other service similar to that, you can
+just use this small service on your own infrastructure.
+			</section>
 		
 			<section id="getting-started">
 				<h1>
@@ -392,25 +420,58 @@
 				</h1>
 
 				<h2 id="installation">Installation</h2>
-
+<p>So far we are offering only a few different variants for the installation. You
+can choose between <a href="https://www.docker.com/">Docker</a> or pre-built binaries which are stored on
+our download mirror and GitHub releases. Maybe we will also provide system
+packages for the major distributions later if we see the need for it.</p>
+<h3 id="docker">Docker</h3>
+<p>TBD</p>
+<h3 id="binaries">Binaries</h3>
+<p>Simply download a binary matching your operating system and your architecture
+from our <a href="https://dl.webhippie.de/">downloads</a> or the GitHub releases and place it within your
+path like <code>/usr/local/bin</code> if you are using macOS or Linux.</p>
 <h2 id="configuration">Configuration</h2>
+<p>We provide overall three different variants of configuration. The variant based
+on environment variables and commandline flags are split up into global values
+and command-specific values.</p>
+<h3 id="envrionment-variables">Envrionment variables</h3>
+<p>If you prefer to configure the service with environment variables you can see
+the available variables below.</p>
+<h4 id="global">Global</h4>
+<dl>
+<dt>TERRASTATE_LOG_LEVEL</dt>
+<dd>Set logging level, defaults to <code>info</code></dd>
+<dt>TERRASTATE_LOG_COLOR</dt>
+<dd>Enable colored logging, defaults to <code>true</code></dd>
+<dt>TERRASTATE_LOG_PRETTY</dt>
+<dd>Enable pretty logging, defaults to <code>true</code></dd>
+</dl>
+<h3 id="commandline-flags">Commandline flags</h3>
+<p>If you prefer to configure the service with commandline flags you can see the
+available variables below.</p>
+<h4 id="global-1">Global</h4>
+<dl>
+<dt>&ndash;log-level</dt>
+<dd>Set logging level, defaults to <code>info</code></dd>
+<dt>&ndash;log-color</dt>
+<dd>Enable colored logging, defaults to <code>true</code></dd>
+<dt>&ndash;log-pretty</dt>
+<dd>Enable pretty logging, defaults to <code>true</code></dd>
+</dl>
+<h3 id="configuration-file">Configuration file</h3>
+<p>So far we support multiple file formats like <code>json</code> or <code>yaml</code>, if you want to
+get a full example configuration just take a look at <a href="https://github.com/webhippie/terrastate/tree/master/config">our repository</a>,
+there you can always see the latest configuration format. These example configs
+include all available options and the default values. The configuration file
+will be automatically loaded if it&rsquo;s placed at
+<code>/etc/terrastate/config.yml</code>, <code>${HOME}/.terrastate/config.yml</code> or
+<code>$(pwd)/terrastate/config.yml</code>.</p>
+<h2 id="usage">Usage</h2>
+<p>The program provides a few sub-commands on execution. The available config
+methods have already been mentioned above. Generally you can always see a
+formated help output if you execute the binary similar to something like
+<code>terrastate --help</code>.</p>
 
-			</section>
-		
-			<section id="usage">
-				<h1>
-					<a href="#usage">
-						Usage
-					</a>
-
-					<small>
-						<a href="#html">
-							Back to Top
-						</a>
-					</small>
-				</h1>
-
-				
 			</section>
 		
 			<section id="building">
@@ -426,7 +487,18 @@
 					</small>
 				</h1>
 
-				
+				<p>As this project is built with Go you need to install Go first. The installation
+of Go is out of the scope of this document, please follow the
+<a href="https://golang.org/doc/install">official documentation</a>. After the installation of Go you need to get
+the sources:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">git clone https://github.com/webhippie/terrastate.git
+</span></span><span class="line"><span class="cl">cd terrastate/</span></span></code></pre></div>
+<p>All required tool besides Go itself are bundled by Go modules, all you need is
+part of the <code>Makfile</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">make generate build</span></span></code></pre></div>
+<p>Finally you should have the binary within the <code>bin/</code> folder now, give it a try
+with <code>./bin/terrastate -h</code> to see all available options.</p>
+
 			</section>
 		
 			<section id="license">
@@ -442,7 +514,8 @@
 					</small>
 				</h1>
 
-				This project is licensed under the <a href="https://github.com/webhippie/terrastate/blob/master/LICENSE">Apache 2.0</a> license. For the license of the used libraries you have to check the respective sources.
+				This project is licensed under the <a href="https://github.com/webhippie/terrastate/blob/master/LICENSE">Apache 2.0</a> license. For the
+license of the used libraries you have to check the respective sources.
 			</section>
 		
 	</body>
