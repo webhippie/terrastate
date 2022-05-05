@@ -185,7 +185,7 @@ jobs:
           target: webhippie/terrastate
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          description: HetznerCloud Exporter
+          description: Terrastate
           readme: README.md
 
       - name: Quay readme
