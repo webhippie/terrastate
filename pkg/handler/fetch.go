@@ -66,8 +66,8 @@ func Fetch(cfg *config.Config) http.HandlerFunc {
 			return
 		}
 
-		if cfg.General.Secret != "" {
-			decrypted, err := helper.Decrypt(file, []byte(cfg.General.Secret))
+		if cfg.Encryption.Secret != "" {
+			decrypted, err := helper.Decrypt(file, []byte(cfg.Encryption.Secret))
 
 			if err != nil {
 				log.Info().

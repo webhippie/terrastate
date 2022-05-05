@@ -64,8 +64,8 @@ func Update(cfg *config.Config) http.HandlerFunc {
 			return
 		}
 
-		if cfg.General.Secret != "" {
-			encrypted, err := helper.Encrypt(content, []byte(cfg.General.Secret))
+		if cfg.Encryption.Secret != "" {
+			encrypted, err := helper.Encrypt(content, []byte(cfg.Encryption.Secret))
 
 			if err != nil {
 				log.Error().

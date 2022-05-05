@@ -1,0 +1,29 @@
+{
+    "server": {
+        "addr": "0.0.0.0:8080",
+        "host": "http://localhost:8080",
+        "pprof": false,
+        "root": "/",
+        "cert": "",
+        "key": "",
+        "strict_curves": false,
+        "strict_ciphers": false,
+        "storage": "storage/"
+    },
+    "metrics": {
+        "addr": "0.0.0.0:8081",
+        "token": ""
+    },
+    "log": {
+        "level": "info",
+        "pretty": true,
+        "color": true
+    },
+    "encryption": {
+        "secret": ""
+    },
+    "access": {
+        "username": "",
+        "password": ""
+    }
+}

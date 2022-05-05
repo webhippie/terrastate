@@ -9,10 +9,10 @@ AWS.
 
 ## Install
 
-You can download prebuilt binaries from our [GitHub releases][releases], or you
-can use our Docker images published on [Docker Hub][dockerhub] or [Quay][quay].
-If you need further guidance how to install this take a look at our
-[documentation][docs].
+You can download prebuilt binaries from our [GitHub releases][releases] or our
+[download mirror][downloads]. Beside that we are publishing Docker images to
+[Docker Hub][dockerhub] and [Quay][quay]. If you need further guidance how to
+install this take a look at our [documentation][docs].
 
 ## Development
 
@@ -53,6 +53,7 @@ Copyright (c) 2018 Thomas Boerger <thomas@webhippie.de>
 ```
 
 [releases]: https://github.com/webhippie/terrastate/releases
+[downloads]: https://dl.webhippie.de/#terrastate/
 [dockerhub]: https://hub.docker.com/r/webhippie/terrastate/tags/
 [quay]: https://quay.io/repository/webhippie/terrastate?tab=tags
 [docs]: https://webhippie.github.io/terrastate/#getting-started
