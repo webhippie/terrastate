@@ -425,10 +425,13 @@ can choose between <a href="https://www.docker.com/">Docker</a> or pre-built bin
 our download mirror and GitHub releases. Maybe we will also provide system
 packages for the major distributions later if we see the need for it.</p>
 <h3 id="docker">Docker</h3>
-<p>TBD</p>
+<p>Generally we are offering the images through
+<a href="https://quay.io/repository/webhippie/terrastate">quay.io/webhippie/terrastate</a> and <a href="https://hub.docker.com/r/webhippie/terrastate">webhippie/terrastate</a>, so
+feel free to choose one of the providers. Maybe we will come up with Kustomize
+manifests or some Helm chart.</p>
 <h3 id="binaries">Binaries</h3>
 <p>Simply download a binary matching your operating system and your architecture
-from our <a href="https://dl.webhippie.de/">downloads</a> or the GitHub releases and place it within your
+from our <a href="https://dl.webhippie.de/#terrastate/">downloads</a> or the GitHub releases and place it within your
 path like <code>/usr/local/bin</code> if you are using macOS or Linux.</p>
 <h2 id="configuration">Configuration</h2>
 <p>We provide overall three different variants of configuration. The variant based
@@ -439,6 +442,8 @@ and command-specific values.</p>
 the available variables below.</p>
 <h4 id="global">Global</h4>
 <dl>
+<dt>TERRASTATE_CONFIG_FILE</dt>
+<dd>Path to optional config file</dd>
 <dt>TERRASTATE_LOG_LEVEL</dt>
 <dd>Set logging level, defaults to <code>info</code></dd>
 <dt>TERRASTATE_LOG_COLOR</dt>
@@ -446,11 +451,56 @@ the available variables below.</p>
 <dt>TERRASTATE_LOG_PRETTY</dt>
 <dd>Enable pretty logging, defaults to <code>true</code></dd>
 </dl>
+<h4 id="server">Server</h4>
+<dl>
+<dt>TERRASTATE_METRICS_ADDR</dt>
+<dd>Address to bind the metrics, defaults to <code>0.0.0.0:8081</code></dd>
+<dt>TERRASTATE_METRICS_TOKEN</dt>
+<dd>Token to make metrics secure</dd>
+<dt>TERRASTATE_SERVER_ADDR</dt>
+<dd>Address to bind the server, defaults to <code>0.0.0.0:8080</code></dd>
+<dt>TERRASTATE_SERVER_PPROF</dt>
+<dd>Enable pprof debugging, defaults to <code>false</code></dd>
+<dt>TERRASTATE_SERVER_ROOT</dt>
+<dd>Root path of the server, defaults to <code>/</code></dd>
+<dt>TERRASTATE_SERVER_HOST</dt>
+<dd>External access to server, defaults to <code>http://localhost:8080</code></dd>
+<dt>TERRASTATE_SERVER_CERT</dt>
+<dd>Path to cert for SSL encryption</dd>
+<dt>TERRASTATE_SERVER_KEY</dt>
+<dd>Path to key for SSL encryption</dd>
+<dt>TERRASTATE_SERVER_STRICT_CURVES</dt>
+<dd>Use strict SSL curves, defaults to <code>false</code></dd>
+<dt>TERRASTATE_SERVER_STRICT_CIPHERS</dt>
+<dd>Use strict SSL ciphers, defaults to <code>false</code></dd>
+<dt>TERRASTATE_SERVER_STORAGE</dt>
+<dd>Folder for storing the states, defaults to <code>storage/</code></dd>
+<dt>TERRASTATE_ENCRYPTION_SECRET</dt>
+<dd>Secret for file encryption</dd>
+<dt>TERRASTATE_ACCESS_USERNAME</dt>
+<dd>Username for basic auth</dd>
+<dt>TERRASTATE_ACCESS_PASSWORD</dt>
+<dd>Password for basic auth</dd>
+</dl>
+<h4 id="health">Health</h4>
+<dl>
+<dt>TERRASTATE_METRICS_ADDR</dt>
+<dd>Address to bind the metrics, defaults to <code>0.0.0.0:8081</code></dd>
+</dl>
+<h4 id="state">State</h4>
+<dl>
+<dt>TERRASTATE_SERVER_STORAGE</dt>
+<dd>Folder for storing the states, defaults to <code>storage/</code></dd>
+<dt>TERRASTATE_ENCRYPTION_SECRET</dt>
+<dd>Secret for file encryption</dd>
+</dl>
 <h3 id="commandline-flags">Commandline flags</h3>
 <p>If you prefer to configure the service with commandline flags you can see the
 available variables below.</p>
 <h4 id="global-1">Global</h4>
 <dl>
+<dt>&ndash;config-file</dt>
+<dd>Path to optional config file</dd>
 <dt>&ndash;log-level</dt>
 <dd>Set logging level, defaults to <code>info</code></dd>
 <dt>&ndash;log-color</dt>
@@ -458,12 +508,55 @@ available variables below.</p>
 <dt>&ndash;log-pretty</dt>
 <dd>Enable pretty logging, defaults to <code>true</code></dd>
 </dl>
+<h4 id="server-1">Server</h4>
+<dl>
+<dt>&ndash;metrics-addr</dt>
+<dd>Address to bind the metrics, defaults to <code>0.0.0.0:8081</code></dd>
+<dt>&ndash;metrics-token</dt>
+<dd>Token to make metrics secure</dd>
+<dt>&ndash;server-addr</dt>
+<dd>Address to bind the server, defaults to <code>0.0.0.0:8080</code></dd>
+<dt>&ndash;server-pprof</dt>
+<dd>Enable pprof debugging, defaults to <code>false</code></dd>
+<dt>&ndash;server-root</dt>
+<dd>Root path of the server, defaults to <code>/</code></dd>
+<dt>&ndash;server-host</dt>
+<dd>External access to server, defaults to <code>http://localhost:8080</code></dd>
+<dt>&ndash;server-cert</dt>
+<dd>Path to cert for SSL encryption</dd>
+<dt>&ndash;server-key</dt>
+<dd>Path to key for SSL encryption</dd>
+<dt>&ndash;strict-curves</dt>
+<dd>Use strict SSL curves, defaults to <code>false</code></dd>
+<dt>&ndash;strict-ciphers</dt>
+<dd>Use strict SSL ciphers, defaults to <code>false</code></dd>
+<dt>&ndash;storage-path</dt>
+<dd>Folder for storing the states, defaults to <code>storage/</code></dd>
+<dt>&ndash;encryption-secret</dt>
+<dd>Secret for file encryption</dd>
+<dt>&ndash;general-username</dt>
+<dd>Username for basic auth</dd>
+<dt>&ndash;general-password</dt>
+<dd>Password for basic auth</dd>
+</dl>
+<h4 id="health-1">Health</h4>
+<dl>
+<dt>&ndash;metrics-addr</dt>
+<dd>Address to bind the metrics, defaults to <code>0.0.0.0:8081</code></dd>
+</dl>
+<h4 id="state-1">State</h4>
+<dl>
+<dt>&ndash;storage-path</dt>
+<dd>Folder for storing the states, defaults to <code>storage/</code></dd>
+<dt>&ndash;encryption-secret</dt>
+<dd>Secret for file encryption</dd>
+</dl>
 <h3 id="configuration-file">Configuration file</h3>
-<p>So far we support multiple file formats like <code>json</code> or <code>yaml</code>, if you want to
-get a full example configuration just take a look at <a href="https://github.com/webhippie/terrastate/tree/master/config">our repository</a>,
-there you can always see the latest configuration format. These example configs
-include all available options and the default values. The configuration file
-will be automatically loaded if it&rsquo;s placed at
+<p>So far we support multiple file formats like <code>json</code>, <code>yaml</code>, <code>hcl</code> and possibly
+even more, if you want to get a full example configuration just take a look at
+<a href="https://github.com/webhippie/terrastate/tree/master/config">our repository</a>, there you can always see the latest configuration
+format. These example configs include all available options and the default
+values. The configuration file will be automatically loaded if it&rsquo;s placed at
 <code>/etc/terrastate/config.yml</code>, <code>${HOME}/.terrastate/config.yml</code> or
 <code>$(pwd)/terrastate/config.yml</code>.</p>
 <h2 id="usage">Usage</h2>

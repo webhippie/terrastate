@@ -22,8 +22,7 @@
       
       <guid>https://webhippie.github.io/terrastate/getting-started/</guid>
       <description>Installation So far we are offering only a few different variants for the installation. You can choose between Docker or pre-built binaries which are stored on our download mirror and GitHub releases. Maybe we will also provide system packages for the major distributions later if we see the need for it.
-Docker TBD
-Binaries Simply download a binary matching your operating system and your architecture from our downloads or the GitHub releases and place it within your path like /usr/local/bin if you are using macOS or Linux.</description>
+Docker Generally we are offering the images through quay.io/webhippie/terrastate and webhippie/terrastate, so feel free to choose one of the providers.</description>
     </item>
     
     <item>
