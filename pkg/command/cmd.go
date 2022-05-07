@@ -38,12 +38,15 @@ func init() {
 	viper.BindPFlag("config.file", rootCmd.PersistentFlags().Lookup("config-file"))
 
 	rootCmd.PersistentFlags().String("log-level", "info", "Set logging level")
+	viper.SetDefault("log.level", "info")
 	viper.BindPFlag("log.level", rootCmd.PersistentFlags().Lookup("log-level"))
 
 	rootCmd.PersistentFlags().Bool("log-pretty", true, "Enable pretty logging")
+	viper.SetDefault("log.pretty", true)
 	viper.BindPFlag("log.pretty", rootCmd.PersistentFlags().Lookup("log-pretty"))
 
 	rootCmd.PersistentFlags().Bool("log-color", true, "Enable colored logging")
+	viper.SetDefault("log.color", true)
 	viper.BindPFlag("log.color", rootCmd.PersistentFlags().Lookup("log-color"))
 }
 
