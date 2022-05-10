@@ -72,11 +72,11 @@ func init() {
 
 	stateCmd.PersistentFlags().String("storage-path", defaultServerStorage, "Folder for storing the states")
 	viper.SetDefault("server.storage", defaultServerStorage)
-	viper.BindPFlag("server.storage", rootCmd.PersistentFlags().Lookup("server-storage"))
+	viper.BindPFlag("server.storage", stateCmd.PersistentFlags().Lookup("server-storage"))
 
 	stateCmd.PersistentFlags().String("encryption-secret", defaultEncryptionSecret, "Secret for file encryption")
 	viper.SetDefault("encryption.secret", defaultEncryptionSecret)
-	viper.BindPFlag("encryption.secret", rootCmd.PersistentFlags().Lookup("encryption-secret"))
+	viper.BindPFlag("encryption.secret", stateCmd.PersistentFlags().Lookup("encryption-secret"))
 
 	stateCmd.AddCommand(stateListCmd)
 	stateCmd.AddCommand(stateShowCmd)

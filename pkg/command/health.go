@@ -23,7 +23,7 @@ func init() {
 
 	healthCmd.PersistentFlags().String("metrics-addr", defaultMetricsAddr, "Address to bind the metrics")
 	viper.SetDefault("metrics.addr", defaultMetricsAddr)
-	viper.BindPFlag("metrics.addr", rootCmd.PersistentFlags().Lookup("metrics-addr"))
+	viper.BindPFlag("metrics.addr", healthCmd.PersistentFlags().Lookup("metrics-addr"))
 }
 
 func healthAction(ccmd *cobra.Command, args []string) {
