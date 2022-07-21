@@ -1,6 +1,6 @@
 module github.com/webhippie/terrastate
 
-go 1.17
+go 1.18
 
 require (
 	github.com/dchest/safefile v0.0.0-20151022103144-855e8d98f185
