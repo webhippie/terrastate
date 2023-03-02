@@ -26,7 +26,7 @@ func init() {
 	viper.BindPFlag("metrics.addr", healthCmd.PersistentFlags().Lookup("metrics-addr"))
 }
 
-func healthAction(ccmd *cobra.Command, args []string) {
+func healthAction(_ *cobra.Command, _ []string) {
 	resp, err := http.Get(
 		fmt.Sprintf(
 			"http://%s/healthz",

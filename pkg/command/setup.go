@@ -54,9 +54,7 @@ func setupConfig() {
 	viper.AutomaticEnv()
 
 	if err := viper.ReadInConfig(); err != nil {
-		if _, ok := err.(viper.ConfigFileNotFoundError); ok {
-			// ignore if config file does not exist
-		} else {
+		if _, ok := err.(*os.PathError); err != nil && !ok {
 			log.Error().
 				Err(err).
 				Msg("Failed to read config file")

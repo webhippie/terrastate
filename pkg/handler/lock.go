@@ -2,7 +2,6 @@ package handler
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"path"
@@ -53,7 +52,7 @@ func Lock(cfg *config.Config) http.HandlerFunc {
 		if _, err := os.Stat(full); !os.IsNotExist(err) {
 			existing := model.LockInfo{}
 
-			file, err := ioutil.ReadFile(
+			file, err := os.ReadFile(
 				full,
 			)
 

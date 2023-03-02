@@ -2,7 +2,6 @@ package command
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path"
 	"path/filepath"
@@ -84,7 +83,7 @@ func init() {
 	stateCmd.AddCommand(stateDecryptCmd)
 }
 
-func stateListAction(ccmd *cobra.Command, args []string) {
+func stateListAction(_ *cobra.Command, _ []string) {
 	var (
 		states []string
 	)
@@ -122,7 +121,7 @@ func stateListAction(ccmd *cobra.Command, args []string) {
 	}
 }
 
-func stateShowAction(ccmd *cobra.Command, args []string) {
+func stateShowAction(_ *cobra.Command, args []string) {
 	state := args[0]
 
 	full := path.Join(
@@ -135,7 +134,7 @@ func stateShowAction(ccmd *cobra.Command, args []string) {
 		cobra.CheckErr("State does not exist")
 	}
 
-	file, err := ioutil.ReadFile(
+	file, err := os.ReadFile(
 		full,
 	)
 
@@ -146,7 +145,7 @@ func stateShowAction(ccmd *cobra.Command, args []string) {
 	fmt.Fprintln(os.Stdout, string(file))
 }
 
-func stateEncryptAction(ccmd *cobra.Command, args []string) {
+func stateEncryptAction(_ *cobra.Command, args []string) {
 	if cfg.Encryption.Secret == "" {
 		cobra.CheckErr("Missing encryption secret")
 	}
@@ -163,7 +162,7 @@ func stateEncryptAction(ccmd *cobra.Command, args []string) {
 		cobra.CheckErr("State does not exist")
 	}
 
-	file, err := ioutil.ReadFile(
+	file, err := os.ReadFile(
 		full,
 	)
 
@@ -187,7 +186,7 @@ func stateEncryptAction(ccmd *cobra.Command, args []string) {
 	fmt.Fprintln(os.Stderr, "Successfully encrypted state")
 }
 
-func stateDecryptAction(ccmd *cobra.Command, args []string) {
+func stateDecryptAction(_ *cobra.Command, args []string) {
 	if cfg.Encryption.Secret == "" {
 		cobra.CheckErr("Missing encryption secret")
 	}
@@ -204,7 +203,7 @@ func stateDecryptAction(ccmd *cobra.Command, args []string) {
 		cobra.CheckErr("State does not exist")
 	}
 
-	file, err := ioutil.ReadFile(
+	file, err := os.ReadFile(
 		full,
 	)
 

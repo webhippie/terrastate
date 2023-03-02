@@ -1,5 +1,5 @@
+.direnv/
 coverage.out
-b0x.go
 
 /bin
 /dist
