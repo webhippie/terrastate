@@ -8,7 +8,7 @@ import (
 )
 
 // Notfound just returns a 404 not found error.
-func Notfound(cfg *config.Config) http.HandlerFunc {
+func Notfound(_ *config.Config) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		defer handleMetrics(time.Now(), "notfound", "")
 

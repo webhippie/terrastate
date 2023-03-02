@@ -97,7 +97,7 @@ func init() {
 	viper.BindPFlag("access.password", serverCmd.PersistentFlags().Lookup("general-password"))
 }
 
-func serverAction(ccmd *cobra.Command, args []string) {
+func serverAction(_ *cobra.Command, _ []string) {
 	var gr run.Group
 
 	if cfg.Server.Cert != "" && cfg.Server.Key != "" {

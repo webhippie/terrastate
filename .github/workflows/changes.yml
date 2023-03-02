@@ -8,7 +8,7 @@ name: changes
 
 jobs:
   changelog:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout source
@@ -21,7 +21,7 @@ jobs:
         id: golang
         uses: actions/setup-go@v2
         with:
-          go-version: 1.18.1
+          go-version: ^1.19.0
 
       - name: Run changelog
         id: changelog
@@ -34,7 +34,7 @@ jobs:
           author_name: GitHub Actions
           author_email: github@webhippie.de
           add: CHANGELOG.md
-          message: Automated changelog update
+          message: "docs: automated changelog update"
           push: true
           commit: --signoff
 

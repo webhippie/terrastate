@@ -2,7 +2,6 @@ package handler
 
 import (
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"path"
@@ -47,7 +46,7 @@ func Fetch(cfg *config.Config) http.HandlerFunc {
 			return
 		}
 
-		file, err := ioutil.ReadFile(
+		file, err := os.ReadFile(
 			full,
 		)
 

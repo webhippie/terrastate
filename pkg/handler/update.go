@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"path"
@@ -33,7 +33,7 @@ func Update(cfg *config.Config) http.HandlerFunc {
 			"terraform.tfstate",
 		)
 
-		content, err := ioutil.ReadAll(req.Body)
+		content, err := io.ReadAll(req.Body)
 
 		if err != nil {
 			log.Error().
