@@ -53,12 +53,10 @@ func setupConfig() {
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	viper.AutomaticEnv()
 
-	if err := viper.ReadInConfig(); err != nil {
-		if _, ok := err.(*os.PathError); err != nil && !ok {
-			log.Error().
-				Err(err).
-				Msg("Failed to read config file")
-		}
+	if err := readConfig(); err != nil {
+		log.Error().
+			Err(err).
+			Msg("Failed to read config file")
 	}
 
 	if err := viper.Unmarshal(cfg); err != nil {
@@ -66,4 +64,22 @@ func setupConfig() {
 			Err(err).
 			Msg("Failed to parse config file")
 	}
+}
+
+func readConfig() error {
+	err := viper.ReadInConfig()
+
+	if err == nil {
+		return nil
+	}
+
+	if _, ok := err.(viper.ConfigFileNotFoundError); ok {
+		return nil
+	}
+
+	if _, ok := err.(*os.PathError); ok {
+		return nil
+	}
+
+	return err
 }
