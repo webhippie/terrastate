@@ -20,6 +20,7 @@ var (
 		Use:   "server",
 		Short: "Start integrated server",
 		Run:   serverAction,
+		Args:  cobra.NoArgs,
 	}
 
 	defaultMetricsAddr         = "0.0.0.0:8081"

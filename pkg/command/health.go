@@ -15,6 +15,7 @@ var (
 		Use:   "health",
 		Short: "Perform health checks",
 		Run:   healthAction,
+		Args:  cobra.NoArgs,
 	}
 )
 
