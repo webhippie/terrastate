@@ -58,7 +58,7 @@ jobs:
 
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           images: |
@@ -79,15 +79,15 @@ jobs:
 
       - name: Setup qemu
         id: qemu
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
 
       - name: Setup buildx
         id: buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: Hub login
         id: login1
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         if: github.event_name != 'pull_request'
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
@@ -95,7 +95,7 @@ jobs:
 
       - name: Quay login
         id: login2
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         if: github.event_name != 'pull_request'
         with:
           registry: quay.io
@@ -104,7 +104,7 @@ jobs:
 
       - name: Ghcr login
         id: login3
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         if: github.event_name != 'pull_request'
         with:
           registry: ghcr.io
@@ -113,7 +113,7 @@ jobs:
 
       - name: Build image
         id: publish
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           builder: ${{ steps.buildx.outputs.name }}
           context: .
@@ -135,7 +135,7 @@ jobs:
 
       - name: Hub tags
         id: hubTags
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           images: webhippie/terrastate
@@ -158,7 +158,7 @@ jobs:
 
       - name: Quay tags
         id: quayTags
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           images: quay.io/webhippie/terrastate
@@ -181,7 +181,7 @@ jobs:
 
       - name: Ghcr tags
         id: ghcrTags
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           images: ghcr.io/webhippie/terrastate
