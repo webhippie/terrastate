@@ -19,17 +19,14 @@
       <link>https://webhippie.github.io/terrastate/getting-started/</link>
       <pubDate>Wed, 04 May 2022 00:00:00 +0000</pubDate>
       <guid>https://webhippie.github.io/terrastate/getting-started/</guid>
-      <description>Installation So far we are offering only a few different variants for the installation. You can choose between Docker or pre-built binaries which are stored on our download mirror and GitHub releases. Maybe we will also provide system packages for the major distributions later if we see the need for it.
-Docker Generally we are offering the images through quay.io/webhippie/terrastate and webhippie/terrastate, so feel free to choose one of the providers.</description>
+      <description>Installation So far we are offering only a few different variants for the installation. You can choose between Docker or pre-built binaries which are stored on our download mirror and GitHub releases. Maybe we will also provide system packages for the major distributions later if we see the need for it.&#xA;Docker Generally we are offering the images through quay.io/webhippie/terrastate and webhippie/terrastate, so feel free to choose one of the providers.</description>
     </item>
     <item>
       <title>Building</title>
       <link>https://webhippie.github.io/terrastate/building/</link>
       <pubDate>Tue, 03 May 2022 00:00:00 +0000</pubDate>
       <guid>https://webhippie.github.io/terrastate/building/</guid>
-      <description>As this project is built with Go you need to install Go first. The installation of Go is out of the scope of this document, please follow the official documentation. After the installation of Go you need to get the sources:
-git clone https://github.com/webhippie/terrastate.git cd terrastate/ All required tool besides Go itself are bundled by Go modules, all you need is part of the Makfile:
-make generate build Finally you should have the binary within the bin/ folder now, give it a try with .</description>
+      <description>As this project is built with Go you need to install Go first. The installation of Go is out of the scope of this document, please follow the official documentation. After the installation of Go you need to get the sources:&#xA;git clone https://github.com/webhippie/terrastate.git cd terrastate/ All required tool besides Go itself are bundled by Go modules, all you need is part of the Makfile:&#xA;make generate build Finally you should have the binary within the bin/ folder now, give it a try with .</description>
     </item>
     <item>
       <title>License</title>
