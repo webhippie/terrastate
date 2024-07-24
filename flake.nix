@@ -3,32 +3,85 @@
 
   inputs = {
     nixpkgs = {
-      url = "github:nixos/nixpkgs/nixpkgs-unstable";
+      url = "github:NixOS/nixpkgs/nixos-unstable";
     };
 
-    utils = {
-      url = "github:numtide/flake-utils";
+    devenv = {
+      url = "github:cachix/devenv";
+    };
+
+    pre-commit-hooks-nix = {
+      url = "github:cachix/pre-commit-hooks.nix";
+    };
+
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
     };
   };
 
-  outputs = { self, nixpkgs, utils, ... }@inputs:
-    utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = nixpkgs.legacyPackages.${system};
-      in
-      {
-        devShell = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            gnumake
-            go_1_19
-          ];
+  outputs = inputs@{ flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      imports = [
+        inputs.devenv.flakeModule
+        inputs.pre-commit-hooks-nix.flakeModule
+      ];
 
-          shellHook = ''
-            export TERRASTATE_LOG_LEVEL=debug
-            export TERRASTATE_LOG_PRETTY=true
-            export TERRASTATE_LOG_COLOR=true
-          '';
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "aarch64-darwin"
+      ];
+
+      perSystem = { config, self', inputs', pkgs, system, ... }: {
+        imports = [
+          {
+            _module.args.pkgs = import inputs.nixpkgs {
+              inherit system;
+              config.allowUnfree = true;
+            };
+          }
+        ];
+
+        pre-commit = {
+          settings = {
+            hooks = {
+              nixpkgs-fmt = {
+                enable = true;
+              };
+              golangci-lint = {
+                enable = true;
+              };
+            };
+          };
         };
-      }
-    );
+
+        devenv = {
+          shells = {
+            default = {
+              languages = {
+                go = {
+                  enable = true;
+                  package = pkgs.go_1_22;
+                };
+              };
+
+              packages = with pkgs; [
+                bingo
+                gnumake
+                nixpkgs-fmt
+              ];
+
+              env = {
+                CGO_ENABLED = "0";
+
+                TERRASTATE_LOG_LEVEL = "debug";
+                TERRASTATE_LOG_PRETTY = "true";
+                TERRASTATE_LOG_COLOR = "true";
+              };
+            };
+          };
+        };
+      };
+    };
 }

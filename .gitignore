@@ -1,4 +1,6 @@
-.direnv/
+.direnv
+.devenv
+
 coverage.out
 
 /bin
