@@ -30,7 +30,7 @@ var (
 		Use:   "show <state>",
 		Short: "Show a state",
 		Run:   stateShowAction,
-		Args: func(cmd *cobra.Command, args []string) error {
+		Args: func(_ *cobra.Command, args []string) error {
 			if len(args) != 1 {
 				return fmt.Errorf("missing state argument")
 			}
@@ -43,7 +43,7 @@ var (
 		Use:   "encrypt <state>",
 		Short: "Encrypt a state",
 		Run:   stateEncryptAction,
-		Args: func(cmd *cobra.Command, args []string) error {
+		Args: func(_ *cobra.Command, args []string) error {
 			if len(args) != 1 {
 				return fmt.Errorf("missing state argument")
 			}
@@ -56,7 +56,7 @@ var (
 		Use:   "decrypt <state>",
 		Short: "Decrypt a state",
 		Run:   stateDecryptAction,
-		Args: func(cmd *cobra.Command, args []string) error {
+		Args: func(_ *cobra.Command, args []string) error {
 			if len(args) != 1 {
 				return fmt.Errorf("missing state argument")
 			}

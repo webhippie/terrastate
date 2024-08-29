@@ -224,7 +224,7 @@ func serverAction(_ *cobra.Command, _ []string) {
 			<-stop
 
 			return nil
-		}, func(err error) {
+		}, func(_ error) {
 			close(stop)
 		})
 	}

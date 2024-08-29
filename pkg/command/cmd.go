@@ -15,7 +15,7 @@ var (
 		SilenceErrors: false,
 		SilenceUsage:  true,
 
-		PersistentPreRunE: func(ccmd *cobra.Command, args []string) error {
+		PersistentPreRunE: func(_ *cobra.Command, _ []string) error {
 			return setupLogger()
 		},
 
