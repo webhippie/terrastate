@@ -10,9 +10,10 @@ The following sections list the changes for unreleased.
 
  * Change #28: Integrate configuration files
 
-   We integrated the functionality to support different kinds of configuration files. You can
-   find example configurations within the repository. The supported file formats are pretty
-   flexible, so far it should work out of the box with `yaml`, `json` and at least `hcl`.
+   We integrated the functionality to support different kinds of configuration
+   files. You can find example configurations within the repository. The supported
+   file formats are pretty flexible, so far it should work out of the box with
+   `yaml`, `json` and at least `hcl`.
 
    https://github.com/webhippie/terrastate/issues/28
 
@@ -29,8 +30,8 @@ The following sections list the changes for 1.0.1.
 
  * Bugfix #30: Bind flags correctly to variables
 
-   We fixed the binding of flags to variables as this had been bound to the root command instead of
-   the server command where it belongs to.
+   We fixed the binding of flags to variables as this had been bound to the root
+   command instead of the server command where it belongs to.
 
    https://github.com/webhippie/terrastate/issues/30
 
