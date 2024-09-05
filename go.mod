@@ -7,7 +7,7 @@ require (
 	github.com/go-chi/chi/v5 v5.1.0
 	github.com/joho/godotenv v1.5.1
 	github.com/oklog/run v1.1.0
-	github.com/prometheus/client_golang v1.20.2
+	github.com/prometheus/client_golang v1.20.3
 	github.com/rs/zerolog v1.33.0
 	github.com/spf13/cobra v1.8.1
 	github.com/spf13/viper v1.19.0
