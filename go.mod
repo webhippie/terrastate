@@ -4,7 +4,7 @@ go 1.23.0
 
 require (
 	github.com/dchest/safefile v0.0.0-20151022103144-855e8d98f185
-	github.com/go-chi/chi/v5 v5.2.1
+	github.com/go-chi/chi/v5 v5.2.2
 	github.com/joho/godotenv v1.5.1
 	github.com/oklog/run v1.1.0
 	github.com/prometheus/client_golang v1.22.0
