@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
 name: general
 
 "on":
@@ -22,7 +23,7 @@ jobs:
         id: golang
         uses: actions/setup-go@v5
         with:
-          go-version: ^1.23.0
+          go-version-file: go.mod
 
       - name: Run generate
         id: generate
