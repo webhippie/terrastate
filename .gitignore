@@ -1,9 +1,12 @@
-.direnv
-.devenv
+.direnv/
+.devenv/
+.task/
 
+.envrc
 coverage.out
 
-/bin
-/dist
+bin/
+dist/
+storage/
 
-/storage
+.pre-commit-config.yaml
