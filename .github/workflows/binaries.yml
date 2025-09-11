@@ -3,11 +3,15 @@
 name: binaries
 
 "on":
+  workflow_dispatch:
   push:
     branches:
       - master
     tags:
       - v*
+
+permissions:
+  contents: write
 
 jobs:
   binaries:

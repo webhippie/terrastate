@@ -3,11 +3,16 @@
 name: docker
 
 "on":
+  workflow_dispatch:
   push:
     branches:
       - master
     tags:
       - v*
+
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   docker:
