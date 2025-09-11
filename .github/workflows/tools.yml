@@ -1,0 +1,85 @@
+---
+# yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
+name: tools
+
+"on":
+  workflow_dispatch:
+  schedule:
+    - cron: "0 8 * * 1"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  tools:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Generate token
+        id: token
+        uses: tibdex/github-app-token@v2
+        with:
+          app_id: ${{ secrets.TOKEN_EXCHANGE_APP }}
+          installation_retrieval_mode: id
+          installation_retrieval_payload: ${{ secrets.TOKEN_EXCHANGE_INSTALL }}
+          private_key: ${{ secrets.TOKEN_EXCHANGE_KEY }}
+          permissions: >-
+            {"contents": "write", "pull_requests": "write", "issues": "write"}
+
+      - name: Checkout source
+        uses: actions/checkout@v5
+        with:
+          token: ${{ steps.token.outputs.token }}
+          fetch-depth: 0
+
+      - name: Setup golang
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: go.mod
+
+      - name: Update golangci
+        run: |
+          TOOL="github.com/golangci/golangci-lint/v2/cmd/golangci-lint"
+          MOD="$(go list -mod=readonly -f '{{.Module.Path}}' ${TOOL})"
+          VERSION="$(go list -mod=readonly -u -json -m ${MOD} | jq -r .Update.Version)"
+          if [[ "${VERSION}" != "null" ]]; then
+            go get -tool "${TOOL}@${VERSION}" && go mod tidy
+          fi
+
+      - name: Update revive
+        run: |
+          TOOL="github.com/mgechev/revive"
+          MOD="$(go list -mod=readonly -f '{{.Module.Path}}' ${TOOL})"
+          VERSION="$(go list -mod=readonly -u -json -m ${MOD} | jq -r .Update.Version)"
+          if [[ "${VERSION}" != "null" ]]; then
+            go get -tool "${TOOL}@${VERSION}" && go mod tidy
+          fi
+
+      - name: Create request
+        id: request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: update/tools
+          delete-branch: true
+          committer: "GitHub Actions <github@webhippie.de>"
+          commit-message: "ci: automated tool updates"
+          signoff: true
+          title: "ci: automated tool updates"
+          body: "New versions updated, automerge should handle that!"
+          labels: tools
+          token: ${{ steps.token.outputs.token }}
+
+      - name: Approve request
+        if: steps.request.outputs.pull-request-operation == 'created'
+        run: gh pr review --approve "${{ steps.request.outputs.pull-request-number }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enable automerge
+        if: steps.request.outputs.pull-request-operation == 'created'
+        run: gh pr merge --rebase --auto "${{ steps.request.outputs.pull-request-number }}"
+        env:
+          GH_TOKEN: ${{ steps.token.outputs.token }}
+
+...

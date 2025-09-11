@@ -1,0 +1,20 @@
+[Unit]
+Description=Terrastate
+Documentation=https://webhippie.github.io/terrastate/
+
+Requires=network.target
+After=network.target
+
+[Service]
+Type=simple
+User=terrastate
+Group=terrastate
+EnvironmentFile=-/etc/default/terrastate
+EnvironmentFile=-/etc/sysconfig/terrastate
+ExecStart=/usr/bin/terrastate server $TERRASTATE_ARGS
+WorkingDirectory=/var/lib/terrastate
+Restart=always
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

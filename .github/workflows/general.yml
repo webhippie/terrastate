@@ -11,50 +11,44 @@ name: general
     branches:
       - master
 
-permissions:
-  contents: read
-
 jobs:
   testing:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout source
-        id: source
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
 
       - name: Setup golang
-        id: golang
         uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00 # v6
         with:
           go-version-file: go.mod
 
+      - name: Setup task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Run generate
-        id: generate
-        run: make generate
+        run: task generate
 
       - name: Run vet
-        id: vet
-        run: make vet
+        run: task vet
 
-      - name: Run staticcheck
-        id: staticcheck
-        run: make staticcheck
+      - name: Server golangci
+        run: task golangci
 
       - name: Run lint
-        id: lint
-        run: make lint
-
-      - name: Run build
-        id: build
-        run: make build
+        run: task lint
 
       - name: Run test
-        id: test
-        run: make test
+        run: task test
+
+      - name: Run build
+        run: task build
 
       - name: Coverage report
-        id: codacy
         if: github.ref == 'refs/heads/master'
         uses: codacy/codacy-coverage-reporter-action@89d6c85cfafaec52c72b6c5e8b2878d33104c699 # v1
         with:
