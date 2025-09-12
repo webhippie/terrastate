@@ -71,11 +71,11 @@ func init() {
 
 	stateCmd.PersistentFlags().String("storage-path", defaultServerStorage, "Folder for storing the states")
 	viper.SetDefault("server.storage", defaultServerStorage)
-	viper.BindPFlag("server.storage", stateCmd.PersistentFlags().Lookup("server-storage"))
+	_ = viper.BindPFlag("server.storage", stateCmd.PersistentFlags().Lookup("server-storage"))
 
 	stateCmd.PersistentFlags().String("encryption-secret", defaultEncryptionSecret, "Secret for file encryption")
 	viper.SetDefault("encryption.secret", defaultEncryptionSecret)
-	viper.BindPFlag("encryption.secret", stateCmd.PersistentFlags().Lookup("encryption-secret"))
+	_ = viper.BindPFlag("encryption.secret", stateCmd.PersistentFlags().Lookup("encryption-secret"))
 
 	stateCmd.AddCommand(stateListCmd)
 	stateCmd.AddCommand(stateShowCmd)
@@ -95,13 +95,12 @@ func stateListAction(_ *cobra.Command, _ []string) {
 
 		if info.Name() == "terraform.tfstate" {
 			state := strings.TrimPrefix(
-				strings.Replace(
+				strings.ReplaceAll(
 					filepath.Dir(
 						path,
 					),
 					cfg.Server.Storage,
 					"",
-					-1,
 				),
 				"/",
 			)
@@ -117,7 +116,7 @@ func stateListAction(_ *cobra.Command, _ []string) {
 	}
 
 	if len(states) > 0 {
-		fmt.Fprintln(os.Stdout, strings.Join(states, "\n"))
+		_, _ = fmt.Fprintln(os.Stdout, strings.Join(states, "\n"))
 	}
 }
 
@@ -142,7 +141,7 @@ func stateShowAction(_ *cobra.Command, args []string) {
 		cobra.CheckErr("Failed to read state")
 	}
 
-	fmt.Fprintln(os.Stdout, string(file))
+	_, _ = fmt.Fprintln(os.Stdout, string(file))
 }
 
 func stateEncryptAction(_ *cobra.Command, args []string) {

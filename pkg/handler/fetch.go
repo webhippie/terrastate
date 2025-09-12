@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 	"os"
 	"path"
@@ -9,6 +8,7 @@ import (
 	"time"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/render"
 	"github.com/rs/zerolog/log"
 	"github.com/webhippie/terrastate/pkg/config"
 	"github.com/webhippie/terrastate/pkg/helper"
@@ -16,15 +16,15 @@ import (
 
 // Fetch is used to fetch a specific state.
 func Fetch(cfg *config.Config) http.HandlerFunc {
-	return func(w http.ResponseWriter, req *http.Request) {
-		defer handleMetrics(time.Now(), "fetch", chi.URLParam(req, "*"))
+	return func(w http.ResponseWriter, r *http.Request) {
+		defer handleMetrics(time.Now(), "fetch", chi.URLParam(r, "*"))
 
-		dir := strings.Replace(
+		dir := strings.ReplaceAll(
 			path.Join(
 				cfg.Server.Storage,
-				chi.URLParam(req, "*"),
+				chi.URLParam(r, "*"),
 			),
-			"../", "", -1,
+			"../", "",
 		)
 
 		full := path.Join(
@@ -86,9 +86,7 @@ func Fetch(cfg *config.Config) http.HandlerFunc {
 			file = decrypted
 		}
 
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
-
-		fmt.Fprintln(w, string(file))
+		render.Status(r, http.StatusOK)
+		render.JSON(w, r, file)
 	}
 }

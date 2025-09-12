@@ -24,7 +24,7 @@ func init() {
 
 	healthCmd.PersistentFlags().String("metrics-addr", defaultMetricsAddr, "Address to bind the metrics")
 	viper.SetDefault("metrics.addr", defaultMetricsAddr)
-	viper.BindPFlag("metrics.addr", healthCmd.PersistentFlags().Lookup("metrics-addr"))
+	_ = viper.BindPFlag("metrics.addr", healthCmd.PersistentFlags().Lookup("metrics-addr"))
 }
 
 func healthAction(_ *cobra.Command, _ []string) {
@@ -43,7 +43,7 @@ func healthAction(_ *cobra.Command, _ []string) {
 		os.Exit(1)
 	}
 
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 
 	if resp.StatusCode != 200 {
 		log.Error().

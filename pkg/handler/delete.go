@@ -8,21 +8,22 @@ import (
 	"time"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/render"
 	"github.com/rs/zerolog/log"
 	"github.com/webhippie/terrastate/pkg/config"
 )
 
 // Delete is used to purge a specific state.
 func Delete(cfg *config.Config) http.HandlerFunc {
-	return func(w http.ResponseWriter, req *http.Request) {
-		defer handleMetrics(time.Now(), "delete", chi.URLParam(req, "*"))
+	return func(w http.ResponseWriter, r *http.Request) {
+		defer handleMetrics(time.Now(), "delete", chi.URLParam(r, "*"))
 
-		dir := strings.Replace(
+		dir := strings.ReplaceAll(
 			path.Join(
 				cfg.Server.Storage,
-				chi.URLParam(req, "*"),
+				chi.URLParam(r, "*"),
 			),
-			"../", "", -1,
+			"../", "",
 		)
 
 		full := path.Join(
@@ -64,6 +65,6 @@ func Delete(cfg *config.Config) http.HandlerFunc {
 			Msg("Successfully deleted state file")
 
 		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
+		render.Status(r, http.StatusOK)
 	}
 }

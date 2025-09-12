@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/render"
 	"github.com/rs/zerolog/log"
 	"github.com/webhippie/terrastate/pkg/config"
 	"github.com/webhippie/terrastate/pkg/model"
@@ -16,15 +17,15 @@ import (
 
 // Unlock is used to unlock a specific state.
 func Unlock(cfg *config.Config) http.HandlerFunc {
-	return func(w http.ResponseWriter, req *http.Request) {
-		defer handleMetrics(time.Now(), "unlock", chi.URLParam(req, "*"))
+	return func(w http.ResponseWriter, r *http.Request) {
+		defer handleMetrics(time.Now(), "unlock", chi.URLParam(r, "*"))
 
-		dir := strings.Replace(
+		dir := strings.ReplaceAll(
 			path.Join(
 				cfg.Server.Storage,
-				chi.URLParam(req, "*"),
+				chi.URLParam(r, "*"),
 			),
-			"../", "", -1,
+			"../", "",
 		)
 
 		full := path.Join(
@@ -34,7 +35,7 @@ func Unlock(cfg *config.Config) http.HandlerFunc {
 
 		requested := model.LockInfo{}
 
-		if err := json.NewDecoder(req.Body).Decode(&requested); err != nil {
+		if err := json.NewDecoder(r.Body).Decode(&requested); err != nil {
 			log.Error().
 				Err(err).
 				Msg("Failed to parse body")
@@ -105,6 +106,6 @@ func Unlock(cfg *config.Config) http.HandlerFunc {
 			Msg("Successfully unlocked state")
 
 		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
+		render.Status(r, http.StatusOK)
 	}
 }
