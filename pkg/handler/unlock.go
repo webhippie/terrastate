@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 	"path"
-	"strings"
+	"path/filepath"
 	"time"
 
 	"github.com/go-chi/chi/v5"
@@ -20,12 +20,11 @@ func Unlock(cfg *config.Config) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		defer handleMetrics(time.Now(), "unlock", chi.URLParam(r, "*"))
 
-		dir := strings.ReplaceAll(
-			path.Join(
-				cfg.Server.Storage,
+		dir := path.Join(
+			cfg.Server.Storage,
+			filepath.Clean(
 				chi.URLParam(r, "*"),
 			),
-			"../", "",
 		)
 
 		full := path.Join(
