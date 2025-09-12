@@ -35,19 +35,19 @@ func init() {
 	rootCmd.PersistentFlags().BoolP("version", "v", false, "Print the current version of that tool")
 
 	rootCmd.PersistentFlags().String("config-file", "", "Path to optional config file")
-	viper.BindPFlag("config.file", rootCmd.PersistentFlags().Lookup("config-file"))
+	_ = viper.BindPFlag("config.file", rootCmd.PersistentFlags().Lookup("config-file"))
 
 	rootCmd.PersistentFlags().String("log-level", "info", "Set logging level")
 	viper.SetDefault("log.level", "info")
-	viper.BindPFlag("log.level", rootCmd.PersistentFlags().Lookup("log-level"))
+	_ = viper.BindPFlag("log.level", rootCmd.PersistentFlags().Lookup("log-level"))
 
 	rootCmd.PersistentFlags().Bool("log-pretty", true, "Enable pretty logging")
 	viper.SetDefault("log.pretty", true)
-	viper.BindPFlag("log.pretty", rootCmd.PersistentFlags().Lookup("log-pretty"))
+	_ = viper.BindPFlag("log.pretty", rootCmd.PersistentFlags().Lookup("log-pretty"))
 
 	rootCmd.PersistentFlags().Bool("log-color", true, "Enable colored logging")
 	viper.SetDefault("log.color", true)
-	viper.BindPFlag("log.color", rootCmd.PersistentFlags().Lookup("log-color"))
+	_ = viper.BindPFlag("log.color", rootCmd.PersistentFlags().Lookup("log-color"))
 }
 
 // Run parses the command line arguments and executes the program.

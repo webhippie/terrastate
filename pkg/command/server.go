@@ -43,59 +43,59 @@ func init() {
 
 	serverCmd.PersistentFlags().String("metrics-addr", defaultMetricsAddr, "Address to bind the metrics")
 	viper.SetDefault("metrics.addr", defaultMetricsAddr)
-	viper.BindPFlag("metrics.addr", serverCmd.PersistentFlags().Lookup("metrics-addr"))
+	_ = viper.BindPFlag("metrics.addr", serverCmd.PersistentFlags().Lookup("metrics-addr"))
 
 	serverCmd.PersistentFlags().String("metrics-token", "", "Token to make metrics secure")
 	viper.SetDefault("metrics.token", "")
-	viper.BindPFlag("metrics.token", serverCmd.PersistentFlags().Lookup("metrics-token"))
+	_ = viper.BindPFlag("metrics.token", serverCmd.PersistentFlags().Lookup("metrics-token"))
 
 	serverCmd.PersistentFlags().String("server-addr", defaultServerAddr, "Address to bind the server")
 	viper.SetDefault("server.addr", defaultServerAddr)
-	viper.BindPFlag("server.addr", serverCmd.PersistentFlags().Lookup("server-addr"))
+	_ = viper.BindPFlag("server.addr", serverCmd.PersistentFlags().Lookup("server-addr"))
 
 	serverCmd.PersistentFlags().Bool("server-pprof", defaultServerPprof, "Enable pprof debugging")
 	viper.SetDefault("server.pprof", defaultServerPprof)
-	viper.BindPFlag("server.pprof", serverCmd.PersistentFlags().Lookup("server-pprof"))
+	_ = viper.BindPFlag("server.pprof", serverCmd.PersistentFlags().Lookup("server-pprof"))
 
 	serverCmd.PersistentFlags().String("server-root", defaultServerRoot, "Root path of the server")
 	viper.SetDefault("server.root", defaultServerRoot)
-	viper.BindPFlag("server.root", serverCmd.PersistentFlags().Lookup("server-root"))
+	_ = viper.BindPFlag("server.root", serverCmd.PersistentFlags().Lookup("server-root"))
 
 	serverCmd.PersistentFlags().String("server-host", defaultServerHost, "External access to server")
 	viper.SetDefault("server.host", defaultServerHost)
-	viper.BindPFlag("server.host", serverCmd.PersistentFlags().Lookup("server-host"))
+	_ = viper.BindPFlag("server.host", serverCmd.PersistentFlags().Lookup("server-host"))
 
 	serverCmd.PersistentFlags().String("server-cert", defaultServerCert, "Path to cert for SSL encryption")
 	viper.SetDefault("server.cert", defaultServerCert)
-	viper.BindPFlag("server.cert", serverCmd.PersistentFlags().Lookup("server-cert"))
+	_ = viper.BindPFlag("server.cert", serverCmd.PersistentFlags().Lookup("server-cert"))
 
 	serverCmd.PersistentFlags().String("server-key", defaultServerKey, "Path to key for SSL encryption")
 	viper.SetDefault("server.key", defaultServerKey)
-	viper.BindPFlag("server.key", serverCmd.PersistentFlags().Lookup("server-key"))
+	_ = viper.BindPFlag("server.key", serverCmd.PersistentFlags().Lookup("server-key"))
 
 	serverCmd.PersistentFlags().Bool("strict-curves", defaultServerStrictCurves, "Use strict SSL curves")
 	viper.SetDefault("server.strict_curves", defaultServerStrictCurves)
-	viper.BindPFlag("server.strict_curves", serverCmd.PersistentFlags().Lookup("strict-curves"))
+	_ = viper.BindPFlag("server.strict_curves", serverCmd.PersistentFlags().Lookup("strict-curves"))
 
 	serverCmd.PersistentFlags().Bool("strict-ciphers", defaultServerStrictCiphers, "Use strict SSL ciphers")
 	viper.SetDefault("server.strict_ciphers", defaultServerStrictCiphers)
-	viper.BindPFlag("server.strict_ciphers", serverCmd.PersistentFlags().Lookup("strict-ciphers"))
+	_ = viper.BindPFlag("server.strict_ciphers", serverCmd.PersistentFlags().Lookup("strict-ciphers"))
 
 	serverCmd.PersistentFlags().String("storage-path", defaultServerStorage, "Folder for storing the states")
 	viper.SetDefault("server.storage", defaultServerStorage)
-	viper.BindPFlag("server.storage", serverCmd.PersistentFlags().Lookup("server-storage"))
+	_ = viper.BindPFlag("server.storage", serverCmd.PersistentFlags().Lookup("server-storage"))
 
 	serverCmd.PersistentFlags().String("encryption-secret", defaultEncryptionSecret, "Secret for file encryption")
 	viper.SetDefault("encryption.secret", defaultEncryptionSecret)
-	viper.BindPFlag("encryption.secret", serverCmd.PersistentFlags().Lookup("encryption-secret"))
+	_ = viper.BindPFlag("encryption.secret", serverCmd.PersistentFlags().Lookup("encryption-secret"))
 
 	serverCmd.PersistentFlags().String("general-username", defaultAccessUsername, "Username for basic auth")
 	viper.SetDefault("access.username", defaultAccessUsername)
-	viper.BindPFlag("access.username", serverCmd.PersistentFlags().Lookup("general-username"))
+	_ = viper.BindPFlag("access.username", serverCmd.PersistentFlags().Lookup("general-username"))
 
 	serverCmd.PersistentFlags().String("general-password", defaultAccessPassword, "Password for basic auth")
 	viper.SetDefault("access.password", defaultAccessPassword)
-	viper.BindPFlag("access.password", serverCmd.PersistentFlags().Lookup("general-password"))
+	_ = viper.BindPFlag("access.password", serverCmd.PersistentFlags().Lookup("general-password"))
 }
 
 func serverAction(_ *cobra.Command, _ []string) {

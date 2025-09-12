@@ -10,6 +10,7 @@ import (
 
 	"github.com/dchest/safefile"
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/render"
 	"github.com/rs/zerolog/log"
 	"github.com/webhippie/terrastate/pkg/config"
 	"github.com/webhippie/terrastate/pkg/helper"
@@ -17,15 +18,15 @@ import (
 
 // Update is used to update a specific state.
 func Update(cfg *config.Config) http.HandlerFunc {
-	return func(w http.ResponseWriter, req *http.Request) {
-		defer handleMetrics(time.Now(), "update", chi.URLParam(req, "*"))
+	return func(w http.ResponseWriter, r *http.Request) {
+		defer handleMetrics(time.Now(), "update", chi.URLParam(r, "*"))
 
-		dir := strings.Replace(
+		dir := strings.ReplaceAll(
 			path.Join(
 				cfg.Server.Storage,
-				chi.URLParam(req, "*"),
+				chi.URLParam(r, "*"),
 			),
-			"../", "", -1,
+			"../", "",
 		)
 
 		full := path.Join(
@@ -33,7 +34,7 @@ func Update(cfg *config.Config) http.HandlerFunc {
 			"terraform.tfstate",
 		)
 
-		content, err := io.ReadAll(req.Body)
+		content, err := io.ReadAll(r.Body)
 
 		if err != nil {
 			log.Error().
@@ -126,6 +127,6 @@ func Update(cfg *config.Config) http.HandlerFunc {
 		}
 
 		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusOK)
+		render.Status(r, http.StatusOK)
 	}
 }
