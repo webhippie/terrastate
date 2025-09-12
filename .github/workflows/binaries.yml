@@ -16,11 +16,11 @@ jobs:
     steps:
       - name: Checkout source
         id: source
-        uses: actions/checkout@v5
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
 
       - name: Configure aws
         id: aws
-        uses: aws-actions/configure-aws-credentials@v5
+        uses: aws-actions/configure-aws-credentials@a03048d87541d1d9fcf2ecf528a4a65ba9bd7838 # v5
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -28,7 +28,7 @@ jobs:
 
       - name: Setup golang
         id: golang
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00 # v6
         with:
           go-version-file: go.mod
 
@@ -42,7 +42,7 @@ jobs:
 
       - name: Sign release
         id: gpgsign
-        uses: actionhippie/gpgsign@v1
+        uses: actionhippie/gpgsign@2cb842660aa570b2229635c734846c209dd6d3a4 # v1
         with:
           private_key: ${{ secrets.GNUPG_KEY }}
           passphrase: ${{ secrets.GNUPG_PASSWORD }}
@@ -53,14 +53,14 @@ jobs:
       - name: Build changes
         id: changelog
         if: startsWith(github.ref, 'refs/tags/')
-        uses: actionhippie/calens@v1
+        uses: actionhippie/calens@b1c542833c54af20da5d839f86cf73ecd59360e2 # v1
         with:
           version: ${{ github.ref }}
 
       - name: Upload release
         id: upload
         if: startsWith(github.ref, 'refs/tags/')
-        uses: ncipollo/release-action@v1
+        uses: ncipollo/release-action@b7eabc95ff50cbeeedec83973935c8f306dfcd0b # v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: ${{ steps.changelog.outputs.generated }}

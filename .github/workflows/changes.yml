@@ -14,13 +14,13 @@ jobs:
     steps:
       - name: Checkout source
         id: source
-        uses: actions/checkout@v5
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
         with:
           token: ${{ secrets.BOT_ACCESS_TOKEN }}
 
       - name: Setup golang
         id: golang
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00 # v6
         with:
           go-version-file: go.mod
 
@@ -30,7 +30,7 @@ jobs:
 
       - name: Commit changes
         id: commit
-        uses: EndBug/add-and-commit@v9
+        uses: EndBug/add-and-commit@a94899bca583c204427a224a7af87c02f9b325d5 # v9
         with:
           author_name: GitHub Actions
           author_email: github@webhippie.de
