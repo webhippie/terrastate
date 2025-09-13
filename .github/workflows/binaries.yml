@@ -61,13 +61,6 @@ jobs:
             task build:snapshot
           fi
 
-      - name: Upload release
-        if: startsWith(github.ref, 'refs/tags/')
-        uses: ncipollo/release-action@b7eabc95ff50cbeeedec83973935c8f306dfcd0b # v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: dist/*.tar.gz,dist/*.deb,dist/*.rpm,dist/*.asc,dist/*.sha256
-
       - name: Upload version
         if: startsWith(github.ref, 'refs/tags/')
         run: |
