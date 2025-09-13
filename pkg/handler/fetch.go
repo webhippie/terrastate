@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"encoding/json"
 	"net/http"
 	"os"
 	"path"
@@ -85,7 +86,24 @@ func Fetch(cfg *config.Config) http.HandlerFunc {
 			file = decrypted
 		}
 
+		var payload any
+
+		if err := json.Unmarshal(file, &payload); err != nil {
+			log.Error().
+				Err(err).
+				Str("file", full).
+				Msg("Failed to parse state file")
+
+			http.Error(
+				w,
+				http.StatusText(http.StatusInternalServerError),
+				http.StatusInternalServerError,
+			)
+
+			return
+		}
+
 		render.Status(r, http.StatusOK)
-		render.JSON(w, r, file)
+		render.JSON(w, r, payload)
 	}
 }
