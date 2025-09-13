@@ -108,35 +108,16 @@
 * resolve state response in json format ([4cae857](https://github.com/webhippie/terrastate/commit/4cae857d22fc8f72849491a7732ac90e8e860eef))
 * use filepath to sanitize user-provided path ([cc0dd0a](https://github.com/webhippie/terrastate/commit/cc0dd0a5e19810286fbc6b8a1a26f8c24cd91fbc))
 
-for unreleased
 
-The following sections list the changes for unreleased.
-
-## Summary
-
- * Chg #28: Integrate configuration files
-
-## Details
-
- * Change #28: Integrate configuration files
-
-   We integrated the functionality to support different kinds of configuration
-   files. You can find example configurations within the repository. The supported
-   file formats are pretty flexible, so far it should work out of the box with
-   `yaml`, `json` and at least `hcl`.
-
-   https://github.com/webhippie/terrastate/issues/28
-
-
-# Changelog for 1.0.1
+## 1.0.1
 
 The following sections list the changes for 1.0.1.
 
-## Summary
+### Summary
 
  * Fix #30: Bind flags correctly to variables
 
-## Details
+### Details
 
  * Bugfix #30: Bind flags correctly to variables
 
@@ -146,15 +127,15 @@ The following sections list the changes for 1.0.1.
    https://github.com/webhippie/terrastate/issues/30
 
 
-# Changelog for 1.0.0
+## 1.0.0
 
 The following sections list the changes for 1.0.0.
 
-## Summary
+### Summary
 
  * Chg #3: Initial release of basic version
 
-## Details
+### Details
 
  * Change #3: Initial release of basic version
 
