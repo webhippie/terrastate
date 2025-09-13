@@ -200,6 +200,21 @@ methods have already been mentioned above. Generally you can always see a
 formated help output if you execute the binary similar to something like
  `terrastate --help`.
 
+Within your Terraform definition you simply got to add this block to get started
+using this remote state storage, replace `http://localhost:8080` with your
+deployed URL of the Terrastate instance, the rest behind the `/remote` prefix is
+entirely up to you to configure as you wish:
+
+{{< highlight yaml >}}
+terraform {
+  backend "http" {
+    address        = "http://localhost:8080/remote/your/state/path"
+    lock_address   = "http://localhost:8080/remote/your/state/path"
+    unlock_address = "http://localhost:8080/remote/your/state/path"
+  }
+}
+{{< / highlight >}}
+
 [docker]: https://www.docker.com/
 [quay]: https://quay.io/repository/webhippie/terrastate
 [dockerhub]: https://hub.docker.com/r/webhippie/terrastate
