@@ -1,0 +1,63 @@
+---
+# yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
+name: release
+
+"on":
+  workflow_dispatch:
+  schedule:
+    - cron: "0 8 * * 1"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.BOT_ACCESS_TOKEN }}
+
+      - name: Setup nodejs
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22.x
+
+      - name: Setup ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Install releaser
+        run: |
+          npm install -g \
+            conventional-changelog-conventionalcommits@6.1.0 \
+            semantic-release@23.1.1 \
+            @semantic-release/changelog \
+            @semantic-release/git
+
+      - name: Run releaser
+        env:
+          GITHUB_TOKEN: ${{ secrets.BOT_ACCESS_TOKEN }}
+        run: semantic-release
+
+      - name: Write buildtime
+        run: date >| .github/RELEASE
+
+      - name: Update repo
+        run: git pull --rebase --autostash
+
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: GitHub Actions
+          author_email: github@webhippie.de
+          add: .github/RELEASE
+          message: "docs: automated release update [skip ci]"
+          push: true
+          commit: --signoff
+
+...
