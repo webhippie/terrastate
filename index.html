@@ -564,6 +564,17 @@ values. The configuration file will be automatically loaded if it&rsquo;s placed
 methods have already been mentioned above. Generally you can always see a
 formated help output if you execute the binary similar to something like
 <code>terrastate --help</code>.</p>
+<p>Within your Terraform definition you simply got to add this block to get started
+using this remote state storage, replace <code>http://localhost:8080</code> with your
+deployed URL of the Terrastate instance, the rest behind the <code>/remote</code> prefix is
+entirely up to you to configure as you wish:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="l">terraform {</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="l">backend &#34;http&#34; {</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="l">address        = &#34;http://localhost:8080/remote/your/state/path&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="l">lock_address   = &#34;http://localhost:8080/remote/your/state/path&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="l">unlock_address = &#34;http://localhost:8080/remote/your/state/path&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span>}<span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span>}</span></span></code></pre></div>
 
 			</section>
 		
