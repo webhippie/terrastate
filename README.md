@@ -9,10 +9,17 @@ AWS.
 
 ## Install
 
-You can download prebuilt binaries from our [GitHub releases][releases] or our
-[download mirror][downloads]. Beside that we are publishing Docker images to
-[Docker Hub][dockerhub] and [Quay][quay]. If you need further guidance how to
+You can download prebuilt binaries from the [GitHub releases][releases] or from
+our [download site][downloads]. Besides that we also prepared repositories for
+DEB and RPM packages which can be found at [Cloudsmith][pkgrepo]. If you prefer
+to use containers you could use our images published on [GHCR][ghcr],
+[Docker Hub][dockerhub] or [Quay][quay]. If you need further guidance how to
 install this take a look at our [documentation][docs].
+
+Package repository hosting is graciously provided by [Cloudsmith][cloudsmith].
+Cloudsmith is the only fully hosted, cloud-native, universal package management
+solution, that enables your organization to create, store and share packages in
+any format, to any place, with total confidence.
 
 ## Development
 
@@ -58,3 +65,5 @@ Copyright (c) 2018 Thomas Boerger <thomas@webhippie.de>
 [quay]: https://quay.io/repository/webhippie/terrastate?tab=tags
 [docs]: https://webhippie.github.io/terrastate/#getting-started
 [golang]: http://golang.org/doc/install.html
+[pkgrepo]: https://cloudsmith.io/~webhippie/repos/general/groups/
+[cloudsmith]: https://cloudsmith.com/
