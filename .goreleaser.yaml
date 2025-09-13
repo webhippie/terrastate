@@ -85,7 +85,7 @@ signs:
       - --batch
       - --armor
       - --local-user
-      - 9336967CEB7E52FD46118A18F630596501026DB5
+      - 552D1DF54CBEA471C570C816EA4B5799921648E8
       - --output
       - ${signature}
       - --detach-sign
@@ -98,7 +98,7 @@ signs:
       - --batch
       - --armor
       - --local-user
-      - 9336967CEB7E52FD46118A18F630596501026DB5
+      - 552D1DF54CBEA471C570C816EA4B5799921648E8
       - --output
       - ${signature}
       - --detach-sign
