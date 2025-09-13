@@ -52,6 +52,8 @@ jobs:
           passphrase: ${{ secrets.GNUPG_PASSWORD }}
 
       - name: Run release
+        env:
+          GITHUB_TOKEN: ${{ secrets.BOT_ACCESS_TOKEN }}
         run: |
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             task build:release
