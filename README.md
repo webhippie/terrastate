@@ -1,6 +1,6 @@
 # Terrastate
 
-[![Current Tag](https://img.shields.io/github/v/tag/webhippie/terrastate?sort=semver)](https://github.com/webhippie/terrastate) [![Build Status](https://github.com/webhippie/terrastate/actions/workflows/general.yml/badge.svg)](https://github.com/webhippie/terrastate/actions) [![Join the Matrix chat at https://matrix.to/#/#webhippie:matrix.org](https://img.shields.io/badge/matrix-%23webhippie-7bc9a4.svg)](https://matrix.to/#/#webhippie:matrix.org) [![Go Reference](https://pkg.go.dev/badge/github.com/webhippie/terrastate.svg)](https://pkg.go.dev/github.com/webhippie/terrastate) [![Go Report Card](https://goreportcard.com/badge/github.com/webhippie/terrastate)](https://goreportcard.com/report/github.com/webhippie/terrastate) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/d2bc4877341f4c7fbf9b4fa62b8d0484)](https://www.codacy.com/gh/webhippie/terrastate/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=webhippie/terrastate&amp;utm_campaign=Badge_Grade)
+[![General Workflow](https://github.com/webhippie/terrastate/actions/workflows/general.yml/badge.svg)](https://github.com/webhippie/terrastate/actions/workflows/general.yml) [![Join the Matrix chat at https://matrix.to/#/#webhippie:matrix.org](https://img.shields.io/badge/matrix-%23webhippie-7bc9a4.svg)](https://matrix.to/#/#webhippie:matrix.org) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/d2bc4877341f4c7fbf9b4fa62b8d0484)](https://app.codacy.com/gh/webhippie/terrastate/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade) [![Go Reference](https://pkg.go.dev/badge/github.com/webhippie/terrastate.svg)](https://pkg.go.dev/github.com/webhippie/terrastate) [![Go Report Card](https://goreportcard.com/badge/github.com/webhippie/terrastate)](https://goreportcard.com/report/github.com/webhippie/terrastate) [![GitHub Repo](https://img.shields.io/badge/github-repo-yellowgreen)](https://github.com/webhippie/terrastate) [![Hosted By: Cloudsmith](https://img.shields.io/badge/OSS%20hosting%20by-cloudsmith-blue?logo=cloudsmith&style=flat-square)](https://cloudsmith.com)
 
 Terrastate acts as an HTTP backend for Terraform which can store the state
 content remotely for you to keep it outside of the repositories containing your
@@ -61,6 +61,7 @@ Copyright (c) 2018 Thomas Boerger <thomas@webhippie.de>
 
 [releases]: https://github.com/webhippie/terrastate/releases
 [downloads]: https://dl.webhippie.de/#terrastate/
+[ghcr]: https://github.com/webhippie/terrastate/pkgs/container/terrastate
 [dockerhub]: https://hub.docker.com/r/webhippie/terrastate/tags/
 [quay]: https://quay.io/repository/webhippie/terrastate?tab=tags
 [docs]: https://webhippie.github.io/terrastate/#getting-started
