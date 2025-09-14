@@ -53,6 +53,8 @@ rulesets:
               integration_id: 198092
             - context: testing
               integration_id: 15368
+            - context: docker
+              integration_id: 15368
     bypass_actors:
       - actor_id: 1
         actor_type: OrganizationAdmin
