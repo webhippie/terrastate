@@ -21,19 +21,52 @@ Cloudsmith is the only fully hosted, cloud-native, universal package management
 solution, that enables your organization to create, store and share packages in
 any format, to any place, with total confidence.
 
-## Development
+## Build
 
-Make sure you have a working Go environment, for further reference or a guide
-take a look at the [install instructions][golang]. This project requires
-Go >= v1.17, at least that's the version we are using.
+If you are not familiar with [Nix][nix] it is up to you to have a working
+environment for Go (>= 1.24.0) as the setup won't we covered within this guide.
+Please follow the official install instructions for [Go][golang]. Beside that we
+are using [go-task][gotask] to define all commands to build this project.
 
 ```console
 git clone https://github.com/webhippie/terrastate.git
 cd terrastate
 
-make generate build
-
+task build
 ./bin/terrastate -h
+```
+
+If you got [Nix][nix] and [Direnv][direnv] configured you can simply execute
+the following commands to get al dependencies including [go-task][gotask] and
+the required runtimes installed. You are also able to directly use the process
+manager of [devenv][devenv]:
+
+```console
+cat << EOF > .envrc
+use flake . --impure --extra-experimental-features nix-command
+EOF
+
+direnv allow
+```
+
+## Development
+
+To start developing on this project you have to execute only one command:
+
+```console
+task watch
+```
+
+The development server should be running on
+[http://localhost:8080](http://localhost:8080). Generally it supports hot
+reloading which means the services are automatically restarted/reloaded on code
+changes.
+
+If you got [Nix][nix] configured you can simply execute the [devenv][devenv]
+command to start the server:
+
+```console
+devenv up
 ```
 
 ## Security
@@ -65,6 +98,10 @@ Copyright (c) 2018 Thomas Boerger <thomas@webhippie.de>
 [dockerhub]: https://hub.docker.com/r/webhippie/terrastate/tags/
 [quay]: https://quay.io/repository/webhippie/terrastate?tab=tags
 [docs]: https://webhippie.github.io/terrastate/#getting-started
+[nix]: https://nixos.org/
 [golang]: http://golang.org/doc/install.html
+[gotask]: https://taskfile.dev/installation/
+[direnv]: https://direnv.net/
+[devenv]: https://devenv.sh/
 [pkgrepo]: https://cloudsmith.io/~webhippie/repos/general/groups/
 [cloudsmith]: https://cloudsmith.com/
