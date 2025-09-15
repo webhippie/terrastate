@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/webhippie/terrastate/compare/v2.0.0...v2.0.1) (2025-09-15)
+
+
+### Bugfixes
+
+* **deps:** pin dependencies ([#196](https://github.com/webhippie/terrastate/issues/196)) ([d1bb1ea](https://github.com/webhippie/terrastate/commit/d1bb1ea760cb0a6cb67e7723d59dade817a9f542))
+
 ## [2.0.0](https://github.com/webhippie/terrastate/compare/v1.0.1...v2.0.0) (2025-09-13)
 
 
