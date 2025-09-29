@@ -111,7 +111,7 @@ jobs:
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
 
       - name: Hub readme
-        uses: actionhippie/pushrm@d4137e5e7261e06ddc57e0efece0fb4f589abb0a # v1
+        uses: actionhippie/pushrm@89af5970cfc08721dc8d6304929bb51ab9e2f8e5 # v1
         with:
           provider: dockerhub
           target: webhippie/terrastate
@@ -121,7 +121,7 @@ jobs:
           readme: README.md
 
       - name: Quay readme
-        uses: actionhippie/pushrm@d4137e5e7261e06ddc57e0efece0fb4f589abb0a # v1
+        uses: actionhippie/pushrm@89af5970cfc08721dc8d6304929bb51ab9e2f8e5 # v1
         with:
           provider: quay
           target: quay.io/webhippie/terrastate
