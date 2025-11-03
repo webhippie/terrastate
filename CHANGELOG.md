@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/webhippie/terrastate/compare/v2.1.2...v2.2.0) (2025-11-03)
+
+
+### Features
+
+* **minor:** update module github.com/golangci/golangci-lint/v2 to v2.6.0 ([#218](https://github.com/webhippie/terrastate/issues/218)) ([d75b9be](https://github.com/webhippie/terrastate/commit/d75b9be23646d919bdf99ffcdd24941b9da16cca))
+
 ## [2.1.2](https://github.com/webhippie/terrastate/compare/v2.1.1...v2.1.2) (2025-10-20)
 
 
