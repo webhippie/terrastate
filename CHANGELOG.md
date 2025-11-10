@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.2.1](https://github.com/webhippie/terrastate/compare/v2.2.0...v2.2.1) (2025-11-10)
+
+
+### Bugfixes
+
+* **deps:** update golang:1.25.4-alpine3.21 docker digest to 3289aac ([#223](https://github.com/webhippie/terrastate/issues/223)) ([2b9a097](https://github.com/webhippie/terrastate/commit/2b9a0973d5caf77ac98021a6f44eeccfe3c424bc))
+* **patch:** update golang docker tag to v1.25.4 ([#222](https://github.com/webhippie/terrastate/issues/222)) ([9931be5](https://github.com/webhippie/terrastate/commit/9931be5d984a84e0937c723061a31e1501bb757a))
+* **patch:** update module github.com/golangci/golangci-lint/v2 to v2.6.1 ([#219](https://github.com/webhippie/terrastate/issues/219)) ([0f63685](https://github.com/webhippie/terrastate/commit/0f6368520e6d701ce421f3547198cde1fa9312e7))
+
 ## [2.2.0](https://github.com/webhippie/terrastate/compare/v2.1.2...v2.2.0) (2025-11-03)
 
 
