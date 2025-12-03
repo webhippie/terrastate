@@ -82,7 +82,6 @@
                 };
 
                 packages = with pkgs; [
-                  cloudsmith-cli
                   go-task
                   goreleaser
                   nixfmt-rfc-style
