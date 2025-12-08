@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.3.0](https://github.com/webhippie/terrastate/compare/v2.2.2...v2.3.0) (2025-12-08)
+
+
+### Features
+
+* **minor:** update alpine docker tag to v3.23 ([#239](https://github.com/webhippie/terrastate/issues/239)) ([3328b17](https://github.com/webhippie/terrastate/commit/3328b171c8b2d9f1737eb62159633221a9f617fe))
+* **minor:** update module github.com/golangci/golangci-lint/v2 to v2.7.0 ([#237](https://github.com/webhippie/terrastate/issues/237)) ([d6b5901](https://github.com/webhippie/terrastate/commit/d6b59014441ed67e11accdc13bef8c2af18b9d85))
+
+
+### Bugfixes
+
+* **patch:** update golang docker tag to v1.25.5 ([#235](https://github.com/webhippie/terrastate/issues/235)) ([f365341](https://github.com/webhippie/terrastate/commit/f365341c4875296ea22f3aedf86f3afa33727fbf))
+* **patch:** update module github.com/spf13/cobra to v1.10.2 ([#238](https://github.com/webhippie/terrastate/issues/238)) ([64361ab](https://github.com/webhippie/terrastate/commit/64361abb642678fd3547597fd6522effe6d5f61b))
+
 ## [2.2.2](https://github.com/webhippie/terrastate/compare/v2.2.1...v2.2.2) (2025-11-17)
 
 
