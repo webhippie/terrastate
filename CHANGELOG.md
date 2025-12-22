@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.1](https://github.com/webhippie/terrastate/compare/v2.3.0...v2.3.1) (2025-12-22)
+
+
+### Bugfixes
+
+* **deps:** update alpine:3.23 docker digest to 865b95f ([#246](https://github.com/webhippie/terrastate/issues/246)) ([4463095](https://github.com/webhippie/terrastate/commit/44630950b551f6f237f4a496e9075eb779eb5a6f))
+
 ## [2.3.0](https://github.com/webhippie/terrastate/compare/v2.2.2...v2.3.0) (2025-12-08)
 
 
