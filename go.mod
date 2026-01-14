@@ -4,7 +4,7 @@ go 1.24.0
 
 require (
 	github.com/dchest/safefile v0.0.0-20151022103144-855e8d98f185
-	github.com/go-chi/chi/v5 v5.2.3
+	github.com/go-chi/chi/v5 v5.2.4
 	github.com/go-chi/render v1.0.3
 	github.com/joho/godotenv v1.5.1
 	github.com/oklog/run v1.2.0
