@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.3.3](https://github.com/webhippie/terrastate/compare/v2.3.2...v2.3.3) (2026-02-02)
+
+### Bugfixes
+
+* **deps:** update alpine:3.23 docker digest to 2510918 ([#256](https://github.com/webhippie/terrastate/issues/256)) ([76a281e](https://github.com/webhippie/terrastate/commit/76a281e9af4a490fffa01aca49fd526251e76925))
+
+### Miscellaneous
+
+* **flake:** updated lockfile [skip ci] ([af1c6e0](https://github.com/webhippie/terrastate/commit/af1c6e025f6d847a3b39888fbe2e268fa402165d))
+* **flake:** updated lockfile [skip ci] ([86431c1](https://github.com/webhippie/terrastate/commit/86431c120601191545263a724c5a32b2fc52c2b0))
+
 ## [2.3.2](https://github.com/webhippie/terrastate/compare/v2.3.1...v2.3.2) (2026-01-19)
 
 ### Dependencies
