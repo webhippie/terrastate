@@ -1,5 +1,27 @@
 # Changelog
 
+## [2.4.0](https://github.com/webhippie/terrastate/compare/v2.3.4...v2.4.0) (2026-03-02)
+
+### Features
+
+* upgrade build process to go 1.25 ([ab022ac](https://github.com/webhippie/terrastate/commit/ab022acc3da3c611c8b0227905f1a61c3c468e7c))
+
+### Bugfixes
+
+* **deps:** pin golang docker tag to ac09a5f ([#261](https://github.com/webhippie/terrastate/issues/261)) ([637fe93](https://github.com/webhippie/terrastate/commit/637fe939ca9116cf4e97e6eb65b07e150d3104a8))
+
+### Dependencies
+
+* **minor:** update golang docker tag to v1.26.0 ([#262](https://github.com/webhippie/terrastate/issues/262)) ([c39e1f1](https://github.com/webhippie/terrastate/commit/c39e1f16be2c2af07b6e362376dfde04d460a6b9))
+
+### Miscellaneous
+
+* enable skip-package-name-collision-with-go-std for revive ([47978f2](https://github.com/webhippie/terrastate/commit/47978f2ba0f4949fe1c54e9d751dee0e12becb1e))
+* **flake:** updated lockfile [skip ci] ([6855ff6](https://github.com/webhippie/terrastate/commit/6855ff60f7356ba488de06fede91c2fc726a81a5))
+* **flake:** updated lockfile [skip ci] ([c84b9a9](https://github.com/webhippie/terrastate/commit/c84b9a9860630910fbf9826530483d70d11d16d3))
+* **flake:** updated lockfile [skip ci] ([72916e6](https://github.com/webhippie/terrastate/commit/72916e6c923695098a90bfa26fccc194d7009200))
+* replace nixfmt package ([6046650](https://github.com/webhippie/terrastate/commit/60466509be9951b928f928c7ecf4af12a1fc216a))
+
 ## [2.3.4](https://github.com/webhippie/terrastate/compare/v2.3.3...v2.3.4) (2026-02-09)
 
 ### Dependencies
