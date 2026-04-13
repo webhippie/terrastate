@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.5.1](https://github.com/webhippie/terrastate/compare/v2.5.0...v2.5.1) (2026-04-13)
+
+### Dependencies
+
+* **patch:** update golang docker tag to v1.26.2 ([#277](https://github.com/webhippie/terrastate/issues/277)) ([3923959](https://github.com/webhippie/terrastate/commit/39239594546fdb0f10d0ab53f18ec1a281aa1342))
+
+### Miscellaneous
+
+* **flake:** updated lockfile [skip ci] ([df38e6b](https://github.com/webhippie/terrastate/commit/df38e6bc28068416e78d7cc46095c0e51365b846))
+* **flake:** updated lockfile [skip ci] ([44776c3](https://github.com/webhippie/terrastate/commit/44776c35fb81e92027bca40f149a25c05bd8346c))
+
 ## [2.5.0](https://github.com/webhippie/terrastate/compare/v2.4.1...v2.5.0) (2026-03-30)
 
 ### Dependencies
