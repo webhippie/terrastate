@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.5.2](https://github.com/webhippie/terrastate/compare/v2.5.1...v2.5.2) (2026-04-20)
+
+### Bugfixes
+
+* **deps:** update docker digests ([#279](https://github.com/webhippie/terrastate/issues/279)) ([b1b0010](https://github.com/webhippie/terrastate/commit/b1b00106cc17b6db547b2e51ceeb2dbd6adfbc24))
+* **deps:** update golang:1.26.2-alpine docker digest to f853308 ([#280](https://github.com/webhippie/terrastate/issues/280)) ([d587c6f](https://github.com/webhippie/terrastate/commit/d587c6f0f47adc278cbb0e676d590276ce8ec7f7))
+
+### Miscellaneous
+
+* **flake:** updated lockfile [skip ci] ([d2434f0](https://github.com/webhippie/terrastate/commit/d2434f05ff4f49ea7f45dd0d48d3b4e0ab6bfc14))
+
 ## [2.5.1](https://github.com/webhippie/terrastate/compare/v2.5.0...v2.5.1) (2026-04-13)
 
 ### Dependencies
