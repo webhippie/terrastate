@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.5.3](https://github.com/webhippie/terrastate/compare/v2.5.2...v2.5.3) (2026-04-27)
+
+### Dependencies
+
+* **patch:** update module github.com/rs/zerolog to v1.35.1 ([#282](https://github.com/webhippie/terrastate/issues/282)) ([e27ecc4](https://github.com/webhippie/terrastate/commit/e27ecc47aaf8ab6b92e4a559d110f37e8242080b))
+
+### Miscellaneous
+
+* **flake:** updated lockfile [skip ci] ([efb4c36](https://github.com/webhippie/terrastate/commit/efb4c36a8acf81cfaef52216df796edc00f81c2a))
+
 ## [2.5.2](https://github.com/webhippie/terrastate/compare/v2.5.1...v2.5.2) (2026-04-20)
 
 ### Bugfixes
