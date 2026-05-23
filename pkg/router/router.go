@@ -38,7 +38,7 @@ func Load(cfg *config.Config) http.Handler {
 	}))
 
 	mux.Use(middleware.Timeout(60 * time.Second))
-	mux.Use(middleware.RealIP)
+	mux.Use(middleware.ClientIPFromRemoteAddr)
 	mux.Use(header.Version)
 	mux.Use(header.Cache)
 	mux.Use(header.Secure)
@@ -76,7 +76,7 @@ func Metrics(cfg *config.Config) http.Handler {
 	mux.Use(hlog.RequestIDHandler("request_id", "Request-Id"))
 
 	mux.Use(middleware.Timeout(60 * time.Second))
-	mux.Use(middleware.RealIP)
+	mux.Use(middleware.ClientIPFromRemoteAddr)
 	mux.Use(header.Version)
 	mux.Use(header.Cache)
 	mux.Use(header.Secure)
