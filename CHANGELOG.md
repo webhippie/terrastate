@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.6.0](https://github.com/webhippie/terrastate/compare/v2.5.4...v2.6.0) (2026-05-25)
+
+### Features
+
+* upgrade required go version to 1.26 ([e0b2a89](https://github.com/webhippie/terrastate/commit/e0b2a898ef03830a49b4988083d7e6c5b90be8c7))
+
+### Dependencies
+
+* **minor:** update module github.com/go-chi/chi/v5 to v5.3.0 ([#288](https://github.com/webhippie/terrastate/issues/288)) ([024adb5](https://github.com/webhippie/terrastate/commit/024adb5148beaa1926099de38d048ef11e3784e9))
+
+### Miscellaneous
+
+* **flake:** updated lockfile [skip ci] ([f73afe7](https://github.com/webhippie/terrastate/commit/f73afe78b43d9659c8434057398661239952d4f5))
+* **flake:** updated lockfile [skip ci] ([8ad9dbe](https://github.com/webhippie/terrastate/commit/8ad9dbe1e727f6b8ac5e5b625d6af34e232bed16))
+
 ## [2.5.4](https://github.com/webhippie/terrastate/compare/v2.5.3...v2.5.4) (2026-05-11)
 
 ### Dependencies
