@@ -1,40 +1,45 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Terrastate</title>
-    <link>https://webhippie.github.io/terrastate/</link>
-    <description>Recent content on Terrastate</description>
-    <generator>Hugo</generator>
-    <language>en-us</language>
-    <lastBuildDate>Wed, 04 May 2022 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://webhippie.github.io/terrastate/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>About</title>
-      <link>https://webhippie.github.io/terrastate/about/</link>
-      <pubDate>Wed, 04 May 2022 00:00:00 +0000</pubDate>
-      <guid>https://webhippie.github.io/terrastate/about/</guid>
-      <description>&lt;p&gt;This service provides the Terraform Remote State API. You don&amp;rsquo;t need to store&#xA;your Terraform state within S3 or some other service similar to that, you can&#xA;just use this small service on your own infrastructure.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Getting Started</title>
-      <link>https://webhippie.github.io/terrastate/getting-started/</link>
-      <pubDate>Wed, 04 May 2022 00:00:00 +0000</pubDate>
-      <guid>https://webhippie.github.io/terrastate/getting-started/</guid>
-      <description>&lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;&#xA;&lt;p&gt;So far we are offering only a few different variants for the installation. You&#xA;can choose between &lt;a href=&#34;https://www.docker.com/&#34;&gt;Docker&lt;/a&gt; or pre-built binaries which are stored on&#xA;our download mirror and GitHub releases. Maybe we will also provide system&#xA;packages for the major distributions later if we see the need for it.&lt;/p&gt;&#xA;&lt;h3 id=&#34;docker&#34;&gt;Docker&lt;/h3&gt;&#xA;&lt;p&gt;Generally we are offering the images through&#xA;&lt;a href=&#34;https://quay.io/repository/webhippie/terrastate&#34;&gt;quay.io/webhippie/terrastate&lt;/a&gt; and &lt;a href=&#34;https://hub.docker.com/r/webhippie/terrastate&#34;&gt;webhippie/terrastate&lt;/a&gt;, so&#xA;feel free to choose one of the providers. Maybe we will come up with Kustomize&#xA;manifests or some Helm chart.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Building</title>
-      <link>https://webhippie.github.io/terrastate/building/</link>
-      <pubDate>Tue, 03 May 2022 00:00:00 +0000</pubDate>
-      <guid>https://webhippie.github.io/terrastate/building/</guid>
-      <description>&lt;p&gt;As this project is built with Go you need to install Go first. The installation&#xA;of Go is out of the scope of this document, please follow the&#xA;&lt;a href=&#34;https://golang.org/doc/install&#34;&gt;official documentation&lt;/a&gt;. After the installation of Go you need to get&#xA;the sources:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git clone https://github.com/webhippie/terrastate.git&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;cd terrastate/&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&#xA;&lt;p&gt;All required tool besides Go itself are bundled by Go modules, all you need is&#xA;part of the &lt;code&gt;Makfile&lt;/code&gt;:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;make generate build&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&#xA;&lt;p&gt;Finally you should have the binary within the &lt;code&gt;bin/&lt;/code&gt; folder now, give it a try&#xA;with &lt;code&gt;./bin/terrastate -h&lt;/code&gt; to see all available options.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>License</title>
-      <link>https://webhippie.github.io/terrastate/license/</link>
-      <pubDate>Tue, 03 May 2022 00:00:00 +0000</pubDate>
-      <guid>https://webhippie.github.io/terrastate/license/</guid>
-      <description>&lt;p&gt;This project is licensed under the &lt;a href=&#34;https://github.com/webhippie/terrastate/blob/master/LICENSE&#34;&gt;Apache 2.0&lt;/a&gt; license. For the&#xA;license of the used libraries you have to check the respective sources.&lt;/p&gt;</description>
-    </item>
-  </channel>
+	<channel>
+		<title>Terrastate</title>
+		<link>https://webhippie.github.io/terrastate/</link>
+		<description>Recent content on Terrastate</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<lastBuildDate>Wed, 04 May 2022 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="https://webhippie.github.io/terrastate/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>About</title>
+				<link>https://webhippie.github.io/terrastate/about/</link>
+				<pubDate>Wed, 04 May 2022 00:00:00 +0000</pubDate>
+				<guid>https://webhippie.github.io/terrastate/about/</guid>
+				<description>&lt;p&gt;This service provides the Terraform Remote State API. You don&amp;rsquo;t need to store&#xA;your Terraform state within S3 or some other service similar to that, you can&#xA;just use this small service on your own infrastructure.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Getting Started</title>
+				<link>https://webhippie.github.io/terrastate/getting-started/</link>
+				<pubDate>Wed, 04 May 2022 00:00:00 +0000</pubDate>
+				<guid>https://webhippie.github.io/terrastate/getting-started/</guid>
+				<description>&lt;h2 id=&#34;installation&#34;&gt;Installation&lt;/h2&gt;&#xA;&lt;p&gt;So far we are offering only a few different variants for the installation. You&#xA;can choose between &lt;a href=&#34;https://www.docker.com/&#34;&gt;Docker&lt;/a&gt; or pre-built binaries which are stored on&#xA;our download mirror and GitHub releases. Maybe we will also provide system&#xA;packages for the major distributions later if we see the need for it.&lt;/p&gt;&#xA;&lt;h3 id=&#34;docker&#34;&gt;Docker&lt;/h3&gt;&#xA;&lt;p&gt;Generally we are offering the images through&#xA;&lt;a href=&#34;https://quay.io/repository/webhippie/terrastate&#34;&gt;quay.io/webhippie/terrastate&lt;/a&gt; and &lt;a href=&#34;https://hub.docker.com/r/webhippie/terrastate&#34;&gt;webhippie/terrastate&lt;/a&gt;, so&#xA;feel free to choose one of the providers. Maybe we will come up with Kustomize&#xA;manifests or some Helm chart.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Building</title>
+				<link>https://webhippie.github.io/terrastate/building/</link>
+				<pubDate>Tue, 03 May 2022 00:00:00 +0000</pubDate>
+				<guid>https://webhippie.github.io/terrastate/building/</guid>
+				<description>&lt;p&gt;As this project is built with Go you need to install Go first. The installation&#xA;of Go is out of the scope of this document, please follow the&#xA;&lt;a href=&#34;https://golang.org/doc/install&#34;&gt;official documentation&lt;/a&gt;. After the installation of Go you need to get&#xA;the sources:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;git clone https://github.com/webhippie/terrastate.git&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;cd terrastate/&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&#xA;&lt;p&gt;All required tool besides Go itself are bundled by Go modules, all you need is&#xA;part of the &lt;code&gt;Makfile&lt;/code&gt;:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-txt&#34; data-lang=&#34;txt&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;make generate build&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&#xA;&lt;p&gt;Finally you should have the binary within the &lt;code&gt;bin/&lt;/code&gt; folder now, give it a try&#xA;with &lt;code&gt;./bin/terrastate -h&lt;/code&gt; to see all available options.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>License</title>
+				<link>https://webhippie.github.io/terrastate/license/</link>
+				<pubDate>Tue, 03 May 2022 00:00:00 +0000</pubDate>
+				<guid>https://webhippie.github.io/terrastate/license/</guid>
+				<description>&lt;p&gt;This project is licensed under the &lt;a href=&#34;https://github.com/webhippie/terrastate/blob/master/LICENSE&#34;&gt;Apache 2.0&lt;/a&gt; license. For the&#xA;license of the used libraries you have to check the respective sources.&lt;/p&gt;</description>
+			</item>
+	</channel>
 </rss>
