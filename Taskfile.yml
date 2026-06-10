@@ -68,8 +68,11 @@ tasks:
 
   build:snapshot:
     desc: Generate a snapshot with goreleaser
+    vars:
+      SKIP_FLAGS:
+        sh: if [[ "${GITHUB_ACTIONS}" == "true" && "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then echo "--skip=sign"; fi
     cmds:
-      - goreleaser release --clean --snapshot
+      - goreleaser release --clean --snapshot {{ .SKIP_FLAGS }}
 
   watch:
     desc: Run reloading development server
