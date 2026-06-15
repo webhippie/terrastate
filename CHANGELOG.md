@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.7.0](https://github.com/webhippie/terrastate/compare/v2.6.1...v2.7.0) (2026-06-15)
+
+### Bugfixes
+
+* **deps:** update docker digests ([41e245f](https://github.com/webhippie/terrastate/commit/41e245f7be3848155a1ce5fb17137001e31405f3))
+* **deps:** update docker digests ([b179177](https://github.com/webhippie/terrastate/commit/b17917758ec6eccc9fdaef666e3c0325568247ce))
+* **deps:** update docker digests ([1a3ad13](https://github.com/webhippie/terrastate/commit/1a3ad13647fe6163736c05919ce273e6f8d1871a))
+* **deps:** update docker digests ([#294](https://github.com/webhippie/terrastate/issues/294)) ([8effcad](https://github.com/webhippie/terrastate/commit/8effcad8d0f25c9060ce1971995050cfcba2f113))
+
+### Dependencies
+
+* **minor:** update alpine docker tag to v3.24 ([#291](https://github.com/webhippie/terrastate/issues/291)) ([f53e732](https://github.com/webhippie/terrastate/commit/f53e732a1c77d0ec915007d4c46994953879c0e7))
+
+### Miscellaneous
+
+* **flake:** updated lockfile [skip ci] ([b0e3660](https://github.com/webhippie/terrastate/commit/b0e3660470686812777b52e095206776e6d76875))
+
 ## [2.6.1](https://github.com/webhippie/terrastate/compare/v2.6.0...v2.6.1) (2026-06-08)
 
 ### Dependencies
