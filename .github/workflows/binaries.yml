@@ -41,7 +41,7 @@ jobs:
           aws-region: eu-central-1
 
       - name: Setup golang
-        uses: actions/setup-go@v6
+        uses: actions/setup-go@v7
         with:
           go-version-file: go.mod
 
