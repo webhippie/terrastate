@@ -7,9 +7,12 @@ name: release
   schedule:
     - cron: "0 8 * * 1"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
-  id-token: write
 
 jobs:
   release:
@@ -25,21 +28,17 @@ jobs:
         id: token
         uses: actions/create-github-app-token@v3
         with:
-          app-id: ${{ secrets.TOKEN_EXCHANGE_APP }}
+          client-id: ${{ secrets.TOKEN_EXCHANGE_APP }}
           private-key: ${{ secrets.TOKEN_EXCHANGE_KEY }}
           permission-contents: write
           permission-pull-requests: write
           permission-issues: write
+          permission-packages: write
 
       - name: Checkout source
         uses: actions/checkout@v7
         with:
           token: ${{ steps.token.outputs.token }}
-
-      - name: Setup nodejs
-        uses: actions/setup-node@v7
-        with:
-          node-version: 24.x
 
       - name: Write buildtime
         run: date >| .github/RELEASE
@@ -47,19 +46,19 @@ jobs:
       - name: Install releaser
         run: |
           npm install -g \
-            semantic-release@25.0.2 \
+            semantic-release \
             @semantic-release/changelog \
             @semantic-release/git \
             @semantic-release/github \
-            conventional-changelog-conventionalcommits
+            conventional-changelog-conventionalcommits@9
 
       - name: Run releaser
         env:
           GITHUB_TOKEN: ${{ steps.token.outputs.token }}
         run: semantic-release
 
-      - name: Update repo
-        run: git pull --rebase --autostash
+      - name: Source rebase
+        run: git pull --autostash --rebase
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v11

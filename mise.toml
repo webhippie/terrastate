@@ -1,0 +1,18 @@
+#:schema https://mise.jdx.dev/schema/mise.json
+
+[tools]
+cosign = "3.1.3"
+go = "1.27.1"
+golangci-lint = "2.13.2"
+goreleaser = "2.18.1"
+hugo-extended = "0.165.0"
+node = "24"
+prek = "0.5.2"
+task = "3.52.0"
+
+"github:cloudsmith-io/cloudsmith-cli" = "1.21.0"
+
+[env]
+TERRASTATE_LOG_LEVEL = "debug"
+TERRASTATE_LOG_PRETTY = "true"
+TERRASTATE_LOG_COLOR = "true"
