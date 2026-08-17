@@ -1,5 +1,7 @@
 # Changelog
 
+## [2.8.1](https://github.com/webhippie/terrastate/compare/v2.8.0...v2.8.1) (2026-08-17)
+
 ## [2.8.0](https://github.com/webhippie/terrastate/compare/v2.7.2...v2.8.0) (2026-07-27)
 
 ## [2.7.2](https://github.com/webhippie/terrastate/compare/v2.7.1...v2.7.2) (2026-07-13)
