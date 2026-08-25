@@ -121,11 +121,10 @@ func serverAction(_ *cobra.Command, _ []string) {
 			ReadTimeout:  5 * time.Second,
 			WriteTimeout: 10 * time.Second,
 			TLSConfig: &tls.Config{
-				PreferServerCipherSuites: true,
-				MinVersion:               tls.VersionTLS12,
-				CurvePreferences:         router.Curves(cfg),
-				CipherSuites:             router.Ciphers(cfg),
-				Certificates:             []tls.Certificate{cert},
+				MinVersion:       tls.VersionTLS12,
+				CurvePreferences: router.Curves(cfg),
+				CipherSuites:     router.Ciphers(cfg),
+				Certificates:     []tls.Certificate{cert},
 			},
 		}
 
