@@ -1,5 +1,30 @@
 # Changelog
 
+## [2.9.0](https://github.com/webhippie/terrastate/compare/v2.8.1...v2.9.0) (2026-09-14)
+
+### Features
+
+* restructure repo and build processes ([a8343e0](https://github.com/webhippie/terrastate/commit/a8343e0e83b8dd46e729f609ae3f2d968f196266))
+
+### Bugfixes
+
+* **deps:** update golang:1.27.0-alpine docker digest to 4c9fe60 ([#316](https://github.com/webhippie/terrastate/issues/316)) ([90d3d96](https://github.com/webhippie/terrastate/commit/90d3d964464f2d4175841731029fd5538b8e4555))
+* **deps:** update golang:1.27.1-alpine docker digest to cf6fca6 ([#321](https://github.com/webhippie/terrastate/issues/321)) ([ac6e4cd](https://github.com/webhippie/terrastate/commit/ac6e4cd7b5ca5695a0cd1e7f0d29146568aafe18))
+* drop deprecated PreferServerCipherSuites attribute ([6315d19](https://github.com/webhippie/terrastate/commit/6315d19bd3a64b4c7e4a205ab070fa0cb0f1f156))
+
+### Dependencies
+
+* **minor:** update dependency github:cloudsmith-io/cloudsmith-cli to v1.26.0 ([#322](https://github.com/webhippie/terrastate/issues/322)) ([73520f2](https://github.com/webhippie/terrastate/commit/73520f2504bfecf2f3033d952a06972c8ccb1f44))
+* **minor:** update dependency github:cloudsmith-io/cloudsmith-cli to v1.27.0 ([#324](https://github.com/webhippie/terrastate/issues/324)) ([175400e](https://github.com/webhippie/terrastate/commit/175400e65482158379a4fd53faad84a268c347ba))
+* **minor:** update dependency hugo-extended to v0.166.0 ([#325](https://github.com/webhippie/terrastate/issues/325)) ([f75eab0](https://github.com/webhippie/terrastate/commit/f75eab03703facfe447094388596288a5089d4aa))
+* **minor:** update dependency task to v3.53.1 ([#323](https://github.com/webhippie/terrastate/issues/323)) ([852d934](https://github.com/webhippie/terrastate/commit/852d934673bf16d2e60d84b36cc8a2f77aac3942))
+* **minor:** update golang docker tag to v1.27.0 ([#315](https://github.com/webhippie/terrastate/issues/315)) ([ee7d0b9](https://github.com/webhippie/terrastate/commit/ee7d0b966cfcc5433c78d94c323c7ea07ce3a5be))
+* **minor:** update module github.com/stretchr/testify to v1.12.0 ([#313](https://github.com/webhippie/terrastate/issues/313)) ([538b7ba](https://github.com/webhippie/terrastate/commit/538b7bad4f125283d4ef7f2f4bd5dd6140087298))
+* **patch:** update dependency prek to v0.5.3 ([#326](https://github.com/webhippie/terrastate/issues/326)) ([4e43952](https://github.com/webhippie/terrastate/commit/4e4395287301bf17b395a0b8d29350ba4528b5a5))
+* **patch:** update golang docker tag to v1.27.1 ([#320](https://github.com/webhippie/terrastate/issues/320)) ([6e4912a](https://github.com/webhippie/terrastate/commit/6e4912a0418732e4d0ee44e33c4e76655e100590))
+* **patch:** update module github.com/go-chi/chi/v5 to v5.3.2 ([#317](https://github.com/webhippie/terrastate/issues/317)) ([08de5ab](https://github.com/webhippie/terrastate/commit/08de5ab6a68d61dd0065e82ba640098251b96cfd))
+* **patch:** update module github.com/stretchr/testify to v1.12.1 ([#314](https://github.com/webhippie/terrastate/issues/314)) ([6bda72b](https://github.com/webhippie/terrastate/commit/6bda72b5903e17b68f72cc09c94fe6fa7bc36e6d))
+
 ## [2.8.1](https://github.com/webhippie/terrastate/compare/v2.8.0...v2.8.1) (2026-08-17)
 
 ## [2.8.0](https://github.com/webhippie/terrastate/compare/v2.7.2...v2.8.0) (2026-07-27)
