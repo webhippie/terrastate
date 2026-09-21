@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.9.1](https://github.com/webhippie/terrastate/compare/v2.9.0...v2.9.1) (2026-09-21)
+
+### Bugfixes
+
+* **deps:** update alpine:3.24 docker digest to 294b683 ([#330](https://github.com/webhippie/terrastate/issues/330)) ([2fbd657](https://github.com/webhippie/terrastate/commit/2fbd657051a24479b08f7d9308eb7bb31e313f49))
+* **deps:** update docker digests ([#328](https://github.com/webhippie/terrastate/issues/328)) ([88b9450](https://github.com/webhippie/terrastate/commit/88b94504a56621d5e48f398cadde7d5cd34a7103))
+* **deps:** update docker digests ([#329](https://github.com/webhippie/terrastate/issues/329)) ([eac1e0a](https://github.com/webhippie/terrastate/commit/eac1e0a1b21f7afec021832d02ccbb3a4170b3c8))
+
+### Dependencies
+
+* **mise:** update dependency goreleaser to v2.18.2 ([#327](https://github.com/webhippie/terrastate/issues/327)) ([06661a8](https://github.com/webhippie/terrastate/commit/06661a8dc57faf0206c6223745df0c8e51a27659))
+
 ## [2.9.0](https://github.com/webhippie/terrastate/compare/v2.8.1...v2.9.0) (2026-09-14)
 
 ### Features
