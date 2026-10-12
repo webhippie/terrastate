@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.10.0](https://github.com/webhippie/terrastate/compare/v2.9.2...v2.10.0) (2026-10-12)
+
+### Bugfixes
+
+* **deps:** update golang:1.27.2-alpine docker digest to f92b6ef ([#344](https://github.com/webhippie/terrastate/issues/344)) ([2031a24](https://github.com/webhippie/terrastate/commit/2031a24b4c09eccfe66ef3e5b19962a33d03c2c4))
+
+### Dependencies
+
+* **minor:** update module github.com/go-chi/chi/v5 to v5.4.0 ([#345](https://github.com/webhippie/terrastate/issues/345)) ([a3c5ede](https://github.com/webhippie/terrastate/commit/a3c5edef863e68a53099f5562cec43a6a08f0373))
+* **minor:** update module github.com/prometheus/client_golang to v1.25.0 ([#340](https://github.com/webhippie/terrastate/issues/340)) ([9b5464d](https://github.com/webhippie/terrastate/commit/9b5464def13a38b4e2e99d9a0c6c59b6e402db31))
+* **mise:** update dependency github:cloudsmith-io/cloudsmith-cli to v1.28.0 ([#339](https://github.com/webhippie/terrastate/issues/339)) ([ad4f167](https://github.com/webhippie/terrastate/commit/ad4f167366c5c4cb4e6d8d0b6ce4117cf6a1f6e7))
+* **mise:** update dependency go to v1.27.2 ([#341](https://github.com/webhippie/terrastate/issues/341)) ([b216267](https://github.com/webhippie/terrastate/commit/b216267e07c608eca586798dacf29b5d22c0d2b0))
+* **mise:** update dependency goreleaser to v2.18.3 ([#343](https://github.com/webhippie/terrastate/issues/343)) ([3cfb13a](https://github.com/webhippie/terrastate/commit/3cfb13aff1a65ef4851dd260e177b3b51bf3ebfb))
+* **mise:** update dependency hugo-extended to v0.167.0 ([#335](https://github.com/webhippie/terrastate/issues/335)) ([3137163](https://github.com/webhippie/terrastate/commit/3137163f6f4cc98d43838759d549e95a7c5f1685))
+* **mise:** update dependency prek to v0.5.5 ([#338](https://github.com/webhippie/terrastate/issues/338)) ([81df0d5](https://github.com/webhippie/terrastate/commit/81df0d529374fe958ecb04da22ca01459624e7af))
+* **mise:** update dependency task to v3.54.0 ([#337](https://github.com/webhippie/terrastate/issues/337)) ([9275532](https://github.com/webhippie/terrastate/commit/9275532f97e9e8e62a1412e2bab492fd9cadbf62))
+* **patch:** update golang docker tag to v1.27.2 ([#342](https://github.com/webhippie/terrastate/issues/342)) ([3bcd184](https://github.com/webhippie/terrastate/commit/3bcd184ff8facf2bfb320289ca725a8c6f8b67b8))
+
 ## [2.9.2](https://github.com/webhippie/terrastate/compare/v2.9.1...v2.9.2) (2026-09-28)
 
 ### Bugfixes
