@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.11.0](https://github.com/webhippie/terrastate/compare/v2.10.0...v2.11.0) (2026-10-19)
+
+### Dependencies
+
+* **minor:** update module github.com/go-chi/chi/v5 to v5.5.0 ([#348](https://github.com/webhippie/terrastate/issues/348)) ([6a3ff9d](https://github.com/webhippie/terrastate/commit/6a3ff9dd320b239b276629e28d7ac89b352a7d83))
+* **mise:** update dependency github:cloudsmith-io/cloudsmith-cli to v1.29.0 ([#349](https://github.com/webhippie/terrastate/issues/349)) ([567fdb0](https://github.com/webhippie/terrastate/commit/567fdb061ec0f02b91595af37854f01b0f8c4c72))
+* **mise:** update dependency golangci-lint to v2.15.0 ([#350](https://github.com/webhippie/terrastate/issues/350)) ([2066da7](https://github.com/webhippie/terrastate/commit/2066da7fce8eb4ded2fa5313be4a795e687ff0cc))
+* **mise:** update dependency hugo-extended to v0.168.0 ([#347](https://github.com/webhippie/terrastate/issues/347)) ([43404ae](https://github.com/webhippie/terrastate/commit/43404aeab9ea634062906c59097058be462caf4b))
+* **mise:** update dependency prek to v0.5.6 ([#351](https://github.com/webhippie/terrastate/issues/351)) ([48f6629](https://github.com/webhippie/terrastate/commit/48f6629aa1c1bc5b124022582a62d4f1c00b43f9))
+
 ## [2.10.0](https://github.com/webhippie/terrastate/compare/v2.9.2...v2.10.0) (2026-10-12)
 
 ### Bugfixes
