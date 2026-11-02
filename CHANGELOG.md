@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.11.2](https://github.com/webhippie/terrastate/compare/v2.11.1...v2.11.2) (2026-11-02)
+
+### Bugfixes
+
+* **deps:** update golang:1.27.3-alpine docker digest to d200d2d ([#364](https://github.com/webhippie/terrastate/issues/364)) ([0d06f37](https://github.com/webhippie/terrastate/commit/0d06f37c64225aff7572058915c8a5bbef7b54b5))
+
+### Dependencies
+
+* **mise:** update dependency github:cloudsmith-io/cloudsmith-cli to v1.30.1 ([#366](https://github.com/webhippie/terrastate/issues/366)) ([5d1ec5c](https://github.com/webhippie/terrastate/commit/5d1ec5cb4380281354c5a0d41cb7ad6b7f59414a))
+* **mise:** update dependency hugo-extended to v0.169.0 ([#365](https://github.com/webhippie/terrastate/issues/365)) ([2eb8963](https://github.com/webhippie/terrastate/commit/2eb89631a0257e84797ffcd7a35a1aa0901148c7))
+* **mise:** update dependency prek to v0.5.9 ([#368](https://github.com/webhippie/terrastate/issues/368)) ([69e3b9c](https://github.com/webhippie/terrastate/commit/69e3b9c4fb5049213494a9d83a72e4a57218e6d6))
+* **mise:** update node.js to v26 ([#367](https://github.com/webhippie/terrastate/issues/367)) ([bdcede9](https://github.com/webhippie/terrastate/commit/bdcede97b918e9af1c792e3774c478c0d4174226))
+
 ## [2.11.1](https://github.com/webhippie/terrastate/compare/v2.11.0...v2.11.1) (2026-10-26)
 
 ### Bugfixes
