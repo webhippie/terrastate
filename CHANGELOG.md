@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.11.3](https://github.com/webhippie/terrastate/compare/v2.11.2...v2.11.3) (2026-11-09)
+
+### Bugfixes
+
+* **deps:** update alpine:3.24 docker digest to f59abe6 ([#373](https://github.com/webhippie/terrastate/issues/373)) ([a34862a](https://github.com/webhippie/terrastate/commit/a34862a6260688c5a391bec2b24d1131f197e546))
+* **deps:** update docker digests ([#371](https://github.com/webhippie/terrastate/issues/371)) ([0d171eb](https://github.com/webhippie/terrastate/commit/0d171eb646eebb70d5da2124494e54d815ac4266))
+* **deps:** update golang:1.27.3-alpine docker digest to fa3d596 ([#372](https://github.com/webhippie/terrastate/issues/372)) ([c617212](https://github.com/webhippie/terrastate/commit/c6172120d638a8137fae4038e044fe56341a7478))
+
+### Dependencies
+
+* **mise:** update dependency goreleaser to v2.20.0 ([#370](https://github.com/webhippie/terrastate/issues/370)) ([89b1339](https://github.com/webhippie/terrastate/commit/89b13396a894e00c176c997cea76eeb5e3006d1d))
+* **mise:** update dependency prek to v0.5.10 ([#369](https://github.com/webhippie/terrastate/issues/369)) ([1211d23](https://github.com/webhippie/terrastate/commit/1211d239e273fdb0f505a1279697392fc04ccee9))
+
 ## [2.11.2](https://github.com/webhippie/terrastate/compare/v2.11.1...v2.11.2) (2026-11-02)
 
 ### Bugfixes
