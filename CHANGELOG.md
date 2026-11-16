@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.11.4](https://github.com/webhippie/terrastate/compare/v2.11.3...v2.11.4) (2026-11-16)
+
+* automated release update [skip ci] ([4a2ff92](https://github.com/webhippie/terrastate/commit/4a2ff92b8af563d7eea24d940f2723f60d9917db))
+
+### Bugfixes
+
+* **deps:** update golang:1.27.4-alpine docker digest to 70bd7dd ([#381](https://github.com/webhippie/terrastate/issues/381)) ([203ebf9](https://github.com/webhippie/terrastate/commit/203ebf9755f8de40cfcb64b67a5c449093b38bee))
+
+### Dependencies
+
+* **mise:** update dependency github:cloudsmith-io/cloudsmith-cli to v1.31.0 ([#377](https://github.com/webhippie/terrastate/issues/377)) ([74adf89](https://github.com/webhippie/terrastate/commit/74adf89f08228db53ecdd5a09d3298f0c539ea9d))
+* **mise:** update dependency github:cloudsmith-io/cloudsmith-cli to v1.31.1 ([#378](https://github.com/webhippie/terrastate/issues/378)) ([4154e40](https://github.com/webhippie/terrastate/commit/4154e401f73c6b503ec375f965107a53bde005b2))
+* **mise:** update dependency go to v1.27.4 ([#374](https://github.com/webhippie/terrastate/issues/374)) ([68ec1fe](https://github.com/webhippie/terrastate/commit/68ec1fed57b556fb05a872c62b986223cb36559d))
+* **mise:** update dependency goreleaser to v2.20.1 ([#376](https://github.com/webhippie/terrastate/issues/376)) ([d04a926](https://github.com/webhippie/terrastate/commit/d04a926e385ef84f8be3f27893aa90e7f1a224eb))
+* **mise:** update dependency goreleaser to v2.20.2 ([#379](https://github.com/webhippie/terrastate/issues/379)) ([5c3fd2b](https://github.com/webhippie/terrastate/commit/5c3fd2b3fe16fac30d87c8f65e12f73fc16b8214))
+* **mise:** update dependency hugo-extended to v0.170.0 ([#380](https://github.com/webhippie/terrastate/issues/380)) ([7b7858d](https://github.com/webhippie/terrastate/commit/7b7858d88a51187d4fe60bb9bc9cc7c2da5054c9))
+* **patch:** update golang docker tag to v1.27.4 ([#375](https://github.com/webhippie/terrastate/issues/375)) ([677c814](https://github.com/webhippie/terrastate/commit/677c81439f9817978af2bbfc70a22e0198fda85d))
+
 ## [2.11.3](https://github.com/webhippie/terrastate/compare/v2.11.2...v2.11.3) (2026-11-09)
 
 ### Bugfixes
