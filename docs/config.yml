@@ -1,0 +1,41 @@
+---
+# yaml-language-server: $schema=https://www.schemastore.org/hugo.json
+baseURL: https://webhippie.github.io/terrastate/
+locale: en-us
+title: Terrastate
+pygmentsUseClasses: true
+enableRobotsTXT: true
+
+disableKinds:
+  - rss
+  - sitemap
+  - taxonomy
+  - term
+  - section
+
+cascade:
+  - build:
+      render: never
+      list: always
+    target:
+      kind: page
+
+blackfriday:
+  angledQuotes: true
+  fractions: false
+  plainIDAnchors: true
+  smartlists: true
+  extensions:
+    - hardLineBreak
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+
+params:
+  author: Thomas Boerger
+  description: Terraform HTTP remote state storage
+  keywords: terraform, remote, state, storage
+
+...
