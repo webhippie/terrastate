@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.12.0](https://github.com/webhippie/terrastate/compare/v2.11.4...v2.12.0) (2026-11-23)
+
+* automated release update [skip ci] ([935f9e6](https://github.com/webhippie/terrastate/commit/935f9e6aeea826e0b7546558861ac00e346c6f1d))
+
+### Features
+
+* switch to plain hugo and resolve deprecations ([1848302](https://github.com/webhippie/terrastate/commit/184830284c902ecd327ca5665f05d09adf2ce173))
+
+### Dependencies
+
+* **mise:** update dependency github:cloudsmith-io/cloudsmith-cli to v1.31.3 ([#383](https://github.com/webhippie/terrastate/issues/383)) ([cb8d541](https://github.com/webhippie/terrastate/commit/cb8d54154b2dc7383f99ce4c218d7860fc4ad867))
+* **mise:** update dependency github:cloudsmith-io/cloudsmith-cli to v1.31.4 ([#386](https://github.com/webhippie/terrastate/issues/386)) ([2786ccc](https://github.com/webhippie/terrastate/commit/2786ccc65f21e9f50fe60b34001619ec7cbeac15))
+* **mise:** update dependency goreleaser to v2.20.3 ([#385](https://github.com/webhippie/terrastate/issues/385)) ([904c3ab](https://github.com/webhippie/terrastate/commit/904c3aba49567a94d0afea1908d5efb422c9ee05))
+* **mise:** update dependency hugo-extended to v0.170.1 ([#384](https://github.com/webhippie/terrastate/issues/384)) ([d797f1a](https://github.com/webhippie/terrastate/commit/d797f1acf72c2f3b45b194011f1e8b175c305b2d))
+* **mise:** update dependency prek to v0.5.11 ([#382](https://github.com/webhippie/terrastate/issues/382)) ([13c5fc1](https://github.com/webhippie/terrastate/commit/13c5fc1ba3ce4465b0fa601840e310fd11ffeddd))
+
 ## [2.11.4](https://github.com/webhippie/terrastate/compare/v2.11.3...v2.11.4) (2026-11-16)
 
 * automated release update [skip ci] ([4a2ff92](https://github.com/webhippie/terrastate/commit/4a2ff92b8af563d7eea24d940f2723f60d9917db))
